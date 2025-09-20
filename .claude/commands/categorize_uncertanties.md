@@ -1,0 +1,1 @@
+please categorize these uncertanties by those which we should investigate before implementing, those which we should resolve through implementation and testing, and those which you need clarification from me for.

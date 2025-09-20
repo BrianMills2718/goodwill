@@ -1,0 +1,16 @@
+=== ERROR DETAILS ===
+Timestamp: 2025-09-20 08:07
+Type: BROKEN_REFERENCE
+Description: Test error injection
+Impact: Testing error injection system
+Action Required: Investigate and resolve error
+Status: NEEDS_INVESTIGATION
+
+Source File: tools/test.py
+Target Path: docs/missing.md
+
+=== RESOLUTION STEPS ===
+1. Check if referenced file was moved or renamed
+2. Update cross-reference to correct path
+3. Restore missing file if accidentally deleted
+4. Run tools/validate_references.py to verify fix
