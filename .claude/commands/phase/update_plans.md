@@ -39,7 +39,68 @@ Concisely document:
 - **Data Pipeline**: Current state of `/data/raw/` and `/data/processed/`
 
 ### 2a. File Organization Policy (Mandatory)
-Every CLAUDE.md must include clear guidance on where to create files:
+Every CLAUDE.md must include clear guidance on where to create files and maintain codebase organization:
+
+**CODEBASE ORGANIZATION TEMPLATE**:
+```markdown
+## Codebase Organization & File Placement
+
+### Directory Structure & File Placement Rules
+**Source Code**: 
+- `src/scrapers/` - Web scraping components and utilities
+- `src/analysis/` - Data analysis, ML models, profit calculations  
+- `src/apis/` - External API integrations (eBay, etc.)
+
+**Documentation**:
+- `docs/behavior/` - Requirements, goals, uncertainties
+- `docs/architecture/` - Technical design, system components
+- `docs/development_roadmap/` - Status tracking, phase plans
+
+**Research & Investigation**:
+- `investigations/` - Technical research (API analysis, debugging, tool development)
+- `research/` - Domain research (market analysis, strategies, competitive intelligence)
+
+**Testing & Quality**:
+- `tests/unit/` - Component-level tests
+- `tests/integration/` - Cross-component and API tests
+- `tests/e2e/` - End-to-end workflow validation
+
+**Data Pipeline**:
+- `data/raw/` - Unprocessed external data (scraped content, API responses)
+- `data/processed/` - Cleaned, enriched, analysis-ready data
+- `output/suggestions/` - Human-readable deliverables and recommendations
+
+**Infrastructure**:
+- `tools/` - Utility scripts and maintenance tools
+- `config/` - Configuration files and settings
+- `logs/` - Application logs, error tracking, debug information
+
+### File Creation Guidelines
+**Before creating any file**:
+1. Determine the appropriate directory based on file purpose
+2. Use descriptive, consistent naming conventions
+3. Add proper cross-reference headers for .py files
+4. Create companion .ref files for non-code files if they have cross-references
+
+**Naming Conventions**:
+- **Python modules**: `snake_case.py` (e.g., `goodwill_scraper.py`)
+- **Documentation**: `descriptive_name.md` (e.g., `scraping_requirements.md`)
+- **Data files**: Include date/source prefix (e.g., `20250920_goodwill_listings.json`)
+- **Config files**: Clear purpose indication (e.g., `scraper_settings.json`)
+
+### Archival Process
+**When to archive files**:
+- File no longer needed for current implementation
+- Replaced by newer version with different approach
+- Experimental code that didn't work out
+- Outdated documentation or deprecated configs
+
+**Archival procedure**:
+1. Move file to corresponding `archive/` directory with date prefix
+2. Create/update `ARCHIVAL_REASON.md` in archive directory
+3. Update any cross-references to point to replacement files
+4. Document archival decision for future reference
+```
 
 **Standard Project Structure**:
 ```

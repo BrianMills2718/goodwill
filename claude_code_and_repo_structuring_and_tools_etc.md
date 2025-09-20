@@ -13,6 +13,73 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 
 **Rationale**: Separates concerns clearly - behavior defines requirements, architecture defines implementation approach, roadmap tracks execution progress.
 
+### 3a. Directory Purpose & Generalizability
+**Decision**: Distinguish between technical investigation and domain research
+
+**Investigations vs Research**:
+- **`investigations/`**: Technical research for implementation (LLM debugging, tool building, API analysis)
+  - Used heavily by Claude Code for documenting technical discoveries
+  - Focus: "How do I build this?" and "Why isn't this working?"
+  - Examples: API endpoint discovery, scraping technique analysis, error debugging
+  
+- **`research/`**: Domain knowledge and business strategy research  
+  - Focus: "What should I build?" and "Why does this matter?"
+  - Examples: Market analysis, competitive research, business requirements
+
+**Data vs Output**:
+- **`data/`**: Input data pipeline (raw → processed)
+  - `raw/`: Unprocessed data from external sources
+  - `processed/`: Cleaned, enriched, analysis-ready data
+  
+- **`output/`**: Generated deliverables for human consumption
+  - Project-specific subdirectories (suggestions/, reports/, analytics/)
+
+**Generalizability Assessment**:
+- **Universal (works for any project)**: docs/, src/, tests/, tools/, config/, logs/, .claude/
+- **Research-heavy projects**: investigations/, research/ 
+- **Data projects**: data/raw/, data/processed/
+- **Project-specific**: Subdirectories within research/ and output/
+
+**Template for new projects**: Start with universal directories, add investigations/ and research/ for research-heavy work, add data/ for data processing projects.
+
+### 3b. Archival System with Provenance
+**Decision**: Mirror codebase structure in archive/ with dated files and decision records
+
+**Archival Structure**:
+- **Mirror organization**: archive/ maintains same directory structure as main codebase
+- **Dated file naming**: Archived files prefixed with YYYYMMDD_ (e.g., `20250920_old_scraper.py`)
+- **Decision records**: Each archive directory contains `ARCHIVAL_REASON.md` documenting rationale
+
+**When to Archive**:
+- File replaced by newer approach with different architecture
+- Experimental code that didn't work out  
+- Outdated documentation or deprecated configurations
+- Code no longer needed for current implementation
+
+**Archival Process**:
+1. Move file to corresponding archive/ directory with date prefix
+2. Create/update ARCHIVAL_REASON.md with context and rationale
+3. Update cross-references to point to replacement files
+4. Document decision for future reference and learning
+
+**Benefits**:
+- **Preserves context** for why changes were made
+- **Maintains project history** without cluttering active codebase
+- **Enables learning** from previous approaches and decisions
+- **Supports rollback** if new approaches prove problematic
+
+**Example ARCHIVAL_REASON.md**:
+```markdown
+# Archival Decision Record - src/scrapers/
+
+## Archive Date: 2025-01-20
+## Files Archived: 20250120_beautifulsoup_scraper.py
+## Reason: Replaced with Playwright-based approach for JavaScript handling
+## Context: Original approach failed when Goodwill added dynamic content loading
+## Replacement: src/scrapers/playwright_scraper.py
+## Decision Maker: Claude Code Session 2025-01-20
+```
+
 ### 2. Phase Management Strategy
 **Decision**: Dual-file phase tracking
 - **`phases.md`** - High-level overview with status checkboxes and references
@@ -38,11 +105,15 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 │   ├── behavior/               # System requirements and goals
 │   ├── architecture/           # Technical design documents
 │   └── development_roadmap/    # Phase planning and status tracking
-├── investigations/             # Research results and evidence
-│   ├── scraping/              # Web scraping research
-│   ├── apis/                  # API integration research
+├── investigations/             # Technical research and LLM debugging
+│   ├── scraping/              # Web scraping technical analysis
+│   ├── apis/                  # API integration technical research
 │   ├── analysis/              # Algorithm development research
-│   └── errors/                # Error pattern analysis
+│   └── errors/                # Error pattern analysis and debugging
+├── research/                  # Domain knowledge and strategy research
+│   ├── markets/               # Market analysis, pricing trends, demand data
+│   ├── strategies/            # Business strategy research, arbitrage approaches
+│   └── competitors/           # Competitive analysis and benchmarking
 ├── tests/                     # All test files
 │   ├── unit/                  # Component tests
 │   ├── integration/           # API and system integration tests
@@ -58,6 +129,10 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 │   └── investigation/         # Research session logs
 ├── output/                    # Generated suggestions and reports
 │   └── suggestions/           # Human-approval workflow files
+├── archive/                   # Mirror structure for archival with provenance
+│   ├── ARCHIVAL_STRUCTURE.md  # Archive organization documentation
+│   ├── [mirror of all directories] # Same structure as main codebase
+│   └── [each dir has ARCHIVAL_REASON.md] # Archival decision records
 └── .claude/                   # Claude Code configuration
     └── commands/              # Custom slash commands
         └── phase/             # Phase management commands
@@ -251,16 +326,44 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - Update CLAUDE.md references if tool complexity changes
 - Archive deleted tools documentation in investigations/archived_tools/
 
-### 18. Attention Economics & Reference Tradeoffs
+### 18. Testing vs. CLAUDE.md Reference Strategy
+**Key Distinction**: Whether to test something vs. whether to reference it in CLAUDE.md are separate decisions
+
+**Testing Strategy** (What should have tests):
+- **Critical Infrastructure**: Tools that break the entire workflow if they fail
+- **Complex Logic**: Regex parsing, file system operations, data transformations
+- **Integration Points**: API interactions, cross-component workflows
+- **Business Logic**: Core arbitrage algorithms, profit calculations
+- **Error-Prone Code**: File manipulation, external service calls
+
+**CLAUDE.md Reference Strategy** (Attention economics):
+- **High-Value References**: Only tools where recreate cost >> reference cost
+- **Critical Dependencies**: Tools that break workflows if missing
+- **Cross-Phase Usage**: Tools needed throughout project lifecycle
+- **Domain-Specific Logic**: Project-specific insights and algorithms
+
+**Example Application**:
+```
+✅ CREATE TESTS FOR: validate_references.py (critical infrastructure)
+❌ REFERENCE IN CLAUDE.md: Only if used across multiple phases
+
+✅ CREATE TESTS FOR: profit_calculator.py (business logic)  
+✅ REFERENCE IN CLAUDE.md: Core arbitrage logic, high recreate cost
+
+❌ CREATE TESTS FOR: simple_parser.py (trivial utility)
+❌ REFERENCE IN CLAUDE.md: Easy to recreate
+```
+
+### 19. Attention Economics & Reference Tradeoffs
 **Key Principle**: Every reference in CLAUDE.md reduces Claude's attention to other instructions
 
-**High-value references** (worth the attention cost):
+**High-value CLAUDE.md references** (worth the attention cost):
 - **Recreate Cost >> Reference Cost**: Complex tools that would take significant time/context to rebuild vs. brief reference
 - **Frequent Cross-Phase Usage**: Tools needed throughout project lifecycle, not just once
 - **Critical Path Dependencies**: Tools that other processes rely on, breaking workflows if recreated incorrectly
 - **Domain-Specific Logic**: Arbitrage-specific algorithms that embody hard-won insights
 
-**Low-value references** (delete rather than reference):
+**Low-value CLAUDE.md references** (delete rather than reference):
 - **Recreate Cost < Reference Cost**: Simple utilities where describing them takes more tokens than rebuilding
 - **One-Time Usage**: Tools unlikely to be needed again or in different contexts
 - **Generic Patterns**: Standard approaches Claude already knows well
@@ -271,6 +374,14 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **Usage frequency vs context pollution**: Frequently-used tools earn their permanent place, rarely-used tools pollute context
 - **Uniqueness vs standard patterns**: Project-specific insights deserve attention, generic code patterns don't
 - **Dependency criticality vs standalone value**: Tools that break workflows if missing justify references, nice-to-haves don't
+
+**Testing vs. CLAUDE.md Decision Matrix**:
+| Tool Type | Create Tests? | Reference in CLAUDE.md? | Rationale |
+|-----------|---------------|-------------------------|-----------|
+| Critical Infrastructure | ✅ Yes | Only if cross-phase | Test for reliability, reference only if frequently used |
+| Business Logic | ✅ Yes | ✅ Yes | Both test and reference - core project value |
+| Simple Utilities | ❌ No | ❌ No | Neither needed - easy to recreate |
+| Integration Points | ✅ Yes | Depends on complexity | Test for reliability, reference if complex |
 
 ## Cross-Reference System & Context Loading
 
