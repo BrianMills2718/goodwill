@@ -1,7 +1,8 @@
 flowchart TD
-  %% AUTONOMOUS TDD WORKFLOW WITH HOOK ORCHESTRATION
+  %% AUTONOMOUS TDD WORKFLOW WITH LLM-INTELLIGENCE ORCHESTRATION
 %% Cross-Reference: claude_code_and_repo_structuring_and_tools_etc_any_projectv2.md
 %% Sections 17-22 contain detailed implementation specifications
+%% KEY PRINCIPLE: Claude uses its intelligence to understand context, not keyword matching
 
   A["ENTRY:\nSessionStart Hook → workflow_orchestrator.py"]:::startend
   LOAD["/load_phase_plans/\nRead phases.md → Update CLAUDE.md state"]:::review
@@ -14,13 +15,13 @@ flowchart TD
     
     TESTS["/write_tests/\nTDD: Define success criteria first\n(PostToolUse: evidence_validator.py)"]:::process
     
-    IMPLEMENT["/implement/\nCode to pass tests\n(PostToolUse: evidence_validator.py,\ndiscovery_classifier.py)"]:::process
+    IMPLEMENT["/implement/\nCode to pass tests\n(PostToolUse: evidence_validator.py,\nLLM analyzes discoveries for impact)"]:::process
     
     RUN_TESTS["/run_tests/\nExecute test suite\n(PostToolUse: evidence_validator.py)"]:::process
     
     D_tests{"tests_pass == true\nAND coverage >= 80%"}:::decision
     
-    DOUBLECHECK["/doublecheck/\nVerify implementation vs requirements\n(PostToolUse: evidence_validator.py,\ndiscovery_classifier.py)"]:::process
+    DOUBLECHECK["/doublecheck/\nVerify implementation vs requirements\n(PostToolUse: evidence_validator.py,\nLLM understands actual vs claimed)"]:::process
     
     D_issues{"has_issues == true\n(test failures, gaps, discoveries)"}:::decision
     
@@ -28,11 +29,11 @@ flowchart TD
     subgraph UR[UNCERTAINTY RESOLUTION]
       direction TB
       
-      CATEGORIZE["/categorize_uncertainties/\nStrategic vs Pre-implementation vs Implementation\n(Tool: uncertainty_resolver.py)"]:::process
+      CATEGORIZE["/categorize_uncertainties/\nLLM understands uncertainty context\n(Tool: LLM-intelligent analysis)"]:::process
       
       D_type{"uncertainty_type"}:::decision
       
-      STRATEGIC["/review_architecture_behavior/\nCheck docs for guidance\n(PostToolUse: discovery_classifier.py)"]:::process
+      STRATEGIC["/review_architecture_behavior/\nCheck docs for guidance\n(PostToolUse: LLM comprehends implications)"]:::process
       
       INVESTIGATE["/investigate_pre_impl/\nResearch unknowns\n(PostToolUse: evidence_validator.py)"]:::process
       
@@ -72,11 +73,22 @@ flowchart TD
     
     STOP_HOOK["Stop Hook:\nworkflow_orchestrator.py\nReads CLAUDE.md state\n→ Injects next command"]:::hook
     
-    POST_HOOK["PostToolUse Hook:\nevidence_validator.py\ndiscovery_classifier.py\n→ Validates & classifies"]:::hook
+    POST_HOOK["PostToolUse Hook:\nevidence_validator.py\nLLM analyzes discoveries\n→ Understands actual impact"]:::hook
     
     PRE_HOOK["PreToolUse Hook:\nvalidate_references.py\n→ Ensures integrity"]:::hook
     
     QUALITY["Quality Gates:\n- No hardcoded secrets\n- Cross-reference integrity\n- Evidence completeness\n- Test coverage >= 80%"]:::hook
+  end
+
+  %% ---------------- LLM INTELLIGENCE LAYER ----------------
+  subgraph L[LLM INTELLIGENCE - NOT KEYWORDS]
+    direction TB
+    
+    UNDERSTAND["LLM UNDERSTANDS CONTEXT:\n• 'error handling' vs actual errors\n• 'blocked by X' with workaround = not blocked\n• Severity based on actual impact\n• Relationships between discoveries"]:::intelligence
+    
+    ANALYZE["LLM ANALYZES MEANING:\n• Reads discovery content\n• Comprehends implications\n• Assesses project impact\n• Makes nuanced decisions"]:::intelligence
+    
+    DECIDE["LLM DECIDES ACTIONS:\n• Continue if workaround exists\n• Halt only for true blockers\n• Review for significant changes\n• No false alarms from keywords"]:::intelligence
   end
 
   %% ---------------- EVIDENCE & STATE TRACKING ----------------
@@ -143,6 +155,15 @@ flowchart TD
   %% Session Recovery
   A -.-> RECOVERY
   RECOVERY -.-> EXPLORE
+  
+  %% LLM Intelligence connections
+  CATEGORIZE -.-> UNDERSTAND
+  STRATEGIC -.-> ANALYZE
+  POST_HOOK -.-> ANALYZE
+  ANALYZE -.-> DECIDE
+  DECIDE -.-> D_type
+  DECIDE -.-> D_issues
+  DECIDE -.-> D_phase_done
 
   %% ---------------- STYLES ----------------
   classDef startend fill:#bbf,stroke:#225,stroke-width:2px,color:#000,rx:10,ry:10;
@@ -151,3 +172,4 @@ flowchart TD
   classDef review fill:#fce,stroke:#c4a,stroke-width:1px,color:#000;
   classDef hook fill:#efe,stroke:#4a4,stroke-width:2px,color:#000;
   classDef state fill:#fee,stroke:#c44,stroke-width:1px,color:#000;
+  classDef intelligence fill:#f9f,stroke:#939,stroke-width:3px,color:#000;
