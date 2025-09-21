@@ -1,1 +1,0 @@
-Outline everything we have discussed/worked on from the first message you remember until now.

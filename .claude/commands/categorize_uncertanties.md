@@ -1,1 +1,0 @@
-determine all uncertanties and things that need to be investigate by those which we should investigate before implementing, those which we should resolve through implementation and testing, and those which you need strategic clarification from me for and give me your recommendations for each.
