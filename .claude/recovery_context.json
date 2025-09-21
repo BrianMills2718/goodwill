@@ -1,0 +1,67 @@
+{
+  "timestamp": "2025-09-21T13:40:16.840396",
+  "recovery_type": "session_restart",
+  "indicators": [
+    {
+      "type": "recent_state",
+      "command": "/resolve_blockers",
+      "iteration": 1,
+      "time_ago": "0:04:06"
+    },
+    {
+      "type": "missing_evidence",
+      "phase": "resolution",
+      "description": "Previous phase lacks required evidence"
+    },
+    {
+      "type": "incomplete_code",
+      "files": [
+        {
+          "file": "tools/workflow/session_recovery.py",
+          "count": 8
+        }
+      ],
+      "total": 1
+    },
+    {
+      "type": "git_check_needed",
+      "description": "Check git status for uncommitted changes"
+    }
+  ],
+  "last_state": {
+    "current_command": "/resolve_blockers",
+    "iteration": 1,
+    "timestamp": "2025-09-21T13:36:10.176051",
+    "previous_command": null,
+    "phase": "resolution",
+    "has_evidence": false
+  },
+  "recent_history": [
+    {
+      "timestamp": "2025-09-21T13:40:12.563577",
+      "command": "uncertainty_analysis",
+      "loops_detected": false,
+      "uncertainties_count": 4
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": 1,
+      "action": "Continue from last command: /resolve_blockers",
+      "command": "/resolve_blockers",
+      "reason": "Session interrupted 0:04:06 ago"
+    },
+    {
+      "priority": 2,
+      "action": "Complete evidence for previous phase",
+      "command": "/run_tests",
+      "reason": "Evidence validation required"
+    },
+    {
+      "priority": 4,
+      "action": "Complete TODOs in 1 files",
+      "command": "/implement",
+      "reason": "Incomplete implementation detected"
+    }
+  ]
+}

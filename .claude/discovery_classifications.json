@@ -1,0 +1,146 @@
+[
+  {
+    "file": "investigations/automated_workflow_planning/overview.md",
+    "level": "critical",
+    "score": 100,
+    "keyword_counts": {
+      "critical": 9,
+      "major": 1,
+      "minor": 1,
+      "informational": 0
+    },
+    "timestamp": "2025-09-21T13:40:08.156494"
+  },
+  {
+    "file": "investigations/automated_workflow_planning/command_structure.md",
+    "level": "critical",
+    "score": 117,
+    "keyword_counts": {
+      "critical": 4,
+      "major": 8,
+      "minor": 7,
+      "informational": 0
+    },
+    "timestamp": "2025-09-21T13:40:08.158657"
+  },
+  {
+    "file": "investigations/automated_workflow_planning/uncertainty_cascade.md",
+    "level": "critical",
+    "score": 58,
+    "keyword_counts": {
+      "critical": 3,
+      "major": 3,
+      "minor": 2,
+      "informational": 1
+    },
+    "timestamp": "2025-09-21T13:40:08.159777"
+  },
+  {
+    "file": "investigations/automated_workflow_planning/alternative_implementation_approach.md",
+    "level": "critical",
+    "score": 23,
+    "keyword_counts": {
+      "critical": 1,
+      "major": 1,
+      "minor": 2,
+      "informational": 0
+    },
+    "timestamp": "2025-09-21T13:40:08.162644"
+  },
+  {
+    "file": "investigations/automated_workflow_planning/first_steps.md",
+    "level": "critical",
+    "score": 33,
+    "keyword_counts": {
+      "critical": 2,
+      "major": 0,
+      "minor": 4,
+      "informational": 1
+    },
+    "timestamp": "2025-09-21T13:40:08.165437"
+  },
+  {
+    "file": "investigations/automated_workflow_planning/implementation_plan.md",
+    "level": "critical",
+    "score": 114,
+    "keyword_counts": {
+      "critical": 10,
+      "major": 2,
+      "minor": 0,
+      "informational": 0
+    },
+    "timestamp": "2025-09-21T13:40:08.168060"
+  },
+  {
+    "file": "investigations/automated_workflow_planning/uncertainties_to_resolve.md",
+    "level": "critical",
+    "score": 59,
+    "keyword_counts": {
+      "critical": 4,
+      "major": 1,
+      "minor": 4,
+      "informational": 0
+    },
+    "timestamp": "2025-09-21T13:40:08.169715"
+  },
+  {
+    "file": "investigations/automated_workflow_planning/hook_investigation_findings.md",
+    "level": "critical",
+    "score": 20,
+    "keyword_counts": {
+      "critical": 1,
+      "major": 1,
+      "minor": 0,
+      "informational": 3
+    },
+    "timestamp": "2025-09-21T13:40:08.170411"
+  },
+  {
+    "file": "investigations/scraping/goodwill_analysis.md",
+    "level": "critical",
+    "score": 10,
+    "keyword_counts": {
+      "critical": 1,
+      "major": 0,
+      "minor": 0,
+      "informational": 0
+    },
+    "timestamp": "2025-09-21T13:40:08.170757"
+  },
+  {
+    "file": "investigations/automated_workflow_planning/commands/explore_within_phase.md",
+    "level": "informational",
+    "score": 0,
+    "keyword_counts": {
+      "critical": 0,
+      "major": 0,
+      "minor": 0,
+      "informational": 0
+    },
+    "timestamp": "2025-09-21T13:40:08.170980"
+  },
+  {
+    "file": "investigations/automated_workflow_planning/commands/doublecheck_implementation_within_phase.md",
+    "level": "informational",
+    "score": 0,
+    "keyword_counts": {
+      "critical": 0,
+      "major": 0,
+      "minor": 0,
+      "informational": 0
+    },
+    "timestamp": "2025-09-21T13:40:08.171303"
+  },
+  {
+    "file": "investigations/automated_workflow_planning/hook_inputs/20250921_133252_226595_test.json",
+    "level": "informational",
+    "score": 0,
+    "keyword_counts": {
+      "critical": 0,
+      "major": 0,
+      "minor": 0,
+      "informational": 0
+    },
+    "timestamp": "2025-09-21T13:40:08.171438"
+  }
+]
