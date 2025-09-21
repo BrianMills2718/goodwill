@@ -194,9 +194,35 @@
 - **Phase-based organization**: `investigations/[area]/phase_X/findings.md`
 - **Test results**: `investigations/[area]/phase_X/test_results.log`
 - **Implementation proof**: `investigations/[area]/phase_X/implementation_proof.md`
+- **Evidence manifest**: `investigations/[area]/phase_X/evidence.json`
 - **Symlink to current**: `investigations/[area]/current_phase → phase_X/`
 - **Archive on completion**: `archive/investigations/[area]/YYYYMMDD_phase_X/`
 - **Raw execution logs** and outputs preserved for all validation claims
+
+**Evidence JSON Schema** (`evidence.json`):
+```json
+{
+  "phase": "phase_X",
+  "area": "scraping",
+  "timestamp": "2025-01-20T14:03:00Z",
+  "artifacts": {
+    "findings": "findings.md",
+    "test_results": "test_results.log",
+    "implementation_proof": "implementation_proof.md",
+    "coverage_report": "coverage/summary.json"
+  },
+  "metrics": {
+    "tests_passed": true,
+    "test_count": 42,
+    "coverage_percentage": 85,
+    "confidence": "high"
+  },
+  "validation": {
+    "cross_references_valid": true,
+    "evidence_complete": true,
+    "quality_gates_passed": true
+  }
+}
 
 **Cross-Reference**: See evidence flow in `hook_mermaid_diagram_full3_w_tdd.txt` for visual representation of evidence capture and archival process.
 
@@ -244,6 +270,11 @@
 - **CLAUDE.md**: Current tasks with status from phases.md + details from phase files
 - **Evidence files**: Proof of completion, not status claims
 - **No contradictory status** across multiple files
+
+**Important Distinction - Status vs State**:
+- **Status** (phases.md only): Phase/task completion checkboxes, what is "done" vs "pending"
+- **State** (CLAUDE.md workflow_state): Ephemeral agent state like current_command, loop_iterations, last_evidence
+- Rule: CLAUDE.md may contain **ephemeral agent state** (loop counters, current command) but **never** phase completion status
 
 ### 15. File Organization Discipline
 **Strict Rules**:
@@ -345,17 +376,26 @@
 ```json
 {
   "hooks": {
+    "SessionStart": [{
+      "hooks": [{
+        "type": "command",
+        "command": "$CLAUDE_PROJECT_DIR/tools/workflow/session_recovery.py",
+        "timeout": 15
+      }]
+    }],
     "Stop": [{
       "hooks": [{
-        "command": "$CLAUDE_PROJECT_DIR/tools/workflow/workflow_orchestrator.py"
+        "type": "command",
+        "command": "$CLAUDE_PROJECT_DIR/tools/workflow/workflow_orchestrator.py",
+        "timeout": 20
       }]
     }],
     "PostToolUse": [
       {
         "matcher": "Write|Edit|MultiEdit",
         "hooks": [
-          {"command": "$CLAUDE_PROJECT_DIR/tools/workflow/evidence_validator.py"},
-          {"command": "$CLAUDE_PROJECT_DIR/tools/workflow/discovery_classifier.py"}
+          {"type": "command", "command": "$CLAUDE_PROJECT_DIR/tools/workflow/evidence_validator.py", "timeout": 30},
+          {"type": "command", "command": "$CLAUDE_PROJECT_DIR/tools/workflow/discovery_classifier.py", "timeout": 20}
         ]
       }
     ],
@@ -363,7 +403,7 @@
       {
         "matcher": "Edit|Write|MultiEdit",
         "hooks": [
-          {"command": "$CLAUDE_PROJECT_DIR/tools/validate_references.py"}
+          {"type": "command", "command": "$CLAUDE_PROJECT_DIR/tools/validate_references.py", "timeout": 15}
         ]
       }
     ]
@@ -372,9 +412,26 @@
 ```
 
 **Hook Orchestration Pattern**:
+- SessionStart recovers state and resumes workflow from last command
 - Stop hook reads state and injects next command via JSON output
 - PostToolUse validates evidence and detects discoveries
 - PreToolUse ensures cross-references valid before modifications
+
+**Session Recovery Pattern** (SessionStart):
+```python
+# Read workflow state from CLAUDE.md
+state = parse_claude_md_workflow_state()
+if state and state.get("current_command"):
+    # Check for dirty lock indicating crash
+    if os.path.exists(".claude/.lock/stop.lock"):
+        print(f"Recovering from {state['current_command']}")
+        # Inject context to resume
+        return {
+            "hookSpecificOutput": {
+                "additionalContext": f"Session recovered. Continue from: {state['current_command']}"
+            }
+        }
+```
 
 **Cross-Reference**: See detailed hook integration points in `hook_mermaid_diagram_full3_w_tdd.txt` with dotted lines showing automation connections.
 
@@ -383,16 +440,49 @@
 
 **Stop Hook Control Pattern**:
 ```python
+import os, time, json
+
+# Check for recursion protection first
+if input_data.get("stop_hook_active"):
+    return {"continue": True, "suppressOutput": True}
+
+# Basic lock mechanism to prevent concurrent Stop races
+lock_file = ".claude/.lock/stop.lock"
+os.makedirs(".claude/.lock", exist_ok=True)
+if os.path.exists(lock_file):
+    lock_age = time.time() - os.path.getmtime(lock_file)
+    if lock_age < 5:  # Lock still fresh
+        return {"continue": True, "suppressOutput": True}
+    
+# Create lock
+with open(lock_file, "w") as f:
+    f.write(str(time.time()))
+
 # Force Claude to continue with next command
 output = {
     "decision": "block",  
     "reason": f"Execute: {next_command}"  # Becomes Claude's next prompt
 }
-```
 
 **Evidence Validation Pattern**:
+```
+
+**Evidence Validation Pattern** (PreToolUse):
 ```python
-# Block on missing evidence
+# Use correct field names for PreToolUse
+if not references_valid:
+    output = {
+        "hookSpecificOutput": {
+            "hookEventName": "PreToolUse",
+            "permissionDecision": "deny",
+            "permissionDecisionReason": "Cross-references broken. Fix before editing."
+        }
+    }
+```
+
+**PostToolUse Feedback Pattern**:
+```python
+# Block on missing evidence in PostToolUse
 if evidence_file.is_empty():
     output = {
         "decision": "block",

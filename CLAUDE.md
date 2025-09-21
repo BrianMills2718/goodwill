@@ -5,6 +5,11 @@
 ### Current Error Status: BLOCKED
 
 ### Active Errors:
+- **2025-09-21 10:13** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20250921_101305.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
 - **2025-09-20 08:09** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
   - **Impact**: Cross-references pointing to old path may be broken
   - **Log**: `logs/errors/active/error_20250920_080903.log`
