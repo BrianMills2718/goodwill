@@ -1,0 +1,147 @@
+flowchart TD
+  %% ONE CONNECTED FLOW — WITH RESOLUTION ENGINE INLINED (UPDATED)
+
+  A["ENTRY:\nSessionStart / Resume / any PostToolUse / manual"]:::startend
+  SYNC["/sync_phase_from_plan_overview/\nseed CLAUDE.md tasks from current phase plan"]:::review
+
+  %% ---------------- WITHIN-PHASE ----------------
+  subgraph W[WITHIN-PHASE]
+    direction TB
+
+    D_prechk{"preflight_needed ==\nplan_changed || deps_changed || env_drift"}:::decision
+    PREFLT["/preflight/\nlight, idempotent check before risky work"]:::review
+    I["/implement/\n(PostToolUse: evidence_capture,\ncheckpoint_commit)"]:::process
+    DC["/doublecheck/\n(PostToolUse: auto_revert_on_test_fail)"]:::process
+
+    D_unc{"has_issues == true\n(includes test failures,\ntimeouts, preflight failures)"}:::decision
+
+    ADDX["/explore_issue/\nadd to CLAUDE.md"]:::process
+    PLAN["/plan_within_phase/\nmethodical plan + categorization"]:::process
+
+    D_scope{"impact_scope ∈ {cross_phase, strategy}\nOR objective_changed == true\nOR breaking_dependency == true"}:::decision
+    REASS["/reassess_plan_overview/\nadjust strategy, deps, objectives"]:::review
+    RELOAD["/reload_phase_working_plan/\nrefresh CLAUDE.md tasks"]:::review
+
+    D_minor{"plan_updates.phase_only == true\nAND objective_changed == false"}:::decision
+    INTEG["/integrate_discovery/\nminor deltas to phase plan/docs"]:::process
+
+    %% ----- UNCERTAINTY RESOLUTION ENGINE (expanded) -----
+    subgraph R[RESOLVE_UNCERTAINTIES — automated loop]
+      direction TB
+
+      R_START["START:\nIssues queued in CLAUDE.md"]:::startend
+      R_AGING["/aging/\nboost long-waiting issues"]:::review
+      SEL["Select next issue\nPriority: Strategic → Pre-implementation;\nsort by risk × impact"]:::process
+      TYP{"issue.type == Strategic ?"}:::decision
+
+      %% Strategic loop
+      subgraph S[Strategic Uncertainty Loop]
+        direction TB
+        S_EXP["/explore_issue/"]:::process
+        S_PLAN["/plan_within_phase/\nUltrathink plan"]:::process
+        S_INV["/investigate_pre_impl/\nstrategic probes\n(PostToolUse: evidence_capture)"]:::process
+        S_DC["/doublecheck/"]:::process
+        S_CONF{"confidence == High\nAND no new issues"}:::decision
+        S_RUNAWAY{"no confidence ↑ across 2 loops"}:::decision
+        S_STUCK{"loop_count ≥ 3"}:::decision
+        S_UPD["/update_plans_within_phase/\nresolve item\n(PostToolUse: checkpoint_commit,\ncompact_claude_md opt)"]:::process
+      end
+
+      %% Pre-implementation loop
+      subgraph P[Pre-Implementation Investigation Loop]
+        direction TB
+        P_EXP["/explore_issue/"]:::process
+        P_PLAN["/plan_within_phase/\nUltrathink plan"]:::process
+        P_INV["/investigate_pre_impl/\nprobes\n(PostToolUse: evidence_capture)"]:::process
+        P_DC["/doublecheck/"]:::process
+        P_CONF{"confidence == High\nAND no new issues"}:::decision
+        P_RUNAWAY{"no confidence ↑ across 2 loops"}:::decision
+        P_STUCK{"loop_count ≥ 3"}:::decision
+        P_UPD["/update_plans_within_phase/\nresolve item\n(PostToolUse: checkpoint_commit,\ncompact_claude_md opt)"]:::process
+      end
+
+      R_MORE{"issues_remaining == true"}:::decision
+      R_EXIT["RESOLUTION COMPLETE:\nNo issues remain"]:::startend
+
+      %% Wiring inside RESOLUTION ENGINE
+      R_START --> R_AGING --> SEL --> TYP
+      TYP -- Yes --> S_EXP
+      TYP -- No --> P_EXP
+
+      S_EXP --> S_PLAN --> S_INV --> S_DC --> S_CONF
+      S_CONF -- No --> S_RUNAWAY
+      S_RUNAWAY -- Yes --> S_EXP
+      S_RUNAWAY -- No --> S_STUCK
+      S_STUCK -- Yes --> S_EXP
+      S_STUCK -- No --> S_PLAN
+      S_CONF -- Yes --> S_UPD --> R_MORE
+
+      P_EXP --> P_PLAN --> P_INV --> P_DC --> P_CONF
+      P_CONF -- No --> P_RUNAWAY
+      P_RUNAWAY -- Yes --> S_EXP
+      P_RUNAWAY -- No --> P_STUCK
+      P_STUCK -- Yes --> S_EXP
+      P_STUCK -- No --> P_PLAN
+      P_CONF -- Yes --> P_UPD --> R_MORE
+
+      R_MORE -- Yes --> SEL
+      R_MORE -- No --> R_EXIT
+    end
+    %% ----- END RESOLUTION ENGINE -----
+
+    UPD["/update_plans_within_phase/\nupdate across CLAUDE.md,\ndocs, tasks\n(PostToolUse: checkpoint_commit,\ncompact_claude_md opt)"]:::process
+    VALID["/validate_consistency/\nplan_overview ↔ phase plans ↔ CLAUDE.md ↔ docs"]:::review
+
+    D_next{"NEXT_ACTIONS.remaining == true"}:::decision
+    D_done{"objective_satisfied == true\nAND confidence == High"}:::decision
+    CLOSE["/close_phase/\n(PostToolUse: evidence_archive)"]:::process
+  end
+
+  %% ---------------- BETWEEN-PHASE ----------------
+  subgraph B[BETWEEN-PHASE]
+    direction TB
+    POSTV["/post_close_validation/\nclean environment acceptance"]:::review
+    D_pcv{"validation_passed == true"}:::decision
+    REVIEW["/review_docs_between_phases/\nsystem/architecture re-check"]:::review
+    D_sc{"clarifications_found == true"}:::decision
+    D_more{"more_phases_remaining == true"}:::decision
+    LOAD["/load_next_phase/"]:::process
+    TERM["TERMINATE:\nall scopes complete,\nhigh confidence,\nno residual issues"]:::startend
+  end
+
+  %% ---------------- WIRING ----------------
+  A --> SYNC --> D_prechk
+  D_prechk -- Yes --> PREFLT --> I
+  D_prechk -- No --> I
+
+  I --> DC --> D_unc
+
+  D_unc -- Yes --> ADDX --> PLAN --> D_scope
+  D_scope -- Yes --> REASS --> RELOAD --> VALID --> D_prechk
+  D_scope -- No --> D_minor
+  D_minor -- Yes --> INTEG --> VALID --> R --> UPD --> VALID --> D_next
+  D_minor -- No --> R --> UPD --> VALID --> D_next
+
+  D_unc -- No --> D_done
+
+  D_next -- Yes --> D_prechk
+  D_next -- No --> D_done
+
+  D_done -- No --> PLAN --> D_scope
+  D_done -- Yes --> VALID --> CLOSE --> POSTV --> D_pcv
+
+  %% --- patched tail ---
+  D_pcv -- No --> ADDX --> PLAN --> D_scope
+  D_pcv -- Yes --> REVIEW --> D_sc
+
+  D_sc -- Yes --> D_scope
+  D_sc -- No --> D_more
+  D_more -- Yes --> LOAD --> SYNC --> D_prechk
+  D_more -- No --> TERM
+
+
+  %% ---------------- STYLES ----------------
+  classDef startend fill:#bbf,stroke:#225,stroke-width:2px,color:#000,rx:10,ry:10;
+  classDef decision fill:#ffd,stroke:#aa0,stroke-width:2px,color:#000;
+  classDef process fill:#eef,stroke:#55f,stroke-width:1px,color:#000;
+  classDef review fill:#fce,stroke:#c4a,stroke-width:1px,color:#000;

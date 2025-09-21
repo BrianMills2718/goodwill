@@ -1,7 +1,7 @@
-# Claude Code & Repository Structure Decisions
+# Claude Code & Repository Structure Decisions (Any Project)
 
-## Project Context
-Building an automated arbitrage system for Goodwill to identify profitable opportunities between their online auctions and eBay resale market. Working **for** Goodwill (no legal/TOS concerns).
+## Project Context Template
+[Describe your project's purpose, stakeholders, and constraints here]
 
 ## Core Architectural Decisions
 
@@ -29,30 +29,30 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 ```
 /
 ├── CLAUDE.md                    # Current implementation plan (auto-updated)
-├── claude_code_and_repo_structuring_and_tools_etc.md  # This file - architectural decisions
+├── project_architecture.md     # This file - architectural decisions
 ├── src/                         # Main codebase
-│   ├── scrapers/               # Goodwill scraping components
-│   ├── analysis/               # Price analysis and ML components
-│   └── apis/                   # eBay API integration
+│   ├── [component_1]/          # Primary component/module
+│   ├── [component_2]/          # Secondary component/module
+│   └── [component_3]/          # Additional components as needed
 ├── docs/                       # Permanent documentation
 │   ├── behavior/               # System requirements and goals
 │   ├── architecture/           # Technical design documents
 │   └── development_roadmap/    # Phase planning and status tracking
 ├── investigations/             # Technical research and LLM debugging
-│   ├── scraping/              # Web scraping technical analysis
-│   ├── apis/                  # API integration technical research
-│   ├── analysis/              # Algorithm development research
+│   ├── [area_1]/              # Investigation area (e.g., authentication)
+│   ├── [area_2]/              # Investigation area (e.g., performance)
+│   ├── [area_3]/              # Investigation area (e.g., integration)
 │   └── errors/                # Error pattern analysis and debugging
 ├── research/                  # Domain knowledge and strategy research
-│   ├── markets/               # Market analysis, pricing trends, demand data
-│   ├── strategies/            # Business strategy research, arbitrage approaches
-│   └── competitors/           # Competitive analysis and benchmarking
+│   ├── [domain_1]/            # Domain area (e.g., market analysis)
+│   ├── [domain_2]/            # Domain area (e.g., user research)
+│   └── [domain_3]/            # Domain area (e.g., competitors)
 ├── tests/                     # All test files
 │   ├── unit/                  # Component tests
 │   ├── integration/           # API and system integration tests
 │   └── e2e/                   # End-to-end workflow tests
-├── data/                      # Data pipeline storage
-│   ├── raw/                   # Scraped and API data
+├── data/                      # Data pipeline storage (if applicable)
+│   ├── raw/                   # Unprocessed data from external sources
 │   └── processed/             # Cleaned and analyzed data
 ├── config/                    # Configuration files and settings
 ├── tools/                     # Utility scripts
@@ -60,15 +60,15 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 │   ├── errors/                # Error tracking and resolution
 │   ├── debug/                 # Component-specific debug logs
 │   └── investigation/         # Research session logs
-├── output/                    # Generated suggestions and reports
-│   └── suggestions/           # Human-approval workflow files
+├── output/                    # Generated deliverables
+│   └── [output_type]/         # Project-specific output directories
 ├── archive/                   # Mirror structure for archival with provenance
 │   ├── ARCHIVAL_STRUCTURE.md  # Archive organization documentation
 │   ├── [mirror of all directories] # Same structure as main codebase
 │   └── [each dir has ARCHIVAL_REASON.md] # Archival decision records
 └── .claude/                   # Claude Code configuration
     └── commands/              # Custom slash commands
-        └── phase/             # Phase management commands
+        └── [command_group]/   # Grouped custom commands
 ```
 
 ### 4. Directory Purpose & Generalizability
@@ -78,11 +78,11 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **`investigations/`**: Technical research for implementation (LLM debugging, tool building, API analysis)
   - Used heavily by Claude Code for documenting technical discoveries
   - Focus: "How do I build this?" and "Why isn't this working?"
-  - Examples: API endpoint discovery, scraping technique analysis, error debugging
+  - Examples: API endpoint discovery, authentication analysis, error debugging
   
 - **`research/`**: Domain knowledge and business strategy research  
   - Focus: "What should I build?" and "Why does this matter?"
-  - Examples: Market analysis, competitive research, business requirements
+  - Examples: User needs analysis, competitive research, business requirements
 
 **Data vs Output**:
 - **`data/`**: Input data pipeline (raw → processed)
@@ -90,7 +90,7 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
   - `processed/`: Cleaned, enriched, analysis-ready data
   
 - **`output/`**: Generated deliverables for human consumption
-  - Project-specific subdirectories (suggestions/, reports/, analytics/)
+  - Project-specific subdirectories (reports/, exports/, visualizations/)
 
 **Generalizability Assessment**:
 - **Universal (works for any project)**: docs/, src/, tests/, tools/, config/, logs/, .claude/
@@ -105,7 +105,7 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 
 **Archival Structure**:
 - **Mirror organization**: archive/ maintains same directory structure as main codebase
-- **Dated file naming**: Archived files prefixed with YYYYMMDD_ (e.g., `20250920_old_scraper.py`)
+- **Dated file naming**: Archived files prefixed with YYYYMMDD_ (e.g., `20250920_old_module.py`)
 - **Decision records**: Each archive directory contains `ARCHIVAL_REASON.md` documenting rationale
 
 **When to Archive**:
@@ -183,7 +183,7 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 **Decision**: All claims require documented proof in `investigations/`
 
 **Evidence Structure**:
-- **Area-specific directories** (scraping, apis, analysis, errors)
+- **Area-specific directories** for different investigation topics
 - **findings.md files** for current investigation results
 - **Archive system** for completed phases to avoid chronological confusion
 - **Raw execution logs** and outputs preserved for all validation claims
@@ -203,7 +203,7 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **Integrates error tracking** and evidence requirements
 
 **Command Philosophy**:
-- **Works at all phases** - not specific to scraping, analysis, or automation
+- **Works at all phases** - not specific to any particular phase
 - **Evidence-based updates** - requires proof before marking tasks complete
 - **New LLM ready** - updated CLAUDE.md contains everything needed for next steps
 
@@ -240,7 +240,7 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 
 ### 16. Claude Code Optimization
 **Leverage Claude Code Features**:
-- **Subagents for complex research** (Goodwill analysis, eBay API investigation)
+- **Subagents for complex research** 
 - **Multi-Claude workflows** for parallel development streams
 - **Custom slash commands** for repeated workflows
 - **"Think harder" mode** for complex architectural decisions
@@ -261,7 +261,7 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **Critical Infrastructure**: Tools that break the entire workflow if they fail
 - **Complex Logic**: Regex parsing, file system operations, data transformations
 - **Integration Points**: API interactions, cross-component workflows
-- **Business Logic**: Core arbitrage algorithms, profit calculations
+- **Business Logic**: Core domain logic and algorithms
 - **Error-Prone Code**: File manipulation, external service calls
 
 **CLAUDE.md Reference Strategy** (Attention economics):
@@ -277,7 +277,7 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **Recreate Cost >> Reference Cost**: Complex tools that would take significant time/context to rebuild vs. brief reference
 - **Frequent Cross-Phase Usage**: Tools needed throughout project lifecycle, not just once
 - **Critical Path Dependencies**: Tools that other processes rely on, breaking workflows if recreated incorrectly
-- **Domain-Specific Logic**: Arbitrage-specific algorithms that embody hard-won insights
+- **Domain-Specific Logic**: Project-specific algorithms that embody hard-won insights
 
 **Low-value CLAUDE.md references** (delete rather than reference):
 - **Recreate Cost < Reference Cost**: Simple utilities where describing them takes more tokens than rebuilding
@@ -300,11 +300,11 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 
 **Traceability Flow**:
 ```
-Behavior Docs ↔ Architecture Docs ↔ Phase Plans ↔ Python Files
+Behavior Docs ↔ Architecture Docs ↔ Phase Plans ↔ Implementation Files
 ```
 
 **Cross-Reference Patterns**:
-- **Python Files**: Include TRACEABILITY comments linking to phase plans, architecture, behavior docs
+- **Code Files**: Include TRACEABILITY comments linking to phase plans, architecture, behavior docs
 - **Phase Plans**: Reference implementation files and related documentation  
 - **Architecture Docs**: Link to phase plans and behavior requirements
 - **Behavior Docs**: Reference architecture implementations and current phases
@@ -323,13 +323,13 @@ Behavior Docs ↔ Architecture Docs ↔ Phase Plans ↔ Python Files
 - All behavior docs that reference the target file
 - All architecture docs that reference the target file
 - All phase plans that reference the target file
-- All Python files with dependencies (imports, imported by)
+- All files with dependencies (imports, imported by)
 - Full text content of ALL referenced files
 - Planning dependencies vs runtime dependencies
 
 **Dependency Types**:
 - **Planning Dependencies**: Development order requirements (Phase 1 → Phase 2)
-- **Runtime Dependencies**: Import/execution relationships (profit_analyzer.py imports goodwill_scraper.py)
+- **Runtime Dependencies**: Import/execution relationships
 - **Configuration Dependencies**: Config files used by code files
 
 ### 21. Automated Reference Validation
@@ -357,7 +357,7 @@ Behavior Docs ↔ Architecture Docs ↔ Phase Plans ↔ Python Files
 
 ```bash
 # Step 1: Load complete context before any modification
-python tools/load_context.py src/scrapers/goodwill_scraper.py > context_goodwill_scraper.txt
+python tools/load_context.py src/[component]/[file].py > context_[file].txt
 
 # Step 2: Review context file to understand:
 # - What behavior requirements this file implements
@@ -376,7 +376,7 @@ python tools/validate_references.py
 
 ### 23. Reference Templates for Reusable Patterns
 
-**Python File Cross-Reference Template**:
+**Code File Cross-Reference Template**:
 ```python
 """
 [filename].py
@@ -387,7 +387,7 @@ TRACEABILITY:
 - Behavior: /docs/behavior/[behavior_file].md ([Requirement Section])
 
 CROSS-REFERENCES:
-- Related Files: [list of related Python files]
+- Related Files: [list of related files]
 - Tests: [list of test files]
 - Tools: [list of related tools]
 - Config: [list of config files used]
@@ -454,7 +454,7 @@ DEPENDENCIES:
 - Context loading for comprehensive file modification awareness
 - Error injection and management with automatic CLAUDE.md updates
 - Archive system with provenance tracking
-- Comprehensive test suite (39+ test cases)
+- Comprehensive test suite
 - File organization guidelines for Claude Code
 
 **✅ Git Workflow Integration**:

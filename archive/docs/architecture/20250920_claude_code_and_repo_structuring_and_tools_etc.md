@@ -25,7 +25,6 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 
 **Rationale**: Allows quick status checks while maintaining detailed implementation guidance. Prevents contradictory status claims across multiple files.
 
-### 3. Directory Structure & Organization
 ```
 /
 ├── CLAUDE.md                    # Current implementation plan (auto-updated)
@@ -126,43 +125,79 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **Enables learning** from previous approaches and decisions
 - **Supports rollback** if new approaches prove problematic
 
-## Core Infrastructure Tools
+**Example ARCHIVAL_REASON.md**:
+```markdown
+# Archival Decision Record - src/scrapers/
 
-### 6. Cross-Reference Validation System
-**Built Tool**: `tools/validate_references.py`
-- **Purpose**: Validates all cross-references across Python files, Markdown files, and .ref companion files
-- **Features**: Regex-based extraction, broken link detection, structured error reporting
-- **Integration**: Git pre-commit hooks block commits with broken references
-- **Testing**: Comprehensive unit tests covering all validation scenarios
+## Archive Date: 2025-01-20
+## Files Archived: 20250120_beautifulsoup_scraper.py
+## Reason: Replaced with Playwright-based approach for JavaScript handling
+## Context: Original approach failed when Goodwill added dynamic content loading
+## Replacement: src/scrapers/playwright_scraper.py
+## Decision Maker: Claude Code Session 2025-01-20
+```
 
-### 7. Context Loading System  
-**Built Tool**: `tools/load_context.py`
-- **Purpose**: Loads complete context for any target file before modification
-- **Features**: Extracts cross-references, analyzes dependencies, loads full text of related files
-- **Usage**: MANDATORY before modifying any file to understand impact
-- **Output**: Comprehensive context including behavior docs, architecture docs, phase plans, dependencies
+### 2. Phase Management Strategy
+**Decision**: Dual-file phase tracking
+- **`phases.md`** - High-level overview with status checkboxes and references
+- **`phase_X_name.md`** - Detailed implementation plans for each phase
 
-### 8. Error Management System
-**Built Tool**: `tools/inject_error.py`
-- **Purpose**: Automatically injects errors into CLAUDE.md Active Errors section
-- **Features**: Structured error logging, automatic CLAUDE.md updates, resolution tracking
-- **Integration**: Fail-fast error handling with detailed log files and resolution instructions
-- **Error Types**: Broken references, file moves, import errors, validation failures
+**Key Rules**:
+- **Status lives ONLY in `phases.md`** - single source of truth for completion tracking
+- **Phase files are status-neutral** - contain implementation details, not current state
+- **CLAUDE.md references both** - gets status from phases.md, gets details from phase files
 
-### 9. Git Workflow Integration
-**Git Hooks Implementation**:
-- **Pre-commit hook**: Validates all cross-references before allowing commits
-- **Post-commit hook**: Detects file moves and automatically creates reference update tasks
-- **Error injection**: Broken references automatically appear in CLAUDE.md for immediate attention
+**Rationale**: Allows quick status checks while maintaining detailed implementation guidance. Prevents contradictory status claims across multiple files.
 
-**Benefits**:
-- **Prevents broken documentation** from entering the repository
-- **Automatic maintenance** of cross-reference integrity
-- **Immediate visibility** of issues requiring attention
+### 3. Directory Structure
+```
+/
+├── CLAUDE.md                    # Current implementation plan (auto-updated)
+├── claude_code_and_repo_structuring.md  # This file - architectural decisions
+├── src/                         # Main codebase
+│   ├── scrapers/               # Goodwill scraping components
+│   ├── analysis/               # Price analysis and ML components
+│   └── apis/                   # eBay API integration
+├── docs/                       # Permanent documentation
+│   ├── behavior/               # System requirements and goals
+│   ├── architecture/           # Technical design documents
+│   └── development_roadmap/    # Phase planning and status tracking
+├── investigations/             # Technical research and LLM debugging
+│   ├── scraping/              # Web scraping technical analysis
+│   ├── apis/                  # API integration technical research
+│   ├── analysis/              # Algorithm development research
+│   └── errors/                # Error pattern analysis and debugging
+├── research/                  # Domain knowledge and strategy research
+│   ├── markets/               # Market analysis, pricing trends, demand data
+│   ├── strategies/            # Business strategy research, arbitrage approaches
+│   └── competitors/           # Competitive analysis and benchmarking
+├── tests/                     # All test files
+│   ├── unit/                  # Component tests
+│   ├── integration/           # API and system integration tests
+│   └── e2e/                   # End-to-end workflow tests
+├── data/                      # Data pipeline storage
+│   ├── raw/                   # Scraped and API data
+│   └── processed/             # Cleaned and analyzed data
+├── config/                    # Configuration files and settings
+├── tools/                     # Utility scripts
+├── logs/                      # Structured logging system (see Error Management)
+│   ├── errors/                # Error tracking and resolution
+│   ├── debug/                 # Component-specific debug logs
+│   └── investigation/         # Research session logs
+├── output/                    # Generated suggestions and reports
+│   └── suggestions/           # Human-approval workflow files
+├── archive/                   # Mirror structure for archival with provenance
+│   ├── ARCHIVAL_STRUCTURE.md  # Archive organization documentation
+│   ├── [mirror of all directories] # Same structure as main codebase
+│   └── [each dir has ARCHIVAL_REASON.md] # Archival decision records
+└── .claude/                   # Claude Code configuration
+    └── commands/              # Custom slash commands
+        └── phase/             # Phase management commands
+```
 
 ## Claude Code Workflow Integration
 
-### 10. Error Management Workflow
+### 4. Error Management System
 **Decision**: Fail-fast, fail-loud with automatic CLAUDE.md injection
 
 **Error Flow**:
@@ -179,7 +214,13 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **Hierarchical organization** (active/resolved/daily) for efficient navigation
 - **Standardized format** with clear sections for context, traceback, debugging info
 
-### 11. Evidence-Based Development
+**CLAUDE.md Integration**:
+- **Prominent error section** always visible to new Claude sessions
+- **Concise entries** with log file references, not full tracebacks
+- **Clear action items** for investigation and resolution
+- **Removal workflow** to prevent error accumulation
+
+### 5. Evidence-Based Development
 **Decision**: All claims require documented proof in `investigations/`
 
 **Evidence Structure**:
@@ -193,7 +234,7 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **Phase completion** requires end-to-end validation with documented proof
 - **Evidence references** in phases.md for all completed tasks
 
-### 12. Custom Commands Strategy
+### 6. Custom Commands Strategy
 **Decision**: Phase-agnostic commands that work throughout project lifecycle
 
 **Key Command**: `/phase:update_plans`
@@ -207,7 +248,7 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **Evidence-based updates** - requires proof before marking tasks complete
 - **New LLM ready** - updated CLAUDE.md contains everything needed for next steps
 
-### 13. Investigation Workflow
+### 7. Investigation Workflow
 **Decision**: Structured research approach using Claude Code subagents
 
 **Investigation Pattern**:
@@ -224,21 +265,21 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 
 ## Implementation Principles
 
-### 14. Status Management Rules
+### 8. Status Management Rules
 **CRITICAL RULE**: Status information lives ONLY in `phases.md`
 - **Phase files**: Implementation details, technical patterns, code examples (status-neutral)
 - **CLAUDE.md**: Current tasks with status from phases.md + details from phase files
 - **Evidence files**: Proof of completion, not status claims
 - **No contradictory status** across multiple files
 
-### 15. File Organization Discipline
+### 9. File Organization Discipline
 **Strict Rules**:
 - **NO temp files in root** - use logs/temp/ or /tmp/
 - **Clean up investigations** within 48 hours - move to appropriate directories
 - **Archive completed work** to prevent confusion with current efforts
 - **Document file placement** in CLAUDE.md for all new file types
 
-### 16. Claude Code Optimization
+### 10. Claude Code Optimization
 **Leverage Claude Code Features**:
 - **Subagents for complex research** (Goodwill analysis, eBay API investigation)
 - **Multi-Claude workflows** for parallel development streams
@@ -252,9 +293,97 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **Error visibility** immediate for any new Claude session
 - **Evidence references** for understanding previous work
 
+## Integration Points
+
+### 11. Phase Transitions
+**Workflow for completing phases**:
+1. **Evidence collection** with end-to-end validation
+2. **Update phases.md** to mark tasks complete
+3. **Archive investigation files** to avoid future confusion
+4. **Update CLAUDE.md** for next phase priorities
+5. **Error resolution** before phase completion
+
+### 12. Error Resolution Integration
+**When errors block progress**:
+1. **Automatic injection** into CLAUDE.md error section
+2. **Investigation documentation** in investigations/errors/
+3. **Pattern analysis** for recurring issues
+4. **Resolution testing** with evidence collection
+5. **Knowledge transfer** to prevent future occurrences
+
+## Future Considerations
+
+### 13. Scaling Decisions
+**As project grows**:
+- **Modular logging** strategy can expand to new components
+- **Investigation structure** can add new research areas
+- **Phase management** can accommodate additional development streams
+- **Error tracking** can scale to multiple parallel development efforts
+
+### 14. Team Collaboration
+**Multi-developer readiness**:
+- **Shared CLAUDE.md** through git with automatic updates
+- **Investigation documentation** provides context for team members
+- **Error visibility** prevents duplicate debugging efforts
+- **Evidence-based development** enables verification of team member work
+
 ## Tools & Tests Curation Strategy
 
-### 17. Testing vs. CLAUDE.md Reference Strategy
+### 15. CLAUDE.md Context Management
+**Decision**: Parsimonious tool/test references in CLAUDE.md
+
+**Inclusion Criteria** (tools/tests worth permanent context tokens):
+- **High complexity to recreate** - Complex setup, intricate logic, domain-specific knowledge
+- **Frequently used across phases** - Core validation, debugging, or analysis tools
+- **Project-specific patterns** - Unique to arbitrage workflow, not generic utilities
+- **Integration dependencies** - Required for other tools to function properly
+
+**Exclusion Criteria** (delete after use):
+- **Simple one-off scripts** - Basic data parsing, simple API calls
+- **Generic test patterns** - Standard unit tests, basic validation
+- **Debugging utilities** - Temporary investigation scripts
+- **Easily recreatable** - Tools that Claude can rebuild quickly from scratch
+
+### 16. Tool Categories for CLAUDE.md
+
+**ALWAYS Document These**:
+```markdown
+## Essential Tools & Tests (Permanent Context)
+
+### Core Validation Tools
+- `tools/validate_scraping.py` - Multi-site scraping health check with rate limit detection
+- `tools/profit_calculator.py` - Comprehensive margin analysis including all fees and costs
+
+### Integration Test Suite
+- `tests/integration/end_to_end_workflow.py` - Complete pipeline validation (scrape → analyze → suggest)
+- `tests/integration/api_connectivity.py` - eBay API health and data quality validation
+
+### Project-Specific Utilities
+- `tools/keyword_optimizer.py` - ML-based keyword effectiveness analysis
+- `tools/error_injector.py` - Automatic CLAUDE.md error section updates
+```
+
+**NEVER Document These** (Claude recreates as needed):
+- Simple data parsing scripts
+- Basic API test calls
+- One-time debugging utilities
+- Generic unit tests for individual functions
+- Temporary investigation helpers
+
+### 17. Curation Workflow
+**When creating new tools/tests**:
+1. **Create and use** the tool/test for immediate need
+2. **Evaluate permanence** using inclusion criteria
+3. **Document in CLAUDE.md** if meets criteria, otherwise delete
+4. **Archive significant one-offs** in investigations/ with creation context
+
+**Regular cleanup process**:
+- Monthly review of tools/ and tests/ directories
+- Remove tools not referenced in CLAUDE.md
+- Update CLAUDE.md references if tool complexity changes
+- Archive deleted tools documentation in investigations/archived_tools/
+
+### 18. Testing vs. CLAUDE.md Reference Strategy
 **Key Distinction**: Whether to test something vs. whether to reference it in CLAUDE.md are separate decisions
 
 **Testing Strategy** (What should have tests):
@@ -270,7 +399,19 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **Cross-Phase Usage**: Tools needed throughout project lifecycle
 - **Domain-Specific Logic**: Project-specific insights and algorithms
 
-### 18. Attention Economics & Reference Tradeoffs
+**Example Application**:
+```
+✅ CREATE TESTS FOR: validate_references.py (critical infrastructure)
+❌ REFERENCE IN CLAUDE.md: Only if used across multiple phases
+
+✅ CREATE TESTS FOR: profit_calculator.py (business logic)  
+✅ REFERENCE IN CLAUDE.md: Core arbitrage logic, high recreate cost
+
+❌ CREATE TESTS FOR: simple_parser.py (trivial utility)
+❌ REFERENCE IN CLAUDE.md: Easy to recreate
+```
+
+### 19. Attention Economics & Reference Tradeoffs
 **Key Principle**: Every reference in CLAUDE.md reduces Claude's attention to other instructions
 
 **High-value CLAUDE.md references** (worth the attention cost):
@@ -284,6 +425,12 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **One-Time Usage**: Tools unlikely to be needed again or in different contexts
 - **Generic Patterns**: Standard approaches Claude already knows well
 - **Easy Substitution**: Tools with many equivalent alternatives
+
+**Attention Budget Tradeoffs**:
+- **Tool complexity vs reference brevity**: Complex tools justify longer descriptions, simple tools don't justify any reference
+- **Usage frequency vs context pollution**: Frequently-used tools earn their permanent place, rarely-used tools pollute context
+- **Uniqueness vs standard patterns**: Project-specific insights deserve attention, generic code patterns don't
+- **Dependency criticality vs standalone value**: Tools that break workflows if missing justify references, nice-to-haves don't
 
 **Testing vs. CLAUDE.md Decision Matrix**:
 | Tool Type | Create Tests? | Reference in CLAUDE.md? | Rationale |
@@ -374,6 +521,25 @@ python tools/load_context.py src/scrapers/goodwill_scraper.py > context_goodwill
 python tools/validate_references.py
 ```
 
+**Context Output Structure**:
+```
+=== FULL CONTEXT FOR: [target_file] ===
+
+CROSS-REFERENCES:
+- Behavior: [list of behavior docs with sections]
+- Architecture: [list of architecture docs with sections]
+- Phase Plans: [list of phase plans with sections]
+- Related Files: [list of related Python files]
+
+DEPENDENCIES:
+- Planning: [what this blocks, what blocks this]
+- Runtime: [imports, imported by, config files]
+- Testing: [test files that cover this file]
+
+=== FULL TEXT OF ALL REFERENCED FILES ===
+[Complete content of all cross-referenced files]
+```
+
 ### 23. Reference Templates for Reusable Patterns
 
 **Python File Cross-Reference Template**:
@@ -427,62 +593,6 @@ DEPENDENCIES:
 **Related Files:**
 - [list of related configuration or data files]
 ```
-
-## Integration Points
-
-### 24. Phase Transitions
-**Workflow for completing phases**:
-1. **Evidence collection** with end-to-end validation
-2. **Update phases.md** to mark tasks complete
-3. **Archive investigation files** to avoid future confusion
-4. **Update CLAUDE.md** for next phase priorities
-5. **Error resolution** before phase completion
-
-### 25. Error Resolution Integration
-**When errors block progress**:
-1. **Automatic injection** into CLAUDE.md error section
-2. **Investigation documentation** in investigations/errors/
-3. **Pattern analysis** for recurring issues
-4. **Resolution testing** with evidence collection
-5. **Knowledge transfer** to prevent future occurrences
-
-## Current Implementation Status
-
-### 26. Built and Tested Infrastructure
-**✅ Complete and Operational**:
-- Cross-reference validation system with git integration
-- Context loading for comprehensive file modification awareness
-- Error injection and management with automatic CLAUDE.md updates
-- Archive system with provenance tracking
-- Comprehensive test suite (39+ test cases)
-- File organization guidelines for Claude Code
-
-**✅ Git Workflow Integration**:
-- Pre-commit hooks preventing broken reference commits
-- Post-commit hooks detecting file moves and creating update tasks
-- Automatic error injection into CLAUDE.md for immediate visibility
-
-**✅ Documentation Framework**:
-- Complete architectural decision documentation
-- Reusable templates for cross-references
-- Clear guidelines for file placement and organization
-- Evidence-based development requirements
-
-## Future Considerations
-
-### 27. Scaling Decisions
-**As project grows**:
-- **Modular logging** strategy can expand to new components
-- **Investigation structure** can add new research areas
-- **Phase management** can accommodate additional development streams
-- **Error tracking** can scale to multiple parallel development efforts
-
-### 28. Team Collaboration
-**Multi-developer readiness**:
-- **Shared CLAUDE.md** through git with automatic updates
-- **Investigation documentation** provides context for team members
-- **Error visibility** prevents duplicate debugging efforts
-- **Evidence-based development** enables verification of team member work
 
 ---
 

@@ -1,0 +1,288 @@
+this is awesome. i read it all. here’s a sharp review with fixes, risks, and upgrades so your “autonomous claude code project factory” is tight and self-healing.
+
+# Inconsistencies to fix (high-impact)
+
+1. Hook JSON shape
+   Your section **19. Claude Code Hook Configuration** omits `"type": "command"` inside each hook and uses bare `{"command": ...}`. Per your own reference, each hook must include:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/tools/workflow/evidence_validator.py" },
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/tools/workflow/discovery_classifier.py" }
+        ]
+      }
+    ]
+  }
+}
+```
+
+2. PreToolUse decisions: field names
+   In your reference, `PreToolUse` control uses `"permissionDecision": "allow|deny|ask"`, not the generic `"decision"`. Anywhere you plan to auto-approve/deny tools, ensure:
+
+```json
+{
+  "hookSpecificOutput": {
+    "hookEventName": "PreToolUse",
+    "permissionDecision": "deny",
+    "permissionDecisionReason": "ESLint errors present"
+  }
+}
+```
+
+3. Stop hook loop control
+   Docs note `Stop` has `stop_hook_active` and that **continue=false** overrides other outputs. Your plan uses:
+
+```python
+{"decision": "block", "reason": "Execute: /next_command"}
+```
+
+Add:
+
+* guard against recursion via `stop_hook_active`
+* never set `"continue": false` in Stop (it would cancel your handoff)
+* rate-limit/lock (see “Race conditions” below)
+
+4. “Status only in phases.md” vs CLAUDE.md state
+   Rule 14 says status *only* in `phases.md`, but your `CLAUDE.md` `workflow_state` contains fields like `test_status`, `confidence`, loop counters. Clarify that **project/phase completion status** lives only in `phases.md`, while **ephemeral agent state** (loop counters, next command, last evidence) lives in `CLAUDE.md`. Suggest adding that nuance to the rule text.
+
+5. Missing `type`/timeouts across examples
+   A few places (Stop/PostToolUse configs) miss `type`, and long-running scripts lack `timeout`. Add `"timeout": <seconds>` to prevent deadlocks.
+
+6. Referenced artifacts not guaranteed to exist
+   You reference `hook_mermaid_diagram_full3_w_tdd.txt`. Make it part of the template or your reference validator will flag it. Same for all tools under `tools/workflow/`.
+
+# Ambiguities & design questions (recommend defaults)
+
+* **Source of truth for “current\_command”**: CLAUDE.md vs a sidecar JSON. CLAUDE.md merges can be chatty; for multi-dev, prefer `state/agent_state.json` as canonical, with CLAUDE.md showing a **rendered summary** (read-only).
+* **Evidence completeness gate**: What exactly constitutes “complete”? Define a JSON schema (below) and validate it.
+* **Coverage gate**: Language-agnostic but tool-specific (pytest-cov, nyc, go test). Decide per-language adapters and a normalized metric key: `coverage.statements` ≥ 0.80.
+* **Autonomy boundary**: When does the system escalate (create GitHub issues, Slack ping) vs keep looping? You define loop≤7 → escalate; add a **cooldown** and a **cap per day**.
+
+# Risks & mitigations
+
+1. Infinite/rapid Stop cycles
+
+* **Mitigation**: check `stop_hook_active`; backoff (`sleep 1..5s` incremental), and write a pid/nonce file to prevent re-entrancy:
+
+  * file: `.claude/.lock/stop_<session_id>`; skip if exists & fresh (<10s).
+
+2. Race conditions / concurrent sessions
+
+* **Mitigation**: atomic writes (write temp + mv), include monotonic `version` in `workflow_state`, and reject outdated updates. For multi-dev, store state in `state/agent_state.json` and require a lock.
+
+3. Hook side effects on binary/large files
+
+* **Mitigation**: restrict PostToolUse matchers to code only (`\.(py|ts|tsx|js|rs|go|java)$`), ignore `data/`, `output/`, `archive/`.
+
+4. Context loader cost
+
+* **Mitigation**: cache results in `.claude/cache/context/<hash_of_target>.json`, invalidate on mtime change; PreToolUse can require a cache entry newer than the file.
+
+5. False positives in secret scans / reference checks
+
+* **Mitigation**: allow per-repo `.claude/allowlists/` for paths and regex exceptions.
+
+# Concrete upgrades (copy-paste friendly)
+
+## A) Canonical hook scaffold (safe & idempotent)
+
+**.claude/settings.json**
+
+```json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/tools/workflow/session_bootstrap.py", "timeout": 30 }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/tools/workflow/prompt_guard.py", "timeout": 10 }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/tools/validate_references.py", "timeout": 20 },
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/tools/load_context.py --pretool-check", "timeout": 20 }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/tools/workflow/evidence_validator.py", "timeout": 60 },
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/tools/workflow/discovery_classifier.py", "timeout": 30 }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/tools/workflow/bash_audit_logger.sh", "timeout": 5 }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "$CLAUDE_PROJECT_DIR/tools/workflow/workflow_orchestrator.py", "timeout": 20 }
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Stop orchestrator guard (pseudocode you can port):**
+
+```python
+# workflow_orchestrator.py
+#!/usr/bin/env python3
+import json, sys, os, time
+d = json.load(sys.stdin)
+if d.get("stop_hook_active"):  # avoid infinite loop
+  print(json.dumps({"continue": True, "suppressOutput": True}))
+  sys.exit(0)
+
+# lock to prevent concurrent Stop races
+lock = ".claude/.lock/stop.lock"
+os.makedirs(".claude/.lock", exist_ok=True)
+if os.path.exists(lock) and time.time() - os.path.getmtime(lock) < 5:
+  print(json.dumps({"continue": True, "suppressOutput": True}))
+  sys.exit(0)
+open(lock,"w").close()
+
+# read state (prefer JSON source of truth)
+state_path = "state/agent_state.json"
+try:
+  st = json.load(open(state_path))
+except Exception:
+  st = {}
+
+next_cmd = st.get("next_command") or "/load_phase_plans"
+
+# write output that *blocks stopping* and hands Claude the next step
+print(json.dumps({"decision":"block","reason":f"{next_cmd}"}))
+
+# release lock after stdout flush by letting process exit
+```
+
+## B) Evidence schema (machine-verifiable)
+
+`investigations/<area>/phase_X/evidence.json`
+
+```json
+{
+  "id": "uuid-or-hash",
+  "phase": "phase_X",
+  "area": "scraping",
+  "artifacts": {
+    "findings": "findings.md",
+    "tests": "test_results.log",
+    "impl_proof": "implementation_proof.md",
+    "coverage_report": "coverage/summary.json"
+  },
+  "metrics": {
+    "tests_passed": true,
+    "coverage": { "statements": 0.86, "branches": 0.79 }
+  },
+  "review": {
+    "confidence": "high",
+    "notes": "Edge-case X verified."
+  },
+  "timestamp": "2025-09-21T14:03:00Z"
+}
+```
+
+Your `evidence_validator.py` should fail (and `permissionDecision: deny` subsequent writes) if this file is missing required keys or metrics below thresholds.
+
+## C) Coverage normalization (per language adapters)
+
+* **Python**: run `pytest --cov --cov-report=json:coverage/py.json`; parse `totals.percent_covered / 100`.
+* **TS/JS**: `nyc --reporter=json-summary` → `coverage/coverage-summary.json` (use `total.statements.pct/100`).
+* Normalize to `coverage.statements` in your schema so gates are consistent.
+
+## D) Secrets & reference gates
+
+**PostToolUse secrets scan (simple, fast)**
+
+```bash
+# tools/workflow/secret_scan.sh
+#!/usr/bin/env bash
+set -euo pipefail
+in="$(cat)"
+file="$(echo "$in" | jq -r '.tool_input.file_path // empty')"
+[[ -z "$file" ]] && exit 0
+[[ "$file" =~ \.(png|jpg|pdf|csv)$ ]] && exit 0
+
+if rg -n --hidden --ignore-file .gitignore -e '(?i)(api[_-]?key|secret|password)\s*[:=]\s*["'\''][A-Za-z0-9_\-]{12,}' "$file" ; then
+  echo "Potential secret detected in $file" >&2
+  # Don’t block immediately; prefer a PreToolUse deny on *commit* instead.
+fi
+```
+
+**Pre-commit hard block**: wire to git hook to deny commit if secret matches.
+
+## E) Context loader enforcement
+
+In `PreToolUse` for edits/writes, enforce “context must be fresh”:
+
+* `load_context.py --pretool-check` returns JSON `{ "ok": true }` if either a cache exists newer than target file or it emits `"permissionDecision": "deny"` with a reason prompting Claude to run `/explore` or invoke the loader.
+
+## F) Concurrency & merges
+
+* Keep **agent state** in `state/agent_state.json` (atomic write, version field).
+* Keep **human-readable plan** in `CLAUDE.md` (rendered from state) to avoid merge hell.
+* Add `.gitattributes` to mark JSON state as binary to avoid merge conflicts, or implement a 3-way merge tool.
+
+## G) Ignore & archive hygiene
+
+Add to `.gitignore`:
+
+```
+logs/**/*
+output/**/*
+archive/**/*  !archive/**/ARCHIVAL_REASON.md
+.claude/cache/**/*
+state/**/*
+coverage/**/*
+```
+
+(Commit `ARCHIVAL_REASON.md` files to preserve decisions; keep heavy artifacts out.)
+
+# Smaller polish & clarity
+
+* **CLAUDE.md attention budget**: Keep the `workflow_state` summary ≤ \~30 lines; link to `state/agent_state.json` for the full shape.
+* **Phase file neutrality**: Add a linter rule (simple regex) that forbids checkboxes in `phase_X_*.md`. Failing that, your reference validator can block commits that add `[x]` in phase files.
+* **Hook matchers**: add `Glob|Grep|Read` to PreToolUse if you want to gate file scans on large repos (e.g., warn about `grep -R` vs `rg`).
+* **Crash recovery**: `SessionStart` hook should look for a dirty lock and offer `/session_recovery`. You mention it; implement it.
+* **Headless mode**: ship `tools/ci/headless.sh` that runs `/write_tests → /implement → /run_tests` and prints a JSON summary; useful for CI pipelines.
+* **Allowlist management**: commit `.claude/settings.json` but keep machine-specific overrides in `.claude/settings.local.json` (gitignored).
+
+# Suggested wording tweaks (to remove future confusion)
+
+* In **Rule 14**, add:
+  “`CLAUDE.md` may contain **ephemeral agent state** (loop counters, current command, last evidence) but **never** phase completion status. Only `phases.md` may mark tasks as complete.”
+* In **Section 20**, explicitly note:
+  “In `Stop`, do **not** set `continue=false`; use `decision:block` with a `reason` that is the *next command prompt*. Always check `stop_hook_active` to avoid loops.”
+
+---
+
+if you want, i can draft:
+
+* a ready-to-commit `.claude/settings.json` (fixed),
+* minimal `workflow_orchestrator.py` (JSON I/O, locks, next-command policy),
+* `evidence_validator.py` stub that enforces the schema + coverage gate,
+* and a `pre-commit` file to wire `validate_references.py` and secret scanning.

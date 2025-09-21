@@ -1,7 +1,7 @@
-# Claude Code & Repository Structure Decisions
+# Claude Code & Repository Structure Decisions (Any Project)
 
-## Project Context
-Building an automated arbitrage system for Goodwill to identify profitable opportunities between their online auctions and eBay resale market. Working **for** Goodwill (no legal/TOS concerns).
+## Project Context Template
+[Describe your project's purpose, stakeholders, and constraints here]
 
 ## Core Architectural Decisions
 
@@ -29,46 +29,54 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 ```
 /
 ├── CLAUDE.md                    # Current implementation plan (auto-updated)
-├── claude_code_and_repo_structuring_and_tools_etc.md  # This file - architectural decisions
+├── project_architecture.md     # This file - architectural decisions
 ├── src/                         # Main codebase
-│   ├── scrapers/               # Goodwill scraping components
-│   ├── analysis/               # Price analysis and ML components
-│   └── apis/                   # eBay API integration
+│   ├── [component_1]/          # Primary component/module
+│   ├── [component_2]/          # Secondary component/module
+│   └── [component_3]/          # Additional components as needed
 ├── docs/                       # Permanent documentation
 │   ├── behavior/               # System requirements and goals
 │   ├── architecture/           # Technical design documents
 │   └── development_roadmap/    # Phase planning and status tracking
 ├── investigations/             # Technical research and LLM debugging
-│   ├── scraping/              # Web scraping technical analysis
-│   ├── apis/                  # API integration technical research
-│   ├── analysis/              # Algorithm development research
+│   ├── [area_1]/              # Investigation area (e.g., authentication)
+│   ├── [area_2]/              # Investigation area (e.g., performance)
+│   ├── [area_3]/              # Investigation area (e.g., integration)
 │   └── errors/                # Error pattern analysis and debugging
 ├── research/                  # Domain knowledge and strategy research
-│   ├── markets/               # Market analysis, pricing trends, demand data
-│   ├── strategies/            # Business strategy research, arbitrage approaches
-│   └── competitors/           # Competitive analysis and benchmarking
+│   ├── [domain_1]/            # Domain area (e.g., market analysis)
+│   ├── [domain_2]/            # Domain area (e.g., user research)
+│   └── [domain_3]/            # Domain area (e.g., competitors)
 ├── tests/                     # All test files
 │   ├── unit/                  # Component tests
 │   ├── integration/           # API and system integration tests
 │   └── e2e/                   # End-to-end workflow tests
-├── data/                      # Data pipeline storage
-│   ├── raw/                   # Scraped and API data
+├── data/                      # Data pipeline storage (if applicable)
+│   ├── raw/                   # Unprocessed data from external sources
 │   └── processed/             # Cleaned and analyzed data
 ├── config/                    # Configuration files and settings
 ├── tools/                     # Utility scripts
+│   ├── workflow/             # Autonomous workflow tools
+│   │   ├── workflow_orchestrator.py
+│   │   ├── evidence_validator.py
+│   │   ├── discovery_classifier.py
+│   │   └── uncertainty_resolver.py
+│   ├── validate_references.py
+│   ├── load_context.py
+│   └── inject_error.py
 ├── logs/                      # Structured logging system (see Error Management)
 │   ├── errors/                # Error tracking and resolution
 │   ├── debug/                 # Component-specific debug logs
 │   └── investigation/         # Research session logs
-├── output/                    # Generated suggestions and reports
-│   └── suggestions/           # Human-approval workflow files
+├── output/                    # Generated deliverables
+│   └── [output_type]/         # Project-specific output directories
 ├── archive/                   # Mirror structure for archival with provenance
 │   ├── ARCHIVAL_STRUCTURE.md  # Archive organization documentation
 │   ├── [mirror of all directories] # Same structure as main codebase
 │   └── [each dir has ARCHIVAL_REASON.md] # Archival decision records
 └── .claude/                   # Claude Code configuration
     └── commands/              # Custom slash commands
-        └── phase/             # Phase management commands
+        └── [command_group]/   # Grouped custom commands
 ```
 
 ### 4. Directory Purpose & Generalizability
@@ -78,11 +86,11 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **`investigations/`**: Technical research for implementation (LLM debugging, tool building, API analysis)
   - Used heavily by Claude Code for documenting technical discoveries
   - Focus: "How do I build this?" and "Why isn't this working?"
-  - Examples: API endpoint discovery, scraping technique analysis, error debugging
+  - Examples: API endpoint discovery, authentication analysis, error debugging
   
 - **`research/`**: Domain knowledge and business strategy research  
   - Focus: "What should I build?" and "Why does this matter?"
-  - Examples: Market analysis, competitive research, business requirements
+  - Examples: User needs analysis, competitive research, business requirements
 
 **Data vs Output**:
 - **`data/`**: Input data pipeline (raw → processed)
@@ -90,7 +98,7 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
   - `processed/`: Cleaned, enriched, analysis-ready data
   
 - **`output/`**: Generated deliverables for human consumption
-  - Project-specific subdirectories (suggestions/, reports/, analytics/)
+  - Project-specific subdirectories (reports/, exports/, visualizations/)
 
 **Generalizability Assessment**:
 - **Universal (works for any project)**: docs/, src/, tests/, tools/, config/, logs/, .claude/
@@ -105,7 +113,7 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 
 **Archival Structure**:
 - **Mirror organization**: archive/ maintains same directory structure as main codebase
-- **Dated file naming**: Archived files prefixed with YYYYMMDD_ (e.g., `20250920_old_scraper.py`)
+- **Dated file naming**: Archived files prefixed with YYYYMMDD_ (e.g., `20250920_old_module.py`)
 - **Decision records**: Each archive directory contains `ARCHIVAL_REASON.md` documenting rationale
 
 **When to Archive**:
@@ -183,10 +191,14 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 **Decision**: All claims require documented proof in `investigations/`
 
 **Evidence Structure**:
-- **Area-specific directories** (scraping, apis, analysis, errors)
-- **findings.md files** for current investigation results
-- **Archive system** for completed phases to avoid chronological confusion
+- **Phase-based organization**: `investigations/[area]/phase_X/findings.md`
+- **Test results**: `investigations/[area]/phase_X/test_results.log`
+- **Implementation proof**: `investigations/[area]/phase_X/implementation_proof.md`
+- **Symlink to current**: `investigations/[area]/current_phase → phase_X/`
+- **Archive on completion**: `archive/investigations/[area]/YYYYMMDD_phase_X/`
 - **Raw execution logs** and outputs preserved for all validation claims
+
+**Cross-Reference**: See evidence flow in `hook_mermaid_diagram_full3_w_tdd.txt` for visual representation of evidence capture and archival process.
 
 **Integration with Phases**:
 - **No success declarations** without evidence files
@@ -196,14 +208,16 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 ### 12. Custom Commands Strategy
 **Decision**: Phase-agnostic commands that work throughout project lifecycle
 
-**Key Command**: `/phase:update_plans`
+**Key Command**: `/update_plans_within_phase`
 - **Syncs documentation** between CLAUDE.md, phases.md, and phase files
 - **Enforces status centralization** (only phases.md tracks completion)
 - **Maintains self-contained CLAUDE.md** for new Claude sessions
 - **Integrates error tracking** and evidence requirements
 
+**Cross-Reference**: See workflow diagram at `hook_mermaid_diagram_full3_w_tdd.txt` for visual representation of command flow and hook integration.
+
 **Command Philosophy**:
-- **Works at all phases** - not specific to scraping, analysis, or automation
+- **Works at all phases** - not specific to any particular phase
 - **Evidence-based updates** - requires proof before marking tasks complete
 - **New LLM ready** - updated CLAUDE.md contains everything needed for next steps
 
@@ -240,7 +254,7 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 
 ### 16. Claude Code Optimization
 **Leverage Claude Code Features**:
-- **Subagents for complex research** (Goodwill analysis, eBay API investigation)
+- **Subagents for complex research** 
 - **Multi-Claude workflows** for parallel development streams
 - **Custom slash commands** for repeated workflows
 - **"Think harder" mode** for complex architectural decisions
@@ -252,16 +266,179 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **Error visibility** immediate for any new Claude session
 - **Evidence references** for understanding previous work
 
+### 17. Automated Workflow System
+**Decision**: Autonomous execution via Claude Code hooks and command orchestration
+
+**Core Components**:
+- **`workflow_orchestrator.py`** - Reads CLAUDE.md state, determines next command via Stop hook
+- **`evidence_validator.py`** - Validates evidence meets completion criteria via PostToolUse hook
+- **`discovery_classifier.py`** - Categorizes findings as minor/major/strategic via PostToolUse hook
+- **`uncertainty_resolver.py`** - Orchestrates categorization and resolution logic for `/categorize_uncertainties` command
+
+**State Management**:
+- CLAUDE.md contains workflow state in structured JSON block
+- Loop iteration counters for breaker logic (max 7 iterations)
+- Current command tracking for recovery from session restarts
+- Evidence references for validation
+
+**Command Flow Pattern**:
+```
+/explore → /write_tests → /implement → /run_tests → /doublecheck → (loop if issues)
+```
+
+**Complete Command Set** (see `hook_mermaid_diagram_full3_w_tdd.txt` for visual flow):
+- `/load_phase_plans` - Entry point: Read phases.md → Update CLAUDE.md state
+- `/explore` - Read files, identify unknowns
+- `/write_tests` - TDD: Define success criteria first  
+- `/implement` - Code to pass tests
+- `/run_tests` - Execute test suite
+- `/doublecheck` - Verify implementation vs requirements
+- `/categorize_uncertainties` - Strategic vs Pre-implementation vs Implementation
+- `/review_architecture_behavior` - Check docs for guidance on strategic uncertainties
+- `/investigate_pre_impl` - Research unknowns
+- `/update_plans_within_phase` - Integrate findings → CLAUDE.md
+- `/escalate_to_deferred` - Archive unresolved to investigations/deferred/
+- `/close_phase` - Archive evidence, update phases.md
+- `/validate_phase_completion` - Verify evidence, test coverage, quality
+- `/review_docs_between_phases` - Check architecture/behavior alignment
+- `/load_next_phase` - Update CLAUDE.md with next phase
+
+**CLAUDE.md Workflow State Block**:
+```json
+{
+  "workflow_state": {
+    "current_command": "/implement",
+    "current_phase": "phase_2",
+    "loop_iterations": 3,
+    "last_evidence": "investigations/scraping/phase_2/findings.md",
+    "uncertainties_remaining": 2,
+    "confidence": "medium",
+    "test_status": "failing"
+  }
+}
+```
+
+### 18. Test-Driven Development Integration
+**Decision**: Tests as objective success criteria to constrain optimism
+
+**TDD Workflow**:
+1. **Write tests first** - `/write_tests` before `/implement`
+2. **Tests as gates** - Implementation blocked until tests defined
+3. **Evidence via tests** - Test results become primary evidence
+4. **Failure triggers investigation** - Failed tests create uncertainties
+
+**Test Evidence Requirements**:
+- All tests must pass for phase completion
+- Test logs preserved in `investigations/[area]/phase_X/test_results.log`
+- Coverage metrics tracked (minimum 80% for critical paths)
+
+**Automated Testing Requirements**:
+- Tests auto-run via PostToolUse hooks after implementation
+- Test failures auto-inject as uncertainties in CLAUDE.md
+- Coverage tracked and validated before phase completion
+- Test results become primary evidence for completion claims
+
+### 19. Claude Code Hook Configuration
+**Decision**: Hooks orchestrate autonomous workflow
+
+**Hook Configuration** (`.claude/settings.json`):
+```json
+{
+  "hooks": {
+    "Stop": [{
+      "hooks": [{
+        "command": "$CLAUDE_PROJECT_DIR/tools/workflow/workflow_orchestrator.py"
+      }]
+    }],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {"command": "$CLAUDE_PROJECT_DIR/tools/workflow/evidence_validator.py"},
+          {"command": "$CLAUDE_PROJECT_DIR/tools/workflow/discovery_classifier.py"}
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {"command": "$CLAUDE_PROJECT_DIR/tools/validate_references.py"}
+        ]
+      }
+    ]
+  }
+}
+```
+
+**Hook Orchestration Pattern**:
+- Stop hook reads state and injects next command via JSON output
+- PostToolUse validates evidence and detects discoveries
+- PreToolUse ensures cross-references valid before modifications
+
+**Cross-Reference**: See detailed hook integration points in `hook_mermaid_diagram_full3_w_tdd.txt` with dotted lines showing automation connections.
+
+### 20. Command Injection via Hooks
+**Decision**: Hooks control Claude through JSON output
+
+**Stop Hook Control Pattern**:
+```python
+# Force Claude to continue with next command
+output = {
+    "decision": "block",  
+    "reason": f"Execute: {next_command}"  # Becomes Claude's next prompt
+}
+```
+
+**Evidence Validation Pattern**:
+```python
+# Block on missing evidence
+if evidence_file.is_empty():
+    output = {
+        "decision": "block",
+        "reason": "Evidence validation failed. Rerun tests with verbose output."
+    }
+```
+
+### 21. Loop Breaking and Recovery
+**Decision**: Bounded iteration with escalation strategies
+
+**Loop Breaker Logic**:
+- Maximum 7 iterations for any uncertainty resolution loop
+- Iteration count tracked in workflow state
+- Breaker triggers escalation strategy
+
+**Recovery Strategies**:
+1. **Archive and skip**: Move unresolved to `investigations/deferred/` via `/escalate_to_deferred`
+2. **Simplify objective**: Reduce scope to achievable subset
+3. **Human escalation**: Create detailed report for manual review
+
+**Cross-Reference**: See loop breaking decision point and escalation flow in `hook_mermaid_diagram_full3_w_tdd.txt`.
+
+### 22. Quality Validation Pipeline
+**Decision**: Automated quality checks beyond testing
+
+**Quality Gates**:
+- **No hardcoded secrets**: Scan for API keys, passwords
+- **Cross-reference integrity**: All references must be valid
+- **Evidence completeness**: All claims have supporting evidence
+- **Test coverage**: Minimum thresholds for critical paths
+
+**Implementation**:
+- PostToolUse hooks run quality validators
+- Failures block progression and inject errors
+- Quality metrics tracked in workflow state
+
 ## Tools & Tests Curation Strategy
 
-### 17. Testing vs. CLAUDE.md Reference Strategy
+### 23. Testing vs. CLAUDE.md Reference Strategy
 **Key Distinction**: Whether to test something vs. whether to reference it in CLAUDE.md are separate decisions
 
 **Testing Strategy** (What should have tests):
 - **Critical Infrastructure**: Tools that break the entire workflow if they fail
 - **Complex Logic**: Regex parsing, file system operations, data transformations
 - **Integration Points**: API interactions, cross-component workflows
-- **Business Logic**: Core arbitrage algorithms, profit calculations
+- **Business Logic**: Core domain logic and algorithms
 - **Error-Prone Code**: File manipulation, external service calls
 
 **CLAUDE.md Reference Strategy** (Attention economics):
@@ -270,14 +447,14 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 - **Cross-Phase Usage**: Tools needed throughout project lifecycle
 - **Domain-Specific Logic**: Project-specific insights and algorithms
 
-### 18. Attention Economics & Reference Tradeoffs
+### 24. Attention Economics & Reference Tradeoffs
 **Key Principle**: Every reference in CLAUDE.md reduces Claude's attention to other instructions
 
 **High-value CLAUDE.md references** (worth the attention cost):
 - **Recreate Cost >> Reference Cost**: Complex tools that would take significant time/context to rebuild vs. brief reference
 - **Frequent Cross-Phase Usage**: Tools needed throughout project lifecycle, not just once
 - **Critical Path Dependencies**: Tools that other processes rely on, breaking workflows if recreated incorrectly
-- **Domain-Specific Logic**: Arbitrage-specific algorithms that embody hard-won insights
+- **Domain-Specific Logic**: Project-specific algorithms that embody hard-won insights
 
 **Low-value CLAUDE.md references** (delete rather than reference):
 - **Recreate Cost < Reference Cost**: Simple utilities where describing them takes more tokens than rebuilding
@@ -295,23 +472,23 @@ Building an automated arbitrage system for Goodwill to identify profitable oppor
 
 ## Cross-Reference System & Context Loading
 
-### 19. File Cross-Reference Architecture
+### 25. File Cross-Reference Architecture
 **Decision**: Comprehensive traceability chain across all documentation and code
 
 **Traceability Flow**:
 ```
-Behavior Docs ↔ Architecture Docs ↔ Phase Plans ↔ Python Files
+Behavior Docs ↔ Architecture Docs ↔ Phase Plans ↔ Implementation Files
 ```
 
 **Cross-Reference Patterns**:
-- **Python Files**: Include TRACEABILITY comments linking to phase plans, architecture, behavior docs
+- **Code Files**: Include TRACEABILITY comments linking to phase plans, architecture, behavior docs
 - **Phase Plans**: Reference implementation files and related documentation  
 - **Architecture Docs**: Link to phase plans and behavior requirements
 - **Behavior Docs**: Reference architecture implementations and current phases
 
 **Non-Code Files**: Use companion `.ref` files for JSON, config files, etc.
 
-### 20. Context Loading System
+### 26. Context Loading System
 **Decision**: Automatic context loading tool for comprehensive file modification awareness
 
 **Core Tool**: `tools/load_context.py`
@@ -323,16 +500,16 @@ Behavior Docs ↔ Architecture Docs ↔ Phase Plans ↔ Python Files
 - All behavior docs that reference the target file
 - All architecture docs that reference the target file
 - All phase plans that reference the target file
-- All Python files with dependencies (imports, imported by)
+- All files with dependencies (imports, imported by)
 - Full text content of ALL referenced files
 - Planning dependencies vs runtime dependencies
 
 **Dependency Types**:
 - **Planning Dependencies**: Development order requirements (Phase 1 → Phase 2)
-- **Runtime Dependencies**: Import/execution relationships (profit_analyzer.py imports goodwill_scraper.py)
+- **Runtime Dependencies**: Import/execution relationships
 - **Configuration Dependencies**: Config files used by code files
 
-### 21. Automated Reference Validation
+### 27. Automated Reference Validation
 **Decision**: Fail-fast reference validation with automatic error injection
 
 **Validation Tools**:
@@ -352,12 +529,12 @@ Behavior Docs ↔ Architecture Docs ↔ Phase Plans ↔ Python Files
 4. Validation tool confirms all references updated
 5. Error removed from CLAUDE.md when resolved
 
-### 22. Context Loading Usage Pattern
+### 28. Context Loading Usage Pattern
 **Mandatory Workflow for File Modifications**:
 
 ```bash
 # Step 1: Load complete context before any modification
-python tools/load_context.py src/scrapers/goodwill_scraper.py > context_goodwill_scraper.txt
+python tools/load_context.py src/[component]/[file].py > context_[file].txt
 
 # Step 2: Review context file to understand:
 # - What behavior requirements this file implements
@@ -374,9 +551,9 @@ python tools/load_context.py src/scrapers/goodwill_scraper.py > context_goodwill
 python tools/validate_references.py
 ```
 
-### 23. Reference Templates for Reusable Patterns
+### 29. Reference Templates for Reusable Patterns
 
-**Python File Cross-Reference Template**:
+**Code File Cross-Reference Template**:
 ```python
 """
 [filename].py
@@ -387,7 +564,7 @@ TRACEABILITY:
 - Behavior: /docs/behavior/[behavior_file].md ([Requirement Section])
 
 CROSS-REFERENCES:
-- Related Files: [list of related Python files]
+- Related Files: [list of related files]
 - Tests: [list of test files]
 - Tools: [list of related tools]
 - Config: [list of config files used]
@@ -430,7 +607,7 @@ DEPENDENCIES:
 
 ## Integration Points
 
-### 24. Phase Transitions
+### 30. Phase Transitions
 **Workflow for completing phases**:
 1. **Evidence collection** with end-to-end validation
 2. **Update phases.md** to mark tasks complete
@@ -438,7 +615,7 @@ DEPENDENCIES:
 4. **Update CLAUDE.md** for next phase priorities
 5. **Error resolution** before phase completion
 
-### 25. Error Resolution Integration
+### 31. Error Resolution Integration
 **When errors block progress**:
 1. **Automatic injection** into CLAUDE.md error section
 2. **Investigation documentation** in investigations/errors/
@@ -448,13 +625,13 @@ DEPENDENCIES:
 
 ## Current Implementation Status
 
-### 26. Built and Tested Infrastructure
+### 32. Built and Tested Infrastructure
 **✅ Complete and Operational**:
 - Cross-reference validation system with git integration
 - Context loading for comprehensive file modification awareness
 - Error injection and management with automatic CLAUDE.md updates
 - Archive system with provenance tracking
-- Comprehensive test suite (39+ test cases)
+- Comprehensive test suite
 - File organization guidelines for Claude Code
 
 **✅ Git Workflow Integration**:
@@ -470,14 +647,14 @@ DEPENDENCIES:
 
 ## Future Considerations
 
-### 27. Scaling Decisions
+### 33. Scaling Decisions
 **As project grows**:
 - **Modular logging** strategy can expand to new components
 - **Investigation structure** can add new research areas
 - **Phase management** can accommodate additional development streams
 - **Error tracking** can scale to multiple parallel development efforts
 
-### 28. Team Collaboration
+### 34. Team Collaboration
 **Multi-developer readiness**:
 - **Shared CLAUDE.md** through git with automatic updates
 - **Investigation documentation** provides context for team members
