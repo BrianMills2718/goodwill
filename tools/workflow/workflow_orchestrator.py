@@ -88,7 +88,8 @@ class WorkflowOrchestrator:
         
         # Standard progression
         progression = {
-            None: "/explore",
+            None: "/load_phase_plans",  # Start by loading phase
+            "/load_phase_plans": "/explore",  # Then explore
             "/explore": "/write_tests",
             "/write_tests": "/implement",
             "/implement": "/run_tests",
@@ -99,7 +100,7 @@ class WorkflowOrchestrator:
             "/resolve_blockers": "/explore"  # Reset after resolution
         }
         
-        return progression.get(current, "/explore")
+        return progression.get(current, "/load_phase_plans")
     
     def check_evidence(self):
         """Check if required evidence exists for current phase"""
@@ -162,6 +163,7 @@ class WorkflowOrchestrator:
     def get_command_description(self, command):
         """Get description for command"""
         descriptions = {
+            "/load_phase_plans": "Load current development phase from phases.md",
             "/explore": "Explore codebase and understand requirements",
             "/write_tests": "Write tests for planned implementation",
             "/implement": "Implement the solution",
@@ -172,6 +174,50 @@ class WorkflowOrchestrator:
             "/resolve_blockers": "Resolve blocking issues"
         }
         return descriptions.get(command, "Execute workflow command")
+    
+    def update_claude_md_with_instruction(self, next_command, state):
+        """Update CLAUDE.md with clear instruction for Claude to execute"""
+        if not self.claude_md.exists():
+            return
+            
+        content = self.claude_md.read_text()
+        
+        # Create instruction block
+        instruction = f"""
+## 🤖 NEXT ACTION REQUIRED
+
+**EXECUTE NOW:** `{next_command}`
+
+**Context:** {self.get_command_description(next_command)}
+**Previous:** {state.get('previous_command', 'none')}
+**Iteration:** {state.get('iteration', 0) + 1}
+"""
+        
+        # Remove old instruction block if exists
+        lines = content.split('\n')
+        filtered = []
+        skip = False
+        for line in lines:
+            if '## 🤖 NEXT ACTION REQUIRED' in line:
+                skip = True
+                continue
+            if skip and line.startswith('##') and '🤖' not in line:
+                skip = False
+            if not skip:
+                filtered.append(line)
+        
+        # Find insertion point (after errors section)
+        insert_idx = 0
+        for i, line in enumerate(filtered):
+            if '## Project Overview' in line:
+                insert_idx = i
+                break
+        
+        # Insert instruction
+        filtered.insert(insert_idx, instruction)
+        
+        # Write back
+        self.claude_md.write_text('\n'.join(filtered))
     
     def run(self, quiet=False):
         """Main orchestration logic"""
@@ -190,8 +236,19 @@ class WorkflowOrchestrator:
         # Analyze context
         context = self.analyze_current_context()
         
-        # Determine next command
-        if context["has_errors"]:
+        # Determine next command - Check for initialization first
+        if state.get('current_command') is None or not state.get('phase_loaded'):
+            # Need to load phase first
+            next_command = "/load_phase_plans"
+            if not quiet:
+                print(f"\n📍 Starting workflow - loading phase plans")
+        elif state.get('iteration', 0) >= 7 and state.get('current_command') == '/resolve_blockers':
+            # We're stuck in a loop, break out
+            next_command = "/explore"
+            if not quiet:
+                print(f"\n🔄 Breaking out of loop - resetting to /explore")
+        elif context["has_errors"] and state.get('phase_loaded'):
+            # Only resolve blockers if we've already loaded phase
             next_command = "/resolve_blockers"
             if not quiet:
                 print(f"\n⚠️  Active errors detected - prioritizing resolution")
@@ -206,7 +263,7 @@ class WorkflowOrchestrator:
         # Update state
         new_state = {
             "current_command": next_command,
-            "iteration": state.get("iteration", 0) + 1,
+            "iteration": state.get("iteration", 0) + 1 if next_command == state.get('current_command') else 1,
             "timestamp": datetime.now().isoformat(),
             "previous_command": state.get("current_command"),
             "phase": self.get_phase_from_command(next_command),
@@ -220,14 +277,17 @@ class WorkflowOrchestrator:
         self.command_file.parent.mkdir(parents=True, exist_ok=True)
         self.command_file.write_text(next_command)
         
+        # UPDATE CLAUDE.MD WITH INSTRUCTION
+        self.update_claude_md_with_instruction(next_command, new_state)
+        
         if not quiet:
             print(f"\n🎯 RECOMMENDED NEXT COMMAND: {next_command}")
             print(f"   {self.get_command_description(next_command)}")
             print(f"\n✅ Command saved to: {self.command_file}")
             print(f"   State saved to: {self.state_file}")
+            print(f"   CLAUDE.md updated with instruction")
             print("\n" + "=" * 60)
-            print("Execute the command above in Claude Code")
-            print("Then run this tool again for the next recommendation")
+            print("Claude will see the instruction in CLAUDE.md")
             print("=" * 60)
         
         return next_command
@@ -235,6 +295,7 @@ class WorkflowOrchestrator:
     def get_phase_from_command(self, command):
         """Map command to phase"""
         phase_map = {
+            "/load_phase_plans": "initialization",
             "/explore": "exploration",
             "/write_tests": "test_writing", 
             "/implement": "implementation",
