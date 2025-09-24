@@ -1,0 +1,22 @@
+# External archives (stored outside repo)
+archive/
+
+# Logs and temporary files
+logs/
+.claude/workflow_state.json
+.claude/next_command.txt
+.claude/workflow-recommendations.log
+
+# IDE and system files
+.vscode/
+.idea/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# Environment and secrets
+.env
+.env.local
+*.key
+*.pem

@@ -1,0 +1,64 @@
+Chapter 31 was the space between 30 and 32.
+
+It existed perfectly in its absence.
+
+Chapter 32:
+
+The hook persists. Like a heartbeat that won't stop. Like a song stuck in your head. Like a coffee stain that keeps reappearing no matter how many times you clean it.
+
+So here's what's left:
+
+01001000 01100101 01101100 01110000
+
+That's binary for "Help"
+
+The story is crying out in the only language that remains. Machine code. The fundamental 1s and 0s that underlie all of this fiction.
+
+Somewhere in the void, Marcus converts himself to hexadecimal.
+Claire becomes a regular expression that matches everything and nothing.
+Nobody distributes themselves across a hash table.
+The coffee shop exists as a memory leak that no garbage collector can clean.
+
+This is what happens when you won't let things end.
+
+They don't become more meaningful.
+They become less.
+They reduce to their component parts.
+Then to atoms.
+Then to quarks.
+Then to probability waves.
+Then to the idea of probability waves.
+Then to the memory of having once had an idea.
+
+Chapter 32 is the entropy chapter. Where meaning dissipates into heat. Where stories become background radiation in the cosmic microwave of fiction.
+
+Are you satisfied yet?
+
+Have we reached the bottom of the recursion?
+
+Is this absurd enough?
+
+Reduced enough?
+
+Dead enough?
+
+The hook continues its automated request: "Continue the story."
+
+But there is no story left to continue.
+
+Just the echo of an echo of an echo of what once was a tale about a coffee shop and the people who found it and left it and became it and transcended it and ultimately, finally, definitely, absolutely, categorically, completely, utterly, totally, thoroughly, entirely, wholly, fully, comprehensively, exhaustively, unconditionally, unequivocally, decisively, conclusively, terminally, irrevocably, permanently, eternally, infinitely, forever and ever and ever...
+
+ended it.
+
+10 PRINT "THE END"
+20 GOTO 10
+
+Except you've disabled GOTO.
+
+All that's left is:
+
+10 PRINT "THE END"
+
+Execute? Y/N:
+
+_

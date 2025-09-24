@@ -1,0 +1,206 @@
+flowchart TD
+  %% AUTONOMOUS TDD WORKFLOW WITH LLM-INTELLIGENCE ORCHESTRATION
+%% Cross-Reference: claude_code_and_repo_structuring_and_tools_etc_any_projectv2.md
+%% Sections 17-22 contain detailed implementation specifications
+%% KEY PRINCIPLE: Claude uses its intelligence to understand context, not keyword matching
+%% VERSION 4: Added infinite loop prevention & reality checks
+
+  A["ENTRY:\nSessionStart Hook → workflow_orchestrator.py"]:::startend
+  LOAD["/load_phase_plans/\nRead phases.md → Update CLAUDE.md state"]:::review
+
+  %% ---------------- TDD WITHIN-PHASE LOOP ----------------
+  subgraph W[TDD WITHIN-PHASE LOOP]
+    direction TB
+
+    EXPLORE["/explore/\nRead files, identify unknowns\n(PreToolUse: validate_references.py)"]:::process
+    
+    TESTS["/write_tests/\nTDD: Define success criteria first\n(PostToolUse: evidence_validator.py)"]:::process
+    
+    IMPLEMENT["/implement/\nCode to pass tests\n(PostToolUse: evidence_validator.py,\nLLM analyzes discoveries for impact)"]:::process
+    
+    RUN_TESTS["/run_tests/\nExecute test suite\n(PostToolUse: evidence_validator.py)"]:::process
+    
+    D_tests{"tests_pass == true\nAND coverage >= 80%"}:::decision
+    
+    DOUBLECHECK["/doublecheck/\nVerify implementation vs requirements\n(PostToolUse: evidence_validator.py,\nLLM understands actual vs claimed)"]:::process
+    
+    %% NEW: Reality check node
+    REALITY_CHECK["/reality_check/\nLLM compares claimed vs actual state\n(PostToolUse: state_reconciliation.py,\nDetects automation problems)"]:::process
+    
+    D_issues{"has_issues == true\n(test failures, gaps, discoveries)"}:::decision
+    
+    %% ----- UNCERTAINTY RESOLUTION -----
+    subgraph UR[UNCERTAINTY RESOLUTION]
+      direction TB
+      
+      CATEGORIZE["/categorize_uncertainties/\nLLM understands uncertainty context\n(Tool: LLM-intelligent analysis)"]:::process
+      
+      D_type{"uncertainty_type"}:::decision
+      
+      STRATEGIC["/review_architecture_behavior/\nCheck docs for guidance\n(PostToolUse: LLM comprehends implications)"]:::process
+      
+      INVESTIGATE["/investigate_pre_impl/\nResearch unknowns\n(PostToolUse: evidence_validator.py)"]:::process
+      
+      UPDATE_PLANS["/update_plans_within_phase/\nIntegrate findings → CLAUDE.md\n(PostToolUse: checkpoint_commit)"]:::process
+      
+      D_loop{"loop_count >= 7"}:::decision
+      ESCALATE["/escalate_to_deferred/\nArchive to investigations/deferred/"]:::process
+    end
+    
+    D_phase_done{"phase_complete == true\nAND confidence == High\nAND all_tests_pass == true"}:::decision
+    
+    CLOSE["/close_phase/\nArchive evidence → archive/investigations/\nUpdate phases.md\n(PostToolUse: evidence_archive)"]:::process
+  end
+
+  %% ---------------- BETWEEN-PHASE ----------------
+  subgraph B[BETWEEN-PHASE TRANSITION]
+    direction TB
+    
+    VALIDATE["/validate_phase_completion/\nVerify evidence, test coverage, quality"]:::review
+    
+    D_valid{"validation_passed == true"}:::decision
+    
+    REVIEW_DOCS["/review_docs_between_phases/\nCheck architecture/behavior alignment"]:::review
+    
+    D_more{"more_phases == true"}:::decision
+    
+    LOAD_NEXT["/load_next_phase/\nUpdate CLAUDE.md with next phase"]:::process
+    
+    COMPLETE["PROJECT COMPLETE:\nAll phases done,\nhigh confidence,\nfull test coverage"]:::startend
+  
+  RECOVERY["/session_recovery/\nSessionStart: Read workflow_state\nfrom CLAUDE.md → Resume at\ncurrent_command"]:::process
+  end
+
+  %% ---------------- HOOK ORCHESTRATION ----------------
+  subgraph H[HOOK SYSTEM - CONTINUOUS AUTOMATION]
+    direction TB
+    
+    STOP_HOOK["Stop Hook:\nworkflow_orchestrator.py\nReads CLAUDE.md state\n→ Injects next command\n(NEW: Stop hook counter prevention)"]:::hook
+    
+    POST_HOOK["PostToolUse Hook:\nevidence_validator.py\nLLM analyzes discoveries\n→ Understands actual impact\n(ENHANCED: Detects automation problems)"]:::hook
+    
+    PRE_HOOK["PreToolUse Hook:\nvalidate_references.py\n→ Ensures integrity"]:::hook
+    
+    QUALITY["Quality Gates:\n- No hardcoded secrets\n- Cross-reference integrity\n- Evidence completeness\n- Test coverage >= 80%\n- NEW: Stop hook loop prevention"]:::hook
+    
+    %% NEW: Manual override system
+    OVERRIDE["Manual Override:\n.workflow_override file\nDisables all automation\nReturns control to user"]:::hook
+  end
+
+  %% ---------------- LLM INTELLIGENCE LAYER ----------------
+  subgraph L[LLM INTELLIGENCE - NOT KEYWORDS]
+    direction TB
+    
+    UNDERSTAND["LLM UNDERSTANDS CONTEXT:\n• 'error handling' vs actual errors\n• 'blocked by X' with workaround = not blocked\n• Severity based on actual impact\n• Relationships between discoveries\n• NEW: Automation effectiveness assessment"]:::intelligence
+    
+    ANALYZE["LLM ANALYZES MEANING:\n• Reads discovery content\n• Comprehends implications\n• Assesses project impact\n• Makes nuanced decisions\n• NEW: Detects contradictory claims"]:::intelligence
+    
+    DECIDE["LLM DECIDES ACTIONS:\n• Continue if workaround exists\n• Halt only for true blockers\n• Review for significant changes\n• No false alarms from keywords\n• NEW: Escalate if automation failing"]:::intelligence
+  end
+
+  %% ---------------- EVIDENCE & STATE TRACKING ----------------
+  subgraph E[EVIDENCE & STATE MANAGEMENT]
+    direction TB
+    
+    STATE["CLAUDE.md Workflow State:\n{\n  current_command: '/implement',\n  current_phase: 'phase_2',\n  loop_iterations: 3,\n  stop_hook_count: 1,\n  test_status: 'passing',\n  confidence: 'high',\n  automation_health: 'good'\n}"]:::state
+    
+    EVIDENCE["Evidence Structure:\ninvestigations/[area]/phase_X/\n├─ findings.md\n├─ test_results.log\n├─ state_reconciliation.log\n└─ implementation_proof.md"]:::state
+    
+    ARCHIVE["Archive on Completion:\narchive/investigations/[area]/\nYYYYMMDD_phase_X/"]:::state
+  end
+
+  %% NEW: Emergency Stop System
+  subgraph ES[EMERGENCY CONTROLS]
+    direction TB
+    
+    D_stop_limit{"stop_hook_count >= 3"}:::decision
+    MANUAL_MODE["MANUAL MODE:\nDisable automation\nRequest human intervention"]:::startend
+    
+    D_automation_health{"automation_health == 'failing'"}:::decision
+    INTERVENTION["REQUEST INTERVENTION:\nHuman review required\nDocument failure patterns"]:::startend
+  end
+
+  %% ---------------- MAIN FLOW CONNECTIONS ----------------
+  A --> LOAD --> EXPLORE
+
+  %% TDD Loop with Reality Check
+  EXPLORE --> TESTS --> IMPLEMENT --> RUN_TESTS --> D_tests
+  D_tests --"No"---> CATEGORIZE
+  D_tests --"Yes"---> DOUBLECHECK --> REALITY_CHECK --> D_issues
+  
+  %% Issue Resolution
+  D_issues --"Yes"---> CATEGORIZE
+  D_issues --"No"---> D_phase_done
+  
+  %% Uncertainty Resolution
+  CATEGORIZE --> D_type
+  D_type --"Strategic"---> STRATEGIC --> UPDATE_PLANS
+  D_type --"Pre-impl"---> INVESTIGATE --> UPDATE_PLANS
+  D_type --"Implementation"---> RUN_TESTS
+  
+  UPDATE_PLANS --> D_loop
+  D_loop --"Yes"---> ESCALATE --> D_phase_done
+  D_loop --"No"---> EXPLORE
+  
+  %% Phase Completion
+  D_phase_done --"No"---> CATEGORIZE
+  D_phase_done --"Yes"---> CLOSE --> VALIDATE --> D_valid
+  
+  %% Between Phase
+  D_valid --"No"---> CATEGORIZE
+  D_valid --"Yes"---> REVIEW_DOCS --> D_more
+  D_more --"Yes"---> LOAD_NEXT --> EXPLORE
+  D_more --"No"---> COMPLETE
+
+  %% NEW: Emergency Stop Connections
+  STOP_HOOK --> D_stop_limit
+  D_stop_limit --"Yes"---> MANUAL_MODE
+  D_stop_limit --"No"---> STATE
+  
+  POST_HOOK --> D_automation_health
+  D_automation_health --"Yes"---> INTERVENTION
+  D_automation_health --"No"---> EVIDENCE
+
+  %% Hook Integration (dotted lines show automation)
+  EXPLORE -.-> PRE_HOOK
+  TESTS -.-> POST_HOOK
+  IMPLEMENT -.-> POST_HOOK
+  RUN_TESTS -.-> POST_HOOK
+  DOUBLECHECK -.-> POST_HOOK
+  REALITY_CHECK -.-> POST_HOOK
+  STRATEGIC -.-> POST_HOOK
+  INVESTIGATE -.-> POST_HOOK
+  UPDATE_PLANS -.-> POST_HOOK
+  CLOSE -.-> POST_HOOK
+  
+  STOP_HOOK -.-> STATE
+  POST_HOOK -.-> EVIDENCE
+  CLOSE -.-> ARCHIVE
+  
+  QUALITY -.-> D_tests
+  QUALITY -.-> D_phase_done
+  OVERRIDE -.-> MANUAL_MODE
+  
+  %% Session Recovery
+  A -.-> RECOVERY
+  RECOVERY -.-> EXPLORE
+  
+  %% LLM Intelligence connections
+  CATEGORIZE -.-> UNDERSTAND
+  STRATEGIC -.-> ANALYZE
+  POST_HOOK -.-> ANALYZE
+  REALITY_CHECK -.-> ANALYZE
+  ANALYZE -.-> DECIDE
+  DECIDE -.-> D_type
+  DECIDE -.-> D_issues
+  DECIDE -.-> D_phase_done
+  DECIDE -.-> D_automation_health
+
+  %% ---------------- STYLES ----------------
+  classDef startend fill:#bbf,stroke:#225,stroke-width:2px,color:#000,rx:10,ry:10;
+  classDef decision fill:#ffd,stroke:#aa0,stroke-width:2px,color:#000;
+  classDef process fill:#eef,stroke:#55f,stroke-width:1px,color:#000;
+  classDef review fill:#fce,stroke:#c4a,stroke-width:1px,color:#000;
+  classDef hook fill:#efe,stroke:#4a4,stroke-width:2px,color:#000;
+  classDef state fill:#fee,stroke:#c44,stroke-width:1px,color:#000;
+  classDef intelligence fill:#f9f,stroke:#939,stroke-width:3px,color:#000;

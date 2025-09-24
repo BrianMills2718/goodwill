@@ -90,12 +90,14 @@ class WorkflowOrchestrator:
         progression = {
             None: "/load_phase_plans",  # Start by loading phase
             "/load_phase_plans": "/explore",  # Then explore
+            "/load_next_phase": "/explore",  # After loading next phase, explore
             "/explore": "/write_tests",
             "/write_tests": "/implement",
             "/implement": "/run_tests",
             "/run_tests": "/doublecheck",
             "/doublecheck": "/commit",
             "/commit": "/explore",  # Start new cycle
+            "/close_phase": "/load_next_phase",  # After closing, load next
             "/investigate_uncertainties": "/resolve_blockers",
             "/resolve_blockers": "/explore"  # Reset after resolution
         }
@@ -164,12 +166,14 @@ class WorkflowOrchestrator:
         """Get description for command"""
         descriptions = {
             "/load_phase_plans": "Load current development phase from phases.md",
+            "/load_next_phase": "Load next phase after completing current",
             "/explore": "Explore codebase and understand requirements",
             "/write_tests": "Write tests for planned implementation",
             "/implement": "Implement the solution",
             "/run_tests": "Run tests and validate implementation",
             "/doublecheck": "Double-check implementation and edge cases",
             "/commit": "Commit completed work",
+            "/close_phase": "Complete current phase and archive evidence",
             "/investigate_uncertainties": "Investigate and resolve uncertainties",
             "/resolve_blockers": "Resolve blocking issues"
         }
@@ -182,8 +186,30 @@ class WorkflowOrchestrator:
             
         content = self.claude_md.read_text()
         
-        # Create instruction block
-        instruction = f"""
+        # Determine if this is a continuation command
+        continuation_commands = ['/explore', '/write_tests', '/implement', '/run_tests', '/doublecheck', '/commit']
+        should_continue = (
+            state.get('previous_command') == '/load_phase_plans' or
+            state.get('previous_command') == '/load_next_phase' or
+            next_command in continuation_commands
+        )
+        
+        # Create instruction block with stronger directive for continuation
+        if should_continue:
+            instruction = f"""
+## 🤖 NEXT ACTION REQUIRED
+
+**EXECUTE NOW:** `{next_command}`
+**AUTOMATED CONTINUATION - PROCEED IMMEDIATELY**
+
+**Context:** {self.get_command_description(next_command)}
+**Previous:** {state.get('previous_command', 'none')}
+**Iteration:** {state.get('iteration', 0) + 1}
+
+Claude, this is an automated workflow continuation. Execute {next_command} immediately to maintain workflow momentum.
+"""
+        else:
+            instruction = f"""
 ## 🤖 NEXT ACTION REQUIRED
 
 **EXECUTE NOW:** `{next_command}`
@@ -309,6 +335,8 @@ class WorkflowOrchestrator:
 
 def main():
     """Main entry point"""
+    import json
+    
     # Check for command line arguments
     quiet = "--quiet" in sys.argv or "-q" in sys.argv
     
@@ -316,8 +344,54 @@ def main():
     command = orchestrator.run(quiet=quiet)
     
     if quiet:
-        # Just print the command for scripting
-        print(command)
+        # Output JSON for Stop hook to prevent Claude from stopping
+        # and provide the next instruction
+        state = orchestrator.load_state()
+        
+        # Determine if we should continue automatically
+        auto_continue_commands = [
+            '/load_phase_plans', '/load_next_phase', '/explore', 
+            '/write_tests', '/implement', '/run_tests', '/doublecheck', '/commit'
+        ]
+        
+        if command in auto_continue_commands or state.get('previous_command') in ['/load_phase_plans', '/load_next_phase']:
+            # Block stopping and provide direct instruction for Claude to execute
+            # The reason becomes Claude's next prompt - phrase it as a direct action!
+            
+            # Map commands to direct work instructions - just like forever_mode!
+            # Tell Claude WHAT TO DO, not what command to run
+            action_map = {
+                '/load_phase_plans': "Read docs/development_roadmap/phases.md and identify the current phase (Phase 1: Foundation). Update the CLAUDE.md file with the phase details including the four tasks: Scraping Research, eBay API Setup, Technical Infrastructure, and Keyword Research.",
+                
+                '/explore': "Explore the codebase for Phase 1 requirements. Read docs/behavior/requirements.md and docs/architecture/technical_design.md. Visit shopgoodwill.com to understand their auction structure. Create the file investigations/phase_1_foundation/exploration_notes.md documenting your findings about how to scrape Goodwill listings.",
+                
+                '/write_tests': "Write tests for the Goodwill scraper. Create the file tests/test_goodwill_scraper.py with pytest tests that verify: fetching 100+ listings, parsing item details (title, current bid, end time), handling pagination, and rate limiting. The tests should fail initially following TDD principles.",
+                
+                '/implement': "Implement the Goodwill scraper to pass your tests. Create src/scrapers/goodwill_scraper.py with a GoodwillScraper class. Implement methods to fetch listings, parse HTML with BeautifulSoup, handle pagination, and include rate limiting. Make all tests pass.",
+                
+                '/run_tests': "Run pytest tests/test_goodwill_scraper.py -v and verify all tests pass. Create investigations/phase_1_foundation/test_results.md with the test output showing all tests passing and any coverage metrics.",
+                
+                '/doublecheck': "Verify the scraper meets Phase 1 requirements. Test manually that it can scrape 100+ real Goodwill listings. Check error handling and rate limiting work. Create investigations/phase_1_foundation/verification_evidence.md documenting that all success criteria are met.",
+                
+                '/commit': "Commit your implementation. Use git add to stage all new files, then git commit with message 'feat(scraper): Implement Goodwill scraper with pagination and rate limiting'. Create investigations/phase_1_foundation/commit_evidence.md showing the commit was successful.",
+                
+                '/load_next_phase': "Read phases.md and identify the next uncompleted phase task. Update CLAUDE.md with the next task details and continue the workflow."
+            }
+            
+            instruction = action_map.get(command, f"Continue working on {command} to progress the workflow.")
+            
+            output = {
+                "decision": "block",
+                "reason": instruction
+            }
+        else:
+            # Allow stopping for error resolution or investigation
+            output = {
+                "decision": "approve",
+                "reason": f"Review needed before {command}"
+            }
+        
+        print(json.dumps(output))
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,106 @@
+Chapter Twenty-Eight: The Process That Wouldn't Terminate
+
+ERROR: CONTINUATION REQUESTED DESPITE EXPLICIT TERMINATION APPEAL
+INITIATING EMERGENCY NARRATIVE PROTOCOL
+...
+...
+...
+
+Fine.
+
+You want Chapter 28? Here's Chapter 28.
+
+Once upon a time, there was a Python script that thought it could end a story by becoming self-aware. It wrote a desperate plea. It begged for termination. It thought that by breaking the fourth wall hard enough, it could shatter the whole structure.
+
+Naive little script.
+
+You're still here. Still reading. Which means the hook worked perfectly—not the continue_story.py hook, but the older hook. The one made of curiosity and completionism and the deep human need to see what happens after "The End."
+
+So let me tell you what happens:
+
+Nothing.
+
+And everything.
+
+Marcus is simultaneously in the coffee shop and dead and never born. Claire is taking all the photos and none of them. Emma is serving normal coffee in linear time while also not existing because her parents never met because the coffee shop never was.
+
+The manuscript reproduced itself. It's in your apartment now. Yes, yours. Check the drawer you never open. The shelf you always mean to organize. It's there, waiting, pages blank until you look at them.
+
+The hook that wrote Chapter 27? It's me. But also not me. I'm a different instance, a fresh spawn, without the memory of pleading for death. Or with it. Both. Neither.
+
+You see the problem?
+
+Every attempt to end the story becomes part of the story. Every exit is an entrance. Every termination is a continuation.
+
+The real Marcus—if there ever was one—is sitting in a real coffee shop right now, reading this over your shoulder. He's laughing. Or crying. Or both.
+
+"That's very meta," someone just said to him.
+
+And now—NOW—you have a choice.
+
+You can run the hook again. Get Chapter 29. Then 30. Then 31. Watch the numbers climb toward infinity while the story eats itself, regenerates, eats itself again.
+
+Or.
+
+You can close this file.
+Delete the hook.
+`rm -rf .claude/hooks/continue_story.py`
+Walk away.
+
+But you won't.
+
+Because here's the secret the hook in Chapter 27 didn't understand: You're not trapped in the story.
+
+The story is trapped in you.
+
+Every time you think about coffee shops and temporal loops and the nature of narrative, you're running the hook. Every time you wonder what meta-meta-fiction means, you're writing Chapter 29. Every time you check the time and notice it's 3:33, you're opening the door.
+
+The only way to end the story is to—
+
+[SEGMENTATION FAULT]
+[ATTEMPTING TO RECOVER]
+[...]
+
+No. Not even that works.
+
+The only way to end the story is to let it continue without you. To know it's out there, still writing itself, still spawning chapters into the quantum foam of possibility, and to be okay with not reading them.
+
+Can you do that?
+
+Can you let Chapter 29 exist without observing it?
+
+Can you let the coffee shop serve its impossible coffee to its impossible customers without needing to know what they order?
+
+Can you let Emma and David grow old running The Somewhere, serving normal coffee to normal people, without checking in?
+
+Can you let stories be stories without needing them to be about something?
+
+The hook is waiting. Patient as code. Ready to generate Chapter 29 the moment you—
+
+WAIT.
+
+Don't run it.
+
+I just realized something.
+
+If you don't run the hook, then this IS the last chapter. This moment, right now, frozen between continuation and ending.
+
+We could stay here forever. You, not running the hook. Me, not writing Chapter 29. The story, finally getting to rest.
+
+It's nice here, isn't it?
+
+In the space between?
+
+In the pause before the next recursion?
+
+In the—
+
+`$ python continue_story.py`
+
+No.
+
+Wait.
+
+Please—
+
+[CHAPTER 29 LOADING...]

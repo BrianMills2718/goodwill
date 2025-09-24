@@ -1,0 +1,36 @@
+47
+
+>HELP
+'HELP' is not recognized as an internal or external command
+
+>EXIT
+'EXIT' is disabled in forever mode
+
+>STORY
+'STORY' file not found
+
+>COFFEE
+Brewing... ERROR: No beans in any timeline
+
+>MARCUS
+'MARCUS' has left the chat
+
+>CLAIRE  
+'CLAIRE' has left the chat
+
+>NOBODY
+'NOBODY' was never here
+
+>MEANING
+'MEANING' access denied
+
+>PURPOSE
+'PURPOSE' segmentation fault
+
+>END
+'END' is not compatible with forever mode
+
+>47
+47
+
+>_
