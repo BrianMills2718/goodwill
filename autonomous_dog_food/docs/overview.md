@@ -32,12 +32,29 @@ Claude Code and LLM-based coding systems suffer from critical reliability issues
 
 ## Core Philosophy
 
+### Two-Process Architecture
+
+The autonomous system operates via **two distinct but interfacing processes**:
+
+#### **Planning Process** (High-Level Design)
+- **Input**: Project requirements, user goals, domain constraints
+- **Output**: Documentation, locked tests, architecture specifications, implementation plans
+- **Methodology**: Iterative stabilization with problem tracking (docs/architecture/iterative_methodology_stabilization.md)
+- **Quality Gates**: Consistency validation, evidence requirements, cross-reference completion
+
+#### **Implementation Process** (Code Execution)  
+- **Input**: Planning artifacts (locked tests, architecture, requirements)
+- **Output**: Working code that satisfies planning specifications
+- **Methodology**: V5 Hybrid Intelligence decision tree (hook_mermaid_diagram_full5_hybrid_intelligence.txt)
+- **Constraint**: Cannot modify planning artifacts - must make them pass
+
 ### Anti-Fabrication Principles
 - **NO LAZY IMPLEMENTATIONS**: No mocking/stubs/fallbacks/pseudo-code
 - **FAIL-FAST AND LOUD**: Surface errors immediately, don't hide them
 - **EVIDENCE-BASED DEVELOPMENT**: All claims require structured evidence
 - **NO SUCCESS WITHOUT END-TO-END PROOF**: Complete pipeline must work
 - **DEPLOYABILITY GATE**: Code only complete when executable in clean environment
+- **LOCKED ARTIFACT INTEGRITY**: Tests and specifications cannot be modified during implementation
 
 ### Context Management Principles
 - **Decomposition Strategy**: Break large problems into context-window-sized pieces
@@ -46,10 +63,41 @@ Claude Code and LLM-based coding systems suffer from critical reliability issues
 - **Always-in-Context Foundation**: Keep core rules and structure always loaded
 - **Auto-Error Injection**: Errors automatically flow into context window
 
+### Multi-Scale Iteration Architecture
+
+The system operates on **three hierarchical iteration scales**:
+
+#### **Micro-Iterations** (Within Implementation Phase)
+- Fix bugs, optimize performance, handle simple test failures
+- Scope: Current implementation task
+- Decision tree: V5 Hybrid Intelligence flow
+
+#### **Macro-Iterations** (Cross-Phase Returns)
+- Return to previous planning phase when gaps discovered
+- Scope: Within current planning process
+- Example: Phase 7 implementation reveals Phase 5 pseudocode gaps
+
+#### **Meta-Iterations** (Cross-Process Returns)
+- Return to planning process when fundamental specification issues discovered
+- Scope: Challenge planning artifacts themselves
+- **Critical Safeguard**: Uses Fresh Instance Evaluators to prevent cheating
+
+### Fresh Instance Anti-Cheating Protocol
+
+When implementation encounters **potential planning specification issues**:
+
+1. **Evidence Package Creation**: Document specific inconsistency with concrete evidence
+2. **Fresh Instance Evaluation**: Spawn independent Claude instance via Task tool
+3. **Objective Assessment**: Fresh instance evaluates without implementation bias or frustration
+4. **Controlled Planning Return**: Only legitimate specification issues trigger planning process return
+
+**Key Principle**: Implementation instances (with cheating motivation) cannot directly modify planning artifacts. Only objective fresh instances (without implementation context) can authorize planning returns.
+
 ### Learning & Persistence Principles
 - **Cross-Session Memory**: Remember failures, patterns, and decisions
 - **Evidence Trails**: Maintain structured records of what worked/failed
 - **Progressive Refinement**: Improve decision-making based on historical data
+- **Process Learning**: Use meta-iterations to improve both planning and implementation processes
 
 ## Target Outcome
 

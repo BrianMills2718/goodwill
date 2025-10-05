@@ -1,0 +1,202 @@
+# Claude Code Hooks: V5 Hybrid Intelligence Autonomous Workflow
+
+## Decision Node Intelligence Classification
+
+**Legend:**
+- 🤖 **PROGRAMMATIC** - Clear binary/numeric checks, fast execution
+- 🧠 **LLM** - Requires human-like judgment and reasoning
+- ⚡ **HYBRID** - Programmatic first, LLM analysis if needed
+
+```mermaid
+flowchart TD
+    Start([Stop Hook Triggered]) --> ManualOverride{🤖 Manual Override File Exists?}
+    
+    ManualOverride -->|Yes| StopAutomation["`**STOP**: Manual override active
+    Remove .claude/workflow_override to resume`"]
+    
+    ManualOverride -->|No| SafetyLimits{🤖 Safety Limits Check}
+    
+    SafetyLimits -->|"loop_iterations >= 7<br/>OR stop_hooks >= 3"| EscalateManual["`**ESCALATE**: Safety limits reached
+    Human intervention required`"]
+    
+    SafetyLimits -->|Within limits| TestStatus{🤖 Run Tests}
+    
+    TestStatus -->|pytest returncode == 0| TestsPass[Tests Passing ✅]
+    TestStatus -->|pytest returncode != 0| TestsFail[Tests Failing ❌]
+    
+    %% TESTS PASSING PATH
+    TestsPass --> GitChanges{🤖 Git Changes Since Last Commit?}
+    
+    GitChanges -->|"git diff --name-only<br/>has output"| HasChanges[Changes Detected]
+    GitChanges -->|No changes| NoChanges[No Changes]
+    
+    HasChanges --> ProgressAnalysis{🧠 LLM: Analyze Progress Quality}
+    NoChanges --> StagnationAnalysis{🧠 LLM: Why No Changes?}
+    
+    %% PROGRESS ANALYSIS (LLM)
+    ProgressAnalysis -->|Real progress| CommitReady{🧠 LLM: Ready to Commit?}
+    ProgressAnalysis -->|Busywork/scaffolding| ContinueImplement[Continue Implementation]
+    ProgressAnalysis -->|Unclear| EvidenceValidation[Validate Evidence]
+    
+    %% COMMIT READINESS (LLM)
+    CommitReady -->|Complete implementation| DoCommit[Execute: git commit]
+    CommitReady -->|Need more work| ContinueImplement
+    CommitReady -->|Need verification| RunDoublecheck[Execute: Doublecheck phase]
+    
+    %% STAGNATION ANALYSIS (LLM)
+    StagnationAnalysis -->|Thinking/planning phase| ContinueWork[Continue Current Phase]
+    StagnationAnalysis -->|Stuck on problem| ProblemSolving{🧠 LLM: Diagnose Blocker}
+    StagnationAnalysis -->|Wrong approach| PivotStrategy[Pivot Approach]
+    
+    %% TESTS FAILING PATH
+    TestsFail --> FailureCount{🤖 Count Recent Failures}
+    
+    FailureCount -->|"< 3 failures"| AnalyzeFailure{⚡ HYBRID: Analyze Test Failures}
+    FailureCount -->|">= 3 failures"| RepeatedFailure{🧠 LLM: Pattern Analysis}
+    
+    %% HYBRID FAILURE ANALYSIS
+    AnalyzeFailure --> SimpleFailure{🤖 Simple Error Pattern?}
+    
+    SimpleFailure -->|"Syntax error<br/>Import error<br/>Missing file"| QuickFix[Execute: Fix Simple Error]
+    SimpleFailure -->|Complex failure| LLMFailureAnalysis{🧠 LLM: Deep Failure Analysis}
+    
+    %% COMPLEX FAILURE ANALYSIS (LLM)
+    LLMFailureAnalysis -->|Logic error| FixImplementation[Fix Implementation Logic]
+    LLMFailureAnalysis -->|Test issue| TestIssueAnalysis{🧠 LLM: Test Issue Classification}
+    LLMFailureAnalysis -->|Architecture problem| Refactor[Refactor Approach]
+    LLMFailureAnalysis -->|Requirements unclear| ClarifyRequirements[Clarify Requirements]
+    LLMFailureAnalysis -->|Planning artifact issue| PlanningIssueDetected{🚨 Planning Issue Detected}
+    
+    %% TEST ISSUE CLASSIFICATION (LLM)
+    TestIssueAnalysis -->|Test logic error| FixTests[Fix Test Logic]
+    TestIssueAnalysis -->|Test specification inconsistent| PlanningIssueDetected
+    
+    %% META-PROCESS: PLANNING ISSUE HANDLING
+    PlanningIssueDetected --> CreateEvidencePackage[🤖 Create Evidence Package]
+    CreateEvidencePackage --> FreshInstanceEval{🧠 FRESH: Evaluate Planning Issue}
+    
+    FreshInstanceEval -->|Implementation problem| ReturnToV5[Return to V5 Decision Tree]
+    FreshInstanceEval -->|Legitimate planning issue| ControlledPlanningReturn[🔄 META: Return to Planning Process]
+    FreshInstanceEval -->|Ambiguous/Complex| EscalateHuman[Escalate to Human]
+    
+    ControlledPlanningReturn --> InvalidateArtifacts[Invalidate Affected Artifacts]
+    InvalidateArtifacts --> RerunPlanning[Re-run Planning Process Segment]
+    RerunPlanning --> GenerateNewArtifacts[Generate New Locked Artifacts]
+    
+    %% REPEATED FAILURE PATTERN (LLM)
+    RepeatedFailure -->|Same error pattern| StuckOnProblem{🧠 LLM: Escalation Decision}
+    RepeatedFailure -->|Different failures| SystemicIssue[Address Systemic Issue]
+    
+    %% ESCALATION DECISIONS (LLM)
+    StuckOnProblem -->|Can solve with different approach| NewStrategy[Try New Strategy]
+    StuckOnProblem -->|Need human expertise| EscalateHuman[Escalate to Human]
+    StuckOnProblem -->|Need more context| GatherContext[Gather More Context]
+    
+    %% PROBLEM SOLVING (LLM)
+    ProblemSolving -->|Missing dependency| InstallDependency[Install Dependency]
+    ProblemSolving -->|Configuration issue| FixConfiguration[Fix Configuration]
+    ProblemSolving -->|Knowledge gap| ResearchSolution[Research Solution]
+    ProblemSolving -->|Complexity too high| BreakDownProblem[Break Down Problem]
+    
+    %% WORKFLOW PROGRESSION (LLM)
+    DoCommit --> NextPhase{🧠 LLM: Determine Next Phase}
+    RunDoublecheck --> NextPhase
+    QuickFix --> ReturnToTests[Return to Test Check]
+    FixImplementation --> ReturnToTests
+    FixTests --> ReturnToTests
+    
+    NextPhase -->|Continue TDD cycle| SelectNextTDDStep{🧠 LLM: Next TDD Step}
+    NextPhase -->|Phase complete| AdvancePhase[Advance to Next Phase]
+    NextPhase -->|Need different approach| ChangeStrategy[Change Strategy]
+    
+    %% TDD STEP SELECTION (LLM)
+    SelectNextTDDStep -->|Need exploration| ExplorePhase[Execute: Explore]
+    SelectNextTDDStep -->|Need tests| WriteTests[Execute: Write Tests] 
+    SelectNextTDDStep -->|Need implementation| Implement[Execute: Implement]
+    SelectNextTDDStep -->|Need verification| Doublecheck[Execute: Doublecheck]
+    
+    %% EVIDENCE VALIDATION (HYBRID)
+    EvidenceValidation --> EvidenceCheck{🤖 Files Exist? Claims Match Reality?}
+    
+    EvidenceCheck -->|Evidence valid| EvidenceLLMCheck{🧠 LLM: Evidence Quality Analysis}
+    EvidenceCheck -->|Evidence invalid| FakeProgress[Flag: Fake Progress]
+    
+    EvidenceLLMCheck -->|High quality evidence| ProceedWithEvidence[Proceed with Evidence]
+    EvidenceLLMCheck -->|Low quality evidence| RequestBetterEvidence[Request Better Evidence]
+    
+    %% AUTOMATION HEALTH MONITORING (HYBRID)
+    ContinueWork --> HealthCheck{⚡ HYBRID: Automation Health Check}
+    ProceedWithEvidence --> HealthCheck
+    ReturnToTests --> HealthCheck
+    
+    HealthCheck --> QuickHealthCheck{🤖 Quick Health Indicators}
+    
+    QuickHealthCheck -->|"Git activity detected<br/>Files being modified<br/>Error rate acceptable"| HealthGood[Health: Good]
+    QuickHealthCheck -->|Warning signs detected| DeepHealthAnalysis{🧠 LLM: Deep Health Analysis}
+    
+    DeepHealthAnalysis -->|Recoverable issues| HealthWarning[Health: Warning - Continue with Monitoring]
+    DeepHealthAnalysis -->|Serious problems| HealthFailing[Health: Failing - Escalate]
+    
+    HealthGood --> UpdateCounters[🤖 Update Loop Counters]
+    HealthWarning --> UpdateCounters
+    HealthFailing --> EscalateHuman
+    
+    %% COUNTER MANAGEMENT (PROGRAMMATIC)
+    UpdateCounters --> IncrementCounters{🤖 Increment Counters}
+    
+    IncrementCounters --> ExecuteAction["`**EXECUTE DECISION**:
+    Block with next instruction`"]
+    
+    %% TERMINAL STATES
+    StopAutomation --> End([End: Manual Mode])
+    EscalateManual --> End
+    EscalateHuman --> End
+    ExecuteAction --> End
+    
+    %% STYLING
+    classDef programmaticNode fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000
+    classDef llmNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000
+    classDef hybridNode fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px,color:#000
+    classDef actionNode fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    classDef terminalNode fill:#ffebee,stroke:#b71c1c,stroke-width:2px,color:#000
+    
+    class ManualOverride,SafetyLimits,TestStatus,GitChanges,FailureCount,SimpleFailure,EvidenceCheck,QuickHealthCheck,IncrementCounters programmaticNode
+    class ProgressAnalysis,CommitReady,StagnationAnalysis,ProblemSolving,LLMFailureAnalysis,RepeatedFailure,StuckOnProblem,NextPhase,SelectNextTDDStep,EvidenceLLMCheck llmNode
+    class AnalyzeFailure,HealthCheck,DeepHealthAnalysis hybridNode
+    class DoCommit,RunDoublecheck,QuickFix,ExplorePhase,WriteTests,Implement,Doublecheck actionNode
+    class StopAutomation,EscalateManual,EscalateHuman,End terminalNode
+```
+
+## Intelligence Classification Summary
+
+### 🤖 **PROGRAMMATIC DECISIONS** (Fast, Binary)
+- **Manual override check**: File existence
+- **Safety limits**: Counter thresholds  
+- **Test status**: pytest return code
+- **Git changes**: diff command output
+- **Evidence validation**: File existence, basic format checks
+- **Health indicators**: Git activity, file modification timestamps
+
+### 🧠 **LLM DECISIONS** (Judgment, Context-Aware)
+- **Progress quality**: Real work vs busywork/scaffolding
+- **Commit readiness**: Implementation completeness assessment
+- **Failure analysis**: Complex error pattern diagnosis  
+- **Problem solving**: Strategy selection for blockers
+- **Phase transitions**: What to work on next
+- **Evidence quality**: Meaningful vs generic findings
+- **Health assessment**: Pattern recognition in automation behavior
+
+### ⚡ **HYBRID DECISIONS** (Programmatic → LLM if needed)
+- **Failure analysis**: Simple errors handled programmatically, complex ones go to LLM
+- **Health monitoring**: Basic metrics first, deep analysis if concerning
+- **Evidence validation**: Format/existence check first, quality analysis second
+
+## Implementation Strategy
+
+1. **Start with programmatic checks** for speed
+2. **Escalate to LLM analysis** when complexity/judgment required  
+3. **Cache LLM decisions** to avoid repeated analysis of same patterns
+4. **Use LLM confidence scores** to determine when to escalate to human
+5. **Maintain audit trail** of all decision points and reasoning
+
+This hybrid approach maximizes both **speed** and **intelligence** by using the right tool for each decision type.
