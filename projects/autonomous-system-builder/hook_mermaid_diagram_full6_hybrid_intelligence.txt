@@ -16,34 +16,99 @@ flowchart TD
     
     ManualOverride -->|No| PlanningInputCheck{🤖 Planning Artifacts Available?}
     
-    %% V6 ENHANCEMENT: PLANNING INPUT HANDLING
+    %% V6 ENHANCEMENT: PLANNING INPUT HANDLING WITH MODE SELECTION
     PlanningInputCheck -->|Yes| LoadPlanningContext[🤖 Load Planning Context]
     PlanningInputCheck -->|No| SafetyLimits{🤖 Safety Limits Check}
     
     LoadPlanningContext --> ReadCurrentPhase[🤖 Read Current Implementation Phase]
     ReadCurrentPhase --> LoadRelevantPseudocode[🤖 Load Relevant Pseudocode]
-    LoadRelevantPseudocode --> IdentifyImplementationTargets[🤖 Identify Available Implementation Targets]
-    IdentifyImplementationTargets --> PlanningGuidedStrategy{🧠 LLM: Select Implementation Target}
+    LoadRelevantPseudocode --> LoadTaskGraph[🤖 Load Implementation Task Graph]
+    LoadTaskGraph --> IdentifyImplementationTargets[🤖 Identify Available Implementation Targets]
+    IdentifyImplementationTargets --> ModeSelection{🧠 LLM: Select Implementation Mode}
     
-    %% PLANNING-GUIDED IMPLEMENTATION SELECTION
-    PlanningGuidedStrategy -->|"Specific pseudocode component<br/>ready for implementation"| TargetedImplementation[Target Specific Component]
-    PlanningGuidedStrategy -->|"Multiple failing tests<br/>need prioritization"| PrioritizeFailingTests[Prioritize Based on Planning]
-    PlanningGuidedStrategy -->|"Planning context unclear<br/>or incomplete"| FallbackToTestDriven[Fallback to Test-Driven Approach]
+    %% V6 ENHANCEMENT: IMPLEMENTATION MODE SELECTION
+    ModeSelection -->|"Task graph has clear next target<br/>with ready pseudocode"| TaskGraphMode[Task-Graph Driven Mode]
+    ModeSelection -->|"Multiple failing tests<br/>need failure-driven approach"| TDDMode[TDD Failure-Driven Mode]
+    ModeSelection -->|"Mixed situation requiring<br/>hybrid approach"| HybridMode[Hybrid Planning+TDD Mode]
+    ModeSelection -->|"Planning context unclear<br/>or insufficient"| FallbackTDDMode[Fallback to Pure TDD Mode]
     
-    TargetedImplementation --> GenerateImplementationInstruction[🧠 LLM: Generate Implementation Instruction]
-    PrioritizeFailingTests --> SelectHighestPriorityTest[🧠 LLM: Select Highest Priority Test]
-    FallbackToTestDriven --> SafetyLimits
+    %% V6 ENHANCEMENT: IMPLEMENTATION MODE EXECUTION
+    TaskGraphMode --> LoadTaskGraphTarget[🤖 Load Next Task Graph Target]
+    TDDMode --> AnalyzeTestFailures[🤖 Analyze Current Test Failures]
+    HybridMode --> ContextualPrioritization{🧠 LLM: Prioritize Based on Context}
+    FallbackTDDMode --> SafetyLimits
     
-    GenerateImplementationInstruction --> ExecuteImplementation[Execute: Implement Component]
-    SelectHighestPriorityTest --> ExecuteImplementation
+    %% TASK-GRAPH DRIVEN EXECUTION
+    LoadTaskGraphTarget --> ValidateTaskDependencies[🤖 Validate Task Dependencies Met]
+    ValidateTaskDependencies -->|Dependencies ready| GenerateTaskInstruction[🧠 LLM: Generate Task Implementation Instruction]
+    ValidateTaskDependencies -->|Dependencies missing| ResolveDependencies[Execute: Resolve Dependencies First]
+    
+    %% TDD FAILURE-DRIVEN EXECUTION  
+    AnalyzeTestFailures --> TestLayerConflictCheck{🤖 Check Test Layer Conflicts}
+    TestLayerConflictCheck -->|No conflicts| SelectFailureToFix[🧠 LLM: Select Test Failure to Fix]
+    TestLayerConflictCheck -->|Conflicts detected| ResolveTestLayerConflicts[🧠 LLM: Resolve Test Layer Conflicts]
+    
+    %% HYBRID MODE EXECUTION
+    ContextualPrioritization -->|Task graph priority higher| LoadTaskGraphTarget
+    ContextualPrioritization -->|Test failure priority higher| AnalyzeTestFailures
+    ContextualPrioritization -->|Equal priority - use planning| ConsultPlanningStrategy[🧠 LLM: Consult Planning Strategy]
+    
+    ConsultPlanningStrategy --> LoadTaskGraphTarget
+    
+    %% EXECUTION CONVERGENCE
+    GenerateTaskInstruction --> ExecuteImplementation[Execute: Implement Component]
+    ResolveDependencies --> ExecuteImplementation
+    SelectFailureToFix --> ExecuteImplementation
+    ResolveTestLayerConflicts --> ExecuteImplementation
     
     ExecuteImplementation --> TestStatus{🤖 Run Tests}
     
     %% ORIGINAL V5 FLOW WITH ENHANCEMENTS
-    SafetyLimits -->|"loop_iterations >= 7<br/>OR stop_hooks >= 3"| EscalateManual["`**ESCALATE**: Safety limits reached
+    %% V6 ENHANCEMENT: DETAILED SAFETY LIMITS AND LOOP BREAKING
+    SafetyLimits --> CheckIterationLimits{🤖 Check Iteration Limits}
+    CheckIterationLimits -->|"loop_iterations >= 7"| UncertaintyResolutionLimit[Uncertainty Resolution Loop Limit]
+    CheckIterationLimits -->|"stop_hooks >= 3"| StopHookLoopLimit[Stop Hook Loop Limit]
+    CheckIterationLimits -->|"Within all limits"| QualityValidationPipeline{🤖 Quality Validation Pipeline}
+    
+    UncertaintyResolutionLimit --> EscalationStrategy{🧠 LLM: Select Escalation Strategy}
+    StopHookLoopLimit --> ManualOverrideCreation[🤖 Create Manual Override]
+    
+    EscalationStrategy -->|Archive and skip| EscalateToDeferred[Execute: Archive to investigations/deferred/]
+    EscalationStrategy -->|Simplify objective| SimplifyObjective[🧠 LLM: Reduce Scope to Achievable Subset]
+    EscalationStrategy -->|Human escalation| EscalateManual["`**ESCALATE**: Loop limit exceeded
     Human intervention required`"]
     
-    SafetyLimits -->|Within limits| TestStatus{🤖 Run Tests}
+    ManualOverrideCreation --> CreateWorkflowOverride[🤖 Create .workflow_override file]
+    CreateWorkflowOverride --> EscalateManual
+    
+    %% V6 ENHANCEMENT: QUALITY VALIDATION PIPELINE
+    QualityValidationPipeline --> CrossReferenceIntegrityCheck[🤖 Check Cross-Reference Integrity]
+    CrossReferenceIntegrityCheck -->|Valid| EvidenceCompletenessCheck[🤖 Check Evidence Completeness]
+    CrossReferenceIntegrityCheck -->|Invalid| InjectCrossReferenceError[🤖 Inject Cross-Reference Error]
+    
+    EvidenceCompletenessCheck -->|Complete| StateConsistencyCheck[🤖 Check State Consistency]
+    EvidenceCompletenessCheck -->|Incomplete| InjectEvidenceError[🤖 Inject Evidence Error]
+    
+    StateConsistencyCheck -->|Consistent| AutomationHealthCheck[🤖 Check Automation Health]
+    StateConsistencyCheck -->|Inconsistent| InjectStateError[🤖 Inject State Inconsistency Error]
+    
+    AutomationHealthCheck -->|Healthy| TestStatus{🤖 Run Tests}
+    AutomationHealthCheck -->|Unhealthy| InjectAutomationError[🤖 Inject Automation Health Error]
+    
+    %% V6 ENHANCEMENT: ERROR INJECTION WORKFLOW
+    InjectCrossReferenceError --> CreateErrorLog[🤖 Create Error Log in logs/errors/active/]
+    InjectEvidenceError --> CreateErrorLog
+    InjectStateError --> CreateErrorLog
+    InjectAutomationError --> CreateErrorLog
+    
+    CreateErrorLog --> UpdateErrorSummary[🤖 Update Error Summary JSON]
+    UpdateErrorSummary --> InjectCLAUDEMDError[🤖 Inject Error into CLAUDE.md Active Errors]
+    InjectCLAUDEMDError --> EscalateManual
+    
+    EscalateToDeferred --> ArchiveEvidence[Execute: Archive Evidence to investigations/deferred/]
+    SimplifyObjective --> UpdatePlanningObjective[🧠 LLM: Update Planning Objective]
+    ArchiveEvidence --> TestStatus
+    UpdatePlanningObjective --> TestStatus
     
     TestStatus -->|pytest returncode == 0| TestsPass[Tests Passing ✅]
     TestStatus -->|pytest returncode != 0| TestsFail[Tests Failing ❌]
@@ -103,16 +168,60 @@ flowchart TD
     TestIssueAnalysis -->|Test logic error| FixTests[Fix Test Logic]
     TestIssueAnalysis -->|Test specification inconsistent with planning| PlanningInconsistencyDetected
     
+    %% V6 ENHANCEMENT: TEST LAYER CONFLICT RESOLUTION
+    ResolveTestLayerConflicts --> IdentifyConflictType{🧠 LLM: Identify Conflict Type}
+    IdentifyConflictType -->|"Acceptance vs Unit test disagreement"| ResolveAcceptanceUnitConflict[🧠 LLM: Resolve Acceptance-Unit Conflict]
+    IdentifyConflictType -->|"Contract vs Implementation test disagreement"| ResolveContractImplConflict[🧠 LLM: Resolve Contract-Implementation Conflict]
+    IdentifyConflictType -->|"External vs Internal test disagreement"| ResolveExternalInternalConflict[🧠 LLM: Resolve External-Internal Conflict]
+    IdentifyConflictType -->|"Multiple test layers failing differently"| ResolveMultiLayerConflict[🧠 LLM: Resolve Multi-Layer Conflict]
+    
+    ResolveAcceptanceUnitConflict --> ValidateTestResolution[🧠 LLM: Validate Test Resolution]
+    ResolveContractImplConflict --> ValidateTestResolution
+    ResolveExternalInternalConflict --> ValidateTestResolution
+    ResolveMultiLayerConflict --> ValidateTestResolution
+    
+    ValidateTestResolution -->|Resolution valid| SelectFailureToFix
+    ValidateTestResolution -->|Resolution invalid| PlanningInconsistencyDetected
+    
     %% V6 ENHANCEMENT: PLANNING INCONSISTENCY HANDLING
     PlanningInconsistencyDetected --> CreatePlanningEvidencePackage[🤖 Create Planning Evidence Package]
     CreatePlanningEvidencePackage --> GatherPlanningContext[🤖 Gather Relevant Planning Artifacts]
     GatherPlanningContext --> DocumentImplementationFinding[🤖 Document Implementation vs Planning Contradiction]
     DocumentImplementationFinding --> FreshInstanceEval{🧠 FRESH: Evaluate Planning Issue}
     
-    FreshInstanceEval -->|Implementation problem - planning is correct| ReturnToImplementationFlow[Return to Implementation Flow]
-    FreshInstanceEval -->|Minor planning clarification needed| RequestPlanningClarification[Request Planning Clarification]
-    FreshInstanceEval -->|Major planning specification error| ControlledPlanningReturn[🔄 META: Return to Planning Process]
-    FreshInstanceEval -->|Ambiguous/Complex| EscalateHuman[Escalate to Human]
+    %% V6 ENHANCEMENT: COMPREHENSIVE FRESH INSTANCE EVALUATOR
+    FreshInstanceEval --> SpawnEvaluatorInstance[🤖 Spawn Fresh Evaluator Instance via Task Tool]
+    SpawnEvaluatorInstance --> EvaluatorAssessment{🧠 FRESH EVALUATOR: Assess Changes}
+    
+    EvaluatorAssessment -->|"Legitimate addition<br/>(necessary steps discovered)"| ApprovedChange[✅ Evaluator Approved: Legitimate Addition]
+    EvaluatorAssessment -->|"Scope reduction<br/>(removing requirements)"| RejectedScopeReduction[❌ Evaluator Rejected: Scope Reduction]
+    EvaluatorAssessment -->|"Quality compromise<br/>(lowering standards)"| RejectedQualityCompromise[❌ Evaluator Rejected: Quality Compromise]
+    EvaluatorAssessment -->|"Requirements unclear<br/>(need clarification)"| RequestRequirementsClarification[📋 Evaluator: Clarify Requirements]
+    
+    ApprovedChange --> LogEvaluatorDecision[🤖 Log Evaluator Decision to .claude/evaluations/]
+    RejectedScopeReduction --> LogEvaluatorDecision
+    RejectedQualityCompromise --> LogEvaluatorDecision
+    RequestRequirementsClarification --> LogEvaluatorDecision
+    
+    LogEvaluatorDecision --> EvaluatorDecisionRouting{🤖 Route Based on Evaluator Decision}
+    
+    EvaluatorDecisionRouting -->|Approved| ReturnToImplementationFlow[Return to Implementation Flow]
+    EvaluatorDecisionRouting -->|Rejected - Scope| BlockChangeAndContinue[Block Change and Continue Current Approach]
+    EvaluatorDecisionRouting -->|Rejected - Quality| BlockChangeAndContinue
+    EvaluatorDecisionRouting -->|Clarification| RequestPlanningClarification[Request Planning Clarification]
+    
+    %% ANTI-CHEATING ENFORCEMENT
+    BlockChangeAndContinue --> AntiCheatingEnforcement[🤖 Enforce Anti-Cheating Patterns]
+    AntiCheatingEnforcement --> DetectCheatingPatterns{🤖 Detect Cheating Patterns}
+    
+    DetectCheatingPatterns -->|"Test modification attempt"| BlockTestModification[❌ Block: Test Modification Forbidden]
+    DetectCheatingPatterns -->|"Mock data substitution"| BlockMockDataUsage[❌ Block: Use Real Data Required]
+    DetectCheatingPatterns -->|"Requirement dropping"| BlockRequirementDropping[❌ Block: All Requirements Must Be Met]
+    DetectCheatingPatterns -->|"No cheating detected"| ReturnToImplementationFlow
+    
+    BlockTestModification --> EscalateHuman[Escalate to Human: Anti-Cheating Violation]
+    BlockMockDataUsage --> EscalateHuman
+    BlockRequirementDropping --> EscalateHuman
     
     ControlledPlanningReturn --> InvalidatePlanningArtifacts[Invalidate Affected Planning Artifacts]
     InvalidatePlanningArtifacts --> RerunPlanningSegment[Re-run Affected Planning Phases]
@@ -135,8 +244,24 @@ flowchart TD
     ProblemSolving -->|Knowledge gap in planning area| ResearchPlanningImplementation[Research Planning Implementation]
     ProblemSolving -->|Planned component complexity too high| BreakDownPlanningComponent[Break Down Planning Component]
     
+    %% V6 ENHANCEMENT: CONTEXT INJECTION PATTERNS
+    LoadPlanningContext --> InjectPlanningContext{🤖 Inject Planning Context}
+    InjectPlanningContext --> LoadPhaseContext[🤖 Load Current Phase Context]
+    LoadPhaseContext --> LoadComponentContext[🤖 Load Relevant Component Context]
+    LoadComponentContext --> LoadTestContext[🤖 Load Test Layer Context]
+    LoadTestContext --> LoadDependencyContext[🤖 Load Dependency Context]
+    LoadDependencyContext --> ModeSelection
+    
+    %% CONTEXT-AWARE DECISION MAKING
+    GatherPlanningContext --> InjectFullPlanningContext[🤖 Inject Full Planning Context]
+    InjectFullPlanningContext --> LoadImplementationEvidence[🤖 Load Implementation Evidence]
+    LoadImplementationEvidence --> LoadTestEvidence[🤖 Load Test Execution Evidence]
+    LoadTestEvidence --> LoadArchitectureEvidence[🤖 Load Architecture Evidence]
+    LoadArchitectureEvidence --> DocumentImplementationFinding
+    
     %% WORKFLOW PROGRESSION (Enhanced)
-    DoCommit --> NextPlanningTarget{🧠 LLM: Determine Next Planning Target}
+    DoCommit --> UpdateTaskGraph[🤖 Update Task Graph Progress]
+    UpdateTaskGraph --> NextPlanningTarget{🧠 LLM: Determine Next Planning Target}
     RunPlanningDoublecheck --> NextPlanningTarget
     QuickFix --> ReturnToTests[Return to Test Check]
     FixImplementation --> ReturnToTests
@@ -145,23 +270,48 @@ flowchart TD
     NextPlanningTarget -->|More components in current planning phase| ReturnToPlanningSelection
     NextPlanningTarget -->|Current planning phase complete| AdvancePlanningPhase[Advance to Next Planning Phase]
     NextPlanningTarget -->|Need different planning approach| ChangePlanningStrategy[Change Planning Strategy]
+    NextPlanningTarget -->|Task graph has next target| LoadTaskGraphTarget
     
-    %% TDD STEP SELECTION (Enhanced with Planning)
+    %% V6 ENHANCEMENT: INTELLIGENT COMPONENT SELECTION
     ReturnToPlanningSelection --> SelectNextPlanningComponent{🧠 LLM: Next Planning Component}
     
-    SelectNextPlanningComponent -->|Need exploration of planning component| ExploreComponent[Execute: Explore Component]
-    SelectNextPlanningComponent -->|Need tests for planning component| WriteComponentTests[Execute: Write Component Tests]
-    SelectNextPlanningComponent -->|Need implementation of planning component| ImplementComponent[Execute: Implement Component]
-    SelectNextPlanningComponent -->|Need verification of planning component| DoublecheckComponent[Execute: Doublecheck Component]
+    SelectNextPlanningComponent --> ComponentAnalysis{🧠 LLM: Analyze Component Readiness}
     
-    %% EVIDENCE VALIDATION (Enhanced)
-    EvidenceValidation --> EvidenceCheck{🤖 Files Exist? Claims Match Planning Reality?}
+    ComponentAnalysis -->|"Component ready for implementation<br/>with clear pseudocode"| ImplementComponent[Execute: Implement Component]
+    ComponentAnalysis -->|"Component needs test clarification<br/>before implementation"| WriteComponentTests[Execute: Write Component Tests]
+    ComponentAnalysis -->|"Component dependencies unclear<br/>need exploration"| ExploreComponent[Execute: Explore Component]
+    ComponentAnalysis -->|"Component implemented but<br/>needs verification"| DoublecheckComponent[Execute: Doublecheck Component]
+    ComponentAnalysis -->|"Component blocked by<br/>planning inconsistency"| PlanningInconsistencyDetected
+    
+    %% V6 ENHANCEMENT: EVIDENCE-BASED DEVELOPMENT
+    EvidenceValidation --> EvidenceDirectoryCheck{🤖 Evidence Directory Structure Exists?}
+    EvidenceDirectoryCheck -->|Missing| CreateEvidenceStructure[🤖 Create investigations/[area]/phase_X/ structure]
+    EvidenceDirectoryCheck -->|Exists| EvidenceArtifactCheck{🤖 Required Evidence Artifacts Present?}
+    
+    CreateEvidenceStructure --> EvidenceArtifactCheck
+    
+    EvidenceArtifactCheck -->|All present| EvidenceContentValidation[🤖 Validate Evidence Content]
+    EvidenceArtifactCheck -->|Missing artifacts| CreateMissingEvidence[Execute: Create Missing Evidence Files]
+    
+    CreateMissingEvidence --> RequiredEvidenceCreation{🧠 LLM: Create Required Evidence}
+    RequiredEvidenceCreation --> CreateFindingsFile[Execute: Create findings.md]
+    CreateFindingsFile --> CreateTestResultsLog[Execute: Create test_results.log]
+    CreateTestResultsLog --> CreateImplementationProof[Execute: Create implementation_proof.md]
+    CreateImplementationProof --> CreateEvidenceManifest[🤖 Create evidence.json manifest]
+    
+    EvidenceContentValidation --> EvidenceCheck{🤖 Files Exist? Claims Match Planning Reality?}
+    CreateEvidenceManifest --> EvidenceCheck
     
     EvidenceCheck -->|Evidence valid and matches planning| EvidenceLLMCheck{🧠 LLM: Evidence Quality vs Planning Goals}
     EvidenceCheck -->|Evidence invalid or contradicts planning| PlanningInconsistencyDetected
     
-    EvidenceLLMCheck -->|High quality evidence toward planning goals| ProceedWithPlanningEvidence[Proceed with Planning Evidence]
+    EvidenceLLMCheck -->|High quality evidence toward planning goals| EvidenceMetricsValidation[🤖 Validate Evidence Metrics]
     EvidenceLLMCheck -->|Low quality evidence for planning| RequestBetterPlanningEvidence[Request Better Evidence]
+    
+    EvidenceMetricsValidation -->|Metrics valid| ProceedWithPlanningEvidence[Proceed with Planning Evidence]
+    EvidenceMetricsValidation -->|Metrics invalid| UpdateEvidenceMetrics[Execute: Update Evidence Metrics]
+    
+    UpdateEvidenceMetrics --> EvidenceMetricsValidation
     
     %% AUTOMATION HEALTH MONITORING (Enhanced)
     ContinueWork --> HealthCheck{⚡ HYBRID: Automation Health Check}
@@ -209,41 +359,61 @@ flowchart TD
     classDef terminalNode fill:#ffebee,stroke:#b71c1c,stroke-width:2px,color:#000
     classDef planningNode fill:#f3e5f5,stroke:#6a1b9a,stroke-width:3px,color:#000
     
-    class ManualOverride,PlanningInputCheck,SafetyLimits,TestStatus,GitChanges,FailureCount,SimpleFailure,EvidenceCheck,QuickHealthCheck,IncrementCounters,ReadCurrentPhase,LoadRelevantPseudocode,IdentifyImplementationTargets programmaticNode
-    class ProgressAnalysis,CommitReady,StagnationAnalysis,ProblemSolving,LLMFailureAnalysis,RepeatedFailure,StuckOnPlanningProblem,NextPlanningTarget,SelectNextPlanningComponent,EvidenceLLMCheck,PlanningGuidedStrategy llmNode
+    class ManualOverride,PlanningInputCheck,CheckIterationLimits,TestStatus,GitChanges,FailureCount,SimpleFailure,QuickHealthCheck,IncrementCounters,ReadCurrentPhase,LoadRelevantPseudocode,LoadTaskGraph,IdentifyImplementationTargets,LoadTaskGraphTarget,ValidateTaskDependencies,AnalyzeTestFailures,TestLayerConflictCheck,InjectPlanningContext,LoadPhaseContext,LoadComponentContext,LoadTestContext,LoadDependencyContext,InjectFullPlanningContext,LoadImplementationEvidence,LoadTestEvidence,LoadArchitectureEvidence,UpdateTaskGraph,QualityValidationPipeline,CrossReferenceIntegrityCheck,EvidenceCompletenessCheck,StateConsistencyCheck,AutomationHealthCheck,CreateErrorLog,UpdateErrorSummary,InjectCLAUDEMDError,ManualOverrideCreation,CreateWorkflowOverride,EvidenceDirectoryCheck,EvidenceArtifactCheck,EvidenceContentValidation,EvidenceCheck,EvidenceMetricsValidation,CreateEvidenceStructure,CreateEvidenceManifest,SpawnEvaluatorInstance,LogEvaluatorDecision,EvaluatorDecisionRouting,AntiCheatingEnforcement,DetectCheatingPatterns programmaticNode
+    class ProgressAnalysis,CommitReady,StagnationAnalysis,ProblemSolving,LLMFailureAnalysis,RepeatedFailure,StuckOnPlanningProblem,NextPlanningTarget,SelectNextPlanningComponent,EvidenceLLMCheck,ModeSelection,GenerateTaskInstruction,SelectFailureToFix,ContextualPrioritization,ConsultPlanningStrategy,IdentifyConflictType,ResolveAcceptanceUnitConflict,ResolveContractImplConflict,ResolveExternalInternalConflict,ResolveMultiLayerConflict,ValidateTestResolution,ComponentAnalysis,EscalationStrategy,SimplifyObjective,UpdatePlanningObjective,RequiredEvidenceCreation,EvaluatorAssessment llmNode
     class AnalyzeFailure,HealthCheck,DeepHealthAnalysis,PlanningImplementationProblem hybridNode
-    class DoCommit,RunPlanningDoublecheck,QuickFix,ExploreComponent,WriteComponentTests,ImplementComponent,DoublecheckComponent actionNode
+    class DoCommit,RunPlanningDoublecheck,QuickFix,ExploreComponent,WriteComponentTests,ImplementComponent,DoublecheckComponent,ResolveDependencies,ResolveTestLayerConflicts,EscalateToDeferred,ArchiveEvidence,CreateMissingEvidence,CreateFindingsFile,CreateTestResultsLog,CreateImplementationProof,UpdateEvidenceMetrics,InjectCrossReferenceError,InjectEvidenceError,InjectStateError,InjectAutomationError actionNode
     class StopAutomation,EscalateManual,EscalateHuman,End terminalNode
-    class LoadPlanningContext,PlanningInconsistencyDetected,FreshInstanceEval,ControlledPlanningReturn,ReturnToPlanningSelection planningNode
+    class LoadPlanningContext,PlanningInconsistencyDetected,FreshInstanceEval,ControlledPlanningReturn,ReturnToPlanningSelection,TaskGraphMode,TDDMode,HybridMode,FallbackTDDMode planningNode
 ```
 
 ## V6 Enhancement Summary
 
-### 🆕 **New Planning Input Features**
-- **Planning Artifact Detection**: Automatically detects available planning artifacts
-- **Planning Context Loading**: Loads relevant pseudocode, phase status, and implementation targets
-- **Planning-Guided Implementation**: Selects implementation targets based on planning rather than random test failures
-- **Planning Inconsistency Detection**: Identifies when implementation contradicts planning
-- **Fresh Instance Planning Evaluation**: Objective evaluation of planning vs implementation issues
+### 🆕 **New Hybrid Planning-TDD Features**
+- **Implementation Mode Selection**: Intelligent choice between Task-Graph, TDD, Hybrid, and Fallback modes
+- **Task Graph Integration**: Direct integration with planning task dependency graphs
+- **Test Layer Conflict Resolution**: Sophisticated handling of conflicts between acceptance, contract, unit, and external tests
+- **Context Injection Patterns**: Systematic loading of planning, phase, component, test, and dependency contexts
+- **Planning Inconsistency Detection**: Identifies when implementation contradicts planning with fresh instance evaluation
 
-### 🔄 **Enhanced V5 Flows**
-- **Progress Analysis**: Now considers progress toward planning goals
-- **Commit Readiness**: Includes verification against pseudocode and planning
-- **Failure Analysis**: Distinguishes implementation bugs from planning inconsistencies
-- **Evidence Validation**: Validates evidence against planning requirements
-- **Health Monitoring**: Tracks planning implementation progress
+### 🔄 **Enhanced Implementation Modes**
+- **Task-Graph Driven Mode**: Follows planning artifacts and dependency graphs for systematic implementation
+- **TDD Failure-Driven Mode**: Traditional test-failure driven development with planning awareness
+- **Hybrid Mode**: Intelligently switches between task-graph and TDD based on current context
+- **Fallback Mode**: Pure TDD when planning context is insufficient or unclear
 
 ### 🎯 **Key Decision Points Enhanced**
-1. **Entry Point**: Planning artifacts available vs unknown state
-2. **Implementation Selection**: Planning-guided vs test-failure-driven
-3. **Problem Classification**: Implementation issue vs planning inconsistency
-4. **Progress Measurement**: Planning goal achievement vs generic progress
-5. **Escalation**: Return to planning process when planning is wrong
+1. **Entry Point**: Planning artifacts available vs unknown state with comprehensive context loading
+2. **Mode Selection**: Task-graph vs TDD vs hybrid based on planning readiness and test status
+3. **Implementation Strategy**: Planning-guided component selection vs failure-driven fixing
+4. **Conflict Resolution**: Multi-layer test conflict identification and resolution
+5. **Context Injection**: Systematic loading of all relevant planning and implementation contexts
+6. **Progress Tracking**: Task graph progress updates alongside traditional TDD progress
 
 ### 🛡️ **Anti-Fabrication Enhancements**
 - **Planning Artifact Integrity**: Cannot modify planning artifacts during implementation
-- **Fresh Instance Evaluation**: Objective assessment of planning vs implementation issues
-- **Evidence Chain**: Links implementation evidence to planning requirements
-- **Controlled Planning Return**: Only legitimate planning issues trigger planning process return
+- **Fresh Instance Planning Evaluation**: Objective assessment of planning vs implementation issues using Task tool
+- **Evidence Chain**: Links implementation evidence to planning requirements with comprehensive context
+- **Controlled Planning Return**: Only legitimate planning issues trigger planning process return with evidence packages
+- **Test Layer Validation**: Ensures consistency across multiple test layers (acceptance, contract, unit, external)
 
-This V6 flowchart preserves all V5 problem-solving capabilities while adding intelligent planning input handling and planning-guided implementation selection.
+### 🧠 **Intelligence Classification Enhancements**
+- **Expanded Programmatic Nodes**: Task graph loading, dependency validation, context injection, quality validation pipeline, evidence structure management
+- **Enhanced LLM Decisions**: Mode selection, conflict resolution, component analysis, contextual prioritization, escalation strategies, fresh evaluator assessment
+- **Improved Hybrid Nodes**: Planning-implementation problem diagnosis with full context awareness
+
+### 🛠️ **Comprehensive Methodology Integration**
+- **Error Management Workflow**: Automatic error injection into CLAUDE.md with structured logging in logs/errors/active/
+- **Evidence-Based Development**: Complete investigations/ structure with findings.md, test_results.log, implementation_proof.md, and evidence.json manifests
+- **Fresh Instance Evaluator System**: Comprehensive anti-cheating evaluation using Task tool spawning with scope reduction and quality compromise detection
+- **Loop Breaking & Recovery**: Detailed iteration limits (7 uncertainty resolution, 3 stop hooks) with escalation strategies
+- **Quality Validation Pipeline**: Cross-reference integrity, evidence completeness, state consistency, and automation health checks
+
+### 🔒 **Advanced Anti-Fabrication System**
+- **Test Modification Blocking**: Prevents unauthorized test changes during implementation
+- **Mock Data Usage Detection**: Enforces real data requirements over mock substitutions  
+- **Requirement Dropping Prevention**: Blocks attempts to remove or simplify requirements
+- **Scope Reduction Rejection**: Fresh evaluator instances reject illegitimate scope changes
+- **Evidence Chain Validation**: Complete evidence artifacts required for all completion claims
+
+This V6 flowchart now fully incorporates the comprehensive methodology patterns from claude_code_and_repo_structuring_and_tools_etc_any_projectv4.md while preserving all V5 problem-solving capabilities and adding sophisticated planning-guided implementation selection.
