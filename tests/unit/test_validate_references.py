@@ -95,6 +95,11 @@ def test_function():
     
     def test_markdown_link_validation(self):
         """Test validation of markdown links"""
+        # Create directory structure
+        (self.test_path / "docs" / "architecture").mkdir(parents=True, exist_ok=True)
+        (self.test_path / "docs" / "behavior").mkdir(parents=True, exist_ok=True)
+        (self.test_path / "src").mkdir(parents=True, exist_ok=True)
+        
         # Create target file
         target_file = self.test_path / "docs" / "architecture" / "target.md"
         target_file.write_text("# Target doc")
@@ -119,12 +124,13 @@ Implementation files:
         # Should find 2 broken references: missing/file.md and src/missing.py
         self.assertEqual(len(broken_refs), 2)
         broken_paths = {ref['target_path'] for ref in broken_refs}
-        self.assertIn('../missing/file.md', broken_paths)
+        self.assertIn('docs/missing/file.md', broken_paths)  # Resolved from ../missing/file.md
         self.assertIn('src/missing.py', broken_paths)
     
     def test_ref_file_validation(self):
         """Test validation of .ref companion files"""
-        # Create .ref file
+        # Create config directory and .ref file
+        (self.test_path / "config").mkdir(parents=True, exist_ok=True)
         ref_file = self.test_path / "config" / "settings.json.ref"
         ref_file.write_text('''# Cross-References for settings.json
 
@@ -158,7 +164,12 @@ Implementation files:
         Config: config/settings.json
         '''
         
-        # Create the referenced files
+        # Create the referenced files with directories
+        (self.test_path / "docs" / "behavior").mkdir(parents=True, exist_ok=True)
+        (self.test_path / "docs" / "architecture").mkdir(parents=True, exist_ok=True)
+        (self.test_path / "src").mkdir(parents=True, exist_ok=True)
+        (self.test_path / "config").mkdir(parents=True, exist_ok=True)
+        
         (self.test_path / "docs" / "behavior" / "test.md").write_text("# Test")
         (self.test_path / "docs" / "architecture" / "system.md").write_text("# System")
         (self.test_path / "src" / "main.py").write_text("# Main")
@@ -190,9 +201,13 @@ Implementation files:
     
     def test_error_report_generation(self):
         """Test generation of detailed error reports"""
-        # Add some broken references
+        # Create src directory and add some broken references
+        (self.test_path / "src").mkdir(parents=True, exist_ok=True)
+        test_file = self.test_path / "src" / "test.py"
+        test_file.write_text("# Test file")
+        
         self.validator._add_broken_ref(
-            source_file=Path("src/test.py"),
+            source_file=test_file,
             target_path="docs/missing.md",
             line_number=10,
             error_type="BROKEN_REFERENCE",
@@ -206,10 +221,10 @@ Implementation files:
         
         # Verify content
         content = error_file.read_text()
-        self.assertIn("CROSS-REFERENCE VALIDATION ERRORS")
-        self.assertIn("src/test.py")
-        self.assertIn("docs/missing.md")
-        self.assertIn("RESOLUTION STEPS")
+        self.assertIn("CROSS-REFERENCE VALIDATION ERRORS", content)
+        self.assertIn("src/test.py", content)
+        self.assertIn("docs/missing.md", content)
+        self.assertIn("RESOLUTION STEPS", content)
     
     def test_is_file_reference(self):
         """Test file reference detection"""

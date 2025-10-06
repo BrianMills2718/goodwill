@@ -1,0 +1,249 @@
+# Claude Code Hooks: V6 Hybrid Intelligence with Planning Input Enhancement
+
+## Decision Node Intelligence Classification
+
+**Legend:**
+- 🤖 **PROGRAMMATIC** - Clear binary/numeric checks, fast execution
+- 🧠 **LLM** - Requires human-like judgment and reasoning
+- ⚡ **HYBRID** - Programmatic first, LLM analysis if needed
+
+```mermaid
+flowchart TD
+    Start([Stop Hook Triggered]) --> ManualOverride{🤖 Manual Override File Exists?}
+    
+    ManualOverride -->|Yes| StopAutomation["`**STOP**: Manual override active
+    Remove .claude/workflow_override to resume`"]
+    
+    ManualOverride -->|No| PlanningInputCheck{🤖 Planning Artifacts Available?}
+    
+    %% V6 ENHANCEMENT: PLANNING INPUT HANDLING
+    PlanningInputCheck -->|Yes| LoadPlanningContext[🤖 Load Planning Context]
+    PlanningInputCheck -->|No| SafetyLimits{🤖 Safety Limits Check}
+    
+    LoadPlanningContext --> ReadCurrentPhase[🤖 Read Current Implementation Phase]
+    ReadCurrentPhase --> LoadRelevantPseudocode[🤖 Load Relevant Pseudocode]
+    LoadRelevantPseudocode --> IdentifyImplementationTargets[🤖 Identify Available Implementation Targets]
+    IdentifyImplementationTargets --> PlanningGuidedStrategy{🧠 LLM: Select Implementation Target}
+    
+    %% PLANNING-GUIDED IMPLEMENTATION SELECTION
+    PlanningGuidedStrategy -->|"Specific pseudocode component<br/>ready for implementation"| TargetedImplementation[Target Specific Component]
+    PlanningGuidedStrategy -->|"Multiple failing tests<br/>need prioritization"| PrioritizeFailingTests[Prioritize Based on Planning]
+    PlanningGuidedStrategy -->|"Planning context unclear<br/>or incomplete"| FallbackToTestDriven[Fallback to Test-Driven Approach]
+    
+    TargetedImplementation --> GenerateImplementationInstruction[🧠 LLM: Generate Implementation Instruction]
+    PrioritizeFailingTests --> SelectHighestPriorityTest[🧠 LLM: Select Highest Priority Test]
+    FallbackToTestDriven --> SafetyLimits
+    
+    GenerateImplementationInstruction --> ExecuteImplementation[Execute: Implement Component]
+    SelectHighestPriorityTest --> ExecuteImplementation
+    
+    ExecuteImplementation --> TestStatus{🤖 Run Tests}
+    
+    %% ORIGINAL V5 FLOW WITH ENHANCEMENTS
+    SafetyLimits -->|"loop_iterations >= 7<br/>OR stop_hooks >= 3"| EscalateManual["`**ESCALATE**: Safety limits reached
+    Human intervention required`"]
+    
+    SafetyLimits -->|Within limits| TestStatus{🤖 Run Tests}
+    
+    TestStatus -->|pytest returncode == 0| TestsPass[Tests Passing ✅]
+    TestStatus -->|pytest returncode != 0| TestsFail[Tests Failing ❌]
+    
+    %% TESTS PASSING PATH (Enhanced)
+    TestsPass --> GitChanges{🤖 Git Changes Since Last Commit?}
+    
+    GitChanges -->|"git diff --name-only<br/>has output"| HasChanges[Changes Detected]
+    GitChanges -->|No changes| NoChanges[No Changes]
+    
+    HasChanges --> ProgressAnalysis{🧠 LLM: Analyze Progress Quality}
+    NoChanges --> StagnationAnalysis{🧠 LLM: Why No Changes?}
+    
+    %% PROGRESS ANALYSIS (Enhanced with Planning Context)
+    ProgressAnalysis -->|Real progress toward planning goals| CommitReady{🧠 LLM: Ready to Commit?}
+    ProgressAnalysis -->|Busywork/scaffolding| ContinueImplement[Continue Implementation]
+    ProgressAnalysis -->|Unclear progress| EvidenceValidation[Validate Evidence]
+    ProgressAnalysis -->|Progress contradicts planning| PlanningInconsistencyDetected{🚨 Planning Inconsistency Detected}
+    
+    %% COMMIT READINESS (Enhanced)
+    CommitReady -->|Component implementation complete| DoCommit[Execute: git commit]
+    CommitReady -->|Need more work on current component| ContinueImplement
+    CommitReady -->|Need verification against planning| RunPlanningDoublecheck[Execute: Verify Against Pseudocode]
+    CommitReady -->|Ready for next planning target| ReturnToPlanningSelection[Return to Planning-Guided Selection]
+    
+    %% STAGNATION ANALYSIS (Enhanced)
+    StagnationAnalysis -->|Thinking about planning approach| ContinueWork[Continue Current Phase]
+    StagnationAnalysis -->|Stuck on planning implementation| PlanningImplementationProblem{🧠 LLM: Diagnose Planning vs Implementation Issue}
+    StagnationAnalysis -->|Wrong approach for planning goal| PivotToPlanningStrategy[Pivot to Different Planning Approach]
+    
+    %% NEW: PLANNING IMPLEMENTATION PROBLEM DIAGNOSIS
+    PlanningImplementationProblem -->|Implementation complexity issue| ProblemSolving{🧠 LLM: Diagnose Implementation Blocker}
+    PlanningImplementationProblem -->|Pseudocode insufficient/unclear| PlanningInconsistencyDetected
+    PlanningImplementationProblem -->|Missing planning context| LoadAdditionalPlanningContext[Load Additional Planning Context]
+    
+    %% TESTS FAILING PATH (Enhanced)
+    TestsFail --> FailureCount{🤖 Count Recent Failures}
+    
+    FailureCount -->|"< 3 failures"| AnalyzeFailure{⚡ HYBRID: Analyze Test Failures}
+    FailureCount -->|">= 3 failures"| RepeatedFailure{🧠 LLM: Pattern Analysis}
+    
+    %% HYBRID FAILURE ANALYSIS (Enhanced)
+    AnalyzeFailure --> SimpleFailure{🤖 Simple Error Pattern?}
+    
+    SimpleFailure -->|"Syntax error<br/>Import error<br/>Missing file"| QuickFix[Execute: Fix Simple Error]
+    SimpleFailure -->|Complex failure| LLMFailureAnalysis{🧠 LLM: Deep Failure Analysis}
+    
+    %% COMPLEX FAILURE ANALYSIS (Enhanced with Planning Context)
+    LLMFailureAnalysis -->|Logic error in implementation| FixImplementation[Fix Implementation Logic]
+    LLMFailureAnalysis -->|Test issue unrelated to planning| TestIssueAnalysis{🧠 LLM: Test Issue Classification}
+    LLMFailureAnalysis -->|Architecture problem within planning| Refactor[Refactor Approach]
+    LLMFailureAnalysis -->|Requirements unclear in planning| ClarifyRequirements[Clarify Requirements]
+    LLMFailureAnalysis -->|Implementation contradicts pseudocode| PlanningInconsistencyDetected
+    LLMFailureAnalysis -->|Test expectations contradict planning| PlanningInconsistencyDetected
+    
+    %% TEST ISSUE CLASSIFICATION (Enhanced)
+    TestIssueAnalysis -->|Test logic error| FixTests[Fix Test Logic]
+    TestIssueAnalysis -->|Test specification inconsistent with planning| PlanningInconsistencyDetected
+    
+    %% V6 ENHANCEMENT: PLANNING INCONSISTENCY HANDLING
+    PlanningInconsistencyDetected --> CreatePlanningEvidencePackage[🤖 Create Planning Evidence Package]
+    CreatePlanningEvidencePackage --> GatherPlanningContext[🤖 Gather Relevant Planning Artifacts]
+    GatherPlanningContext --> DocumentImplementationFinding[🤖 Document Implementation vs Planning Contradiction]
+    DocumentImplementationFinding --> FreshInstanceEval{🧠 FRESH: Evaluate Planning Issue}
+    
+    FreshInstanceEval -->|Implementation problem - planning is correct| ReturnToImplementationFlow[Return to Implementation Flow]
+    FreshInstanceEval -->|Minor planning clarification needed| RequestPlanningClarification[Request Planning Clarification]
+    FreshInstanceEval -->|Major planning specification error| ControlledPlanningReturn[🔄 META: Return to Planning Process]
+    FreshInstanceEval -->|Ambiguous/Complex| EscalateHuman[Escalate to Human]
+    
+    ControlledPlanningReturn --> InvalidatePlanningArtifacts[Invalidate Affected Planning Artifacts]
+    InvalidatePlanningArtifacts --> RerunPlanningSegment[Re-run Affected Planning Phases]
+    RerunPlanningSegment --> GenerateNewPlanningArtifacts[Generate New Planning Artifacts]
+    GenerateNewPlanningArtifacts --> HandoffToImplementation[Handoff New Artifacts to Implementation]
+    
+    %% REPEATED FAILURE PATTERN (Enhanced)
+    RepeatedFailure -->|Same error pattern in planning implementation| StuckOnPlanningProblem{🧠 LLM: Planning vs Implementation Escalation}
+    RepeatedFailure -->|Different failures across planning components| SystemicPlanningIssue[Address Systemic Planning Issue]
+    
+    %% ESCALATION DECISIONS (Enhanced)
+    StuckOnPlanningProblem -->|Can solve with different implementation approach| NewImplementationStrategy[Try New Implementation Strategy]
+    StuckOnPlanningProblem -->|Planning appears fundamentally flawed| PlanningInconsistencyDetected
+    StuckOnPlanningProblem -->|Need more planning context| GatherContext[Gather More Planning Context]
+    StuckOnPlanningProblem -->|Need human expertise| EscalateHuman
+    
+    %% PROBLEM SOLVING (Enhanced with Planning Context)
+    ProblemSolving -->|Missing dependency for planned component| InstallDependency[Install Dependency]
+    ProblemSolving -->|Configuration issue for planning implementation| FixConfiguration[Fix Configuration]
+    ProblemSolving -->|Knowledge gap in planning area| ResearchPlanningImplementation[Research Planning Implementation]
+    ProblemSolving -->|Planned component complexity too high| BreakDownPlanningComponent[Break Down Planning Component]
+    
+    %% WORKFLOW PROGRESSION (Enhanced)
+    DoCommit --> NextPlanningTarget{🧠 LLM: Determine Next Planning Target}
+    RunPlanningDoublecheck --> NextPlanningTarget
+    QuickFix --> ReturnToTests[Return to Test Check]
+    FixImplementation --> ReturnToTests
+    FixTests --> ReturnToTests
+    
+    NextPlanningTarget -->|More components in current planning phase| ReturnToPlanningSelection
+    NextPlanningTarget -->|Current planning phase complete| AdvancePlanningPhase[Advance to Next Planning Phase]
+    NextPlanningTarget -->|Need different planning approach| ChangePlanningStrategy[Change Planning Strategy]
+    
+    %% TDD STEP SELECTION (Enhanced with Planning)
+    ReturnToPlanningSelection --> SelectNextPlanningComponent{🧠 LLM: Next Planning Component}
+    
+    SelectNextPlanningComponent -->|Need exploration of planning component| ExploreComponent[Execute: Explore Component]
+    SelectNextPlanningComponent -->|Need tests for planning component| WriteComponentTests[Execute: Write Component Tests]
+    SelectNextPlanningComponent -->|Need implementation of planning component| ImplementComponent[Execute: Implement Component]
+    SelectNextPlanningComponent -->|Need verification of planning component| DoublecheckComponent[Execute: Doublecheck Component]
+    
+    %% EVIDENCE VALIDATION (Enhanced)
+    EvidenceValidation --> EvidenceCheck{🤖 Files Exist? Claims Match Planning Reality?}
+    
+    EvidenceCheck -->|Evidence valid and matches planning| EvidenceLLMCheck{🧠 LLM: Evidence Quality vs Planning Goals}
+    EvidenceCheck -->|Evidence invalid or contradicts planning| PlanningInconsistencyDetected
+    
+    EvidenceLLMCheck -->|High quality evidence toward planning goals| ProceedWithPlanningEvidence[Proceed with Planning Evidence]
+    EvidenceLLMCheck -->|Low quality evidence for planning| RequestBetterPlanningEvidence[Request Better Evidence]
+    
+    %% AUTOMATION HEALTH MONITORING (Enhanced)
+    ContinueWork --> HealthCheck{⚡ HYBRID: Automation Health Check}
+    ProceedWithPlanningEvidence --> HealthCheck
+    ReturnToTests --> HealthCheck
+    
+    HealthCheck --> QuickHealthCheck{🤖 Quick Health Indicators}
+    
+    QuickHealthCheck -->|"Planning progress detected<br/>Files being modified<br/>Error rate acceptable"| HealthGood[Health: Good]
+    QuickHealthCheck -->|Warning signs detected| DeepHealthAnalysis{🧠 LLM: Deep Health Analysis}
+    
+    DeepHealthAnalysis -->|Recoverable issues| HealthWarning[Health: Warning - Continue with Monitoring]
+    DeepHealthAnalysis -->|Serious problems| HealthFailing[Health: Failing - Escalate]
+    
+    HealthGood --> UpdateCounters[🤖 Update Loop Counters]
+    HealthWarning --> UpdateCounters
+    HealthFailing --> EscalateHuman
+    
+    %% COUNTER MANAGEMENT (Enhanced)
+    UpdateCounters --> TrackPlanningProgress[🤖 Track Planning Implementation Progress]
+    TrackPlanningProgress --> IncrementCounters{🤖 Increment Counters}
+    
+    IncrementCounters --> ExecuteAction["`**EXECUTE DECISION**:
+    Provide next instruction for planned implementation`"]
+    
+    %% NEW PLANNING-SPECIFIC FLOWS
+    LoadAdditionalPlanningContext --> ReturnToPlanningSelection
+    PivotToPlanningStrategy --> ReturnToPlanningSelection
+    NewImplementationStrategy --> ReturnToTests
+    SystemicPlanningIssue --> PlanningInconsistencyDetected
+    RequestPlanningClarification --> ReturnToPlanningSelection
+    HandoffToImplementation --> LoadPlanningContext
+    
+    %% TERMINAL STATES
+    StopAutomation --> End([End: Manual Mode])
+    EscalateManual --> End
+    EscalateHuman --> End
+    ExecuteAction --> End
+    
+    %% STYLING
+    classDef programmaticNode fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000
+    classDef llmNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000
+    classDef hybridNode fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px,color:#000
+    classDef actionNode fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    classDef terminalNode fill:#ffebee,stroke:#b71c1c,stroke-width:2px,color:#000
+    classDef planningNode fill:#f3e5f5,stroke:#6a1b9a,stroke-width:3px,color:#000
+    
+    class ManualOverride,PlanningInputCheck,SafetyLimits,TestStatus,GitChanges,FailureCount,SimpleFailure,EvidenceCheck,QuickHealthCheck,IncrementCounters,ReadCurrentPhase,LoadRelevantPseudocode,IdentifyImplementationTargets programmaticNode
+    class ProgressAnalysis,CommitReady,StagnationAnalysis,ProblemSolving,LLMFailureAnalysis,RepeatedFailure,StuckOnPlanningProblem,NextPlanningTarget,SelectNextPlanningComponent,EvidenceLLMCheck,PlanningGuidedStrategy llmNode
+    class AnalyzeFailure,HealthCheck,DeepHealthAnalysis,PlanningImplementationProblem hybridNode
+    class DoCommit,RunPlanningDoublecheck,QuickFix,ExploreComponent,WriteComponentTests,ImplementComponent,DoublecheckComponent actionNode
+    class StopAutomation,EscalateManual,EscalateHuman,End terminalNode
+    class LoadPlanningContext,PlanningInconsistencyDetected,FreshInstanceEval,ControlledPlanningReturn,ReturnToPlanningSelection planningNode
+```
+
+## V6 Enhancement Summary
+
+### 🆕 **New Planning Input Features**
+- **Planning Artifact Detection**: Automatically detects available planning artifacts
+- **Planning Context Loading**: Loads relevant pseudocode, phase status, and implementation targets
+- **Planning-Guided Implementation**: Selects implementation targets based on planning rather than random test failures
+- **Planning Inconsistency Detection**: Identifies when implementation contradicts planning
+- **Fresh Instance Planning Evaluation**: Objective evaluation of planning vs implementation issues
+
+### 🔄 **Enhanced V5 Flows**
+- **Progress Analysis**: Now considers progress toward planning goals
+- **Commit Readiness**: Includes verification against pseudocode and planning
+- **Failure Analysis**: Distinguishes implementation bugs from planning inconsistencies
+- **Evidence Validation**: Validates evidence against planning requirements
+- **Health Monitoring**: Tracks planning implementation progress
+
+### 🎯 **Key Decision Points Enhanced**
+1. **Entry Point**: Planning artifacts available vs unknown state
+2. **Implementation Selection**: Planning-guided vs test-failure-driven
+3. **Problem Classification**: Implementation issue vs planning inconsistency
+4. **Progress Measurement**: Planning goal achievement vs generic progress
+5. **Escalation**: Return to planning process when planning is wrong
+
+### 🛡️ **Anti-Fabrication Enhancements**
+- **Planning Artifact Integrity**: Cannot modify planning artifacts during implementation
+- **Fresh Instance Evaluation**: Objective assessment of planning vs implementation issues
+- **Evidence Chain**: Links implementation evidence to planning requirements
+- **Controlled Planning Return**: Only legitimate planning issues trigger planning process return
+
+This V6 flowchart preserves all V5 problem-solving capabilities while adding intelligent planning input handling and planning-guided implementation selection.

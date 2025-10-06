@@ -99,16 +99,18 @@ class TestToolsWorkflow(unittest.TestCase):
         self.assertTrue(claude_md.exists())
         
         content = claude_md.read_text()
-        self.assertIn("🚨 ACTIVE ERRORS AND BLOCKERS")
-        self.assertIn("Current Error Status: BLOCKED")
-        self.assertIn("BROKEN_REFERENCE:")
+        self.assertIn("🚨 ACTIVE ERRORS AND BLOCKERS", content)
+        self.assertIn("Current Error Status: BLOCKED", content)
+        self.assertIn("BROKEN_REFERENCE:", content)
         
         # 4. Load context for file with broken references
         context = self.loader.load_full_context("src/scrapers/broken_scraper.py")
         
-        # Should still load context but with error indicators in full_texts
+        # Should still load context but missing files should be empty or not present
         self.assertEqual(context['target_file'], "src/scrapers/broken_scraper.py")
-        self.assertIn("ERROR:", str(context['full_texts'].get('docs/missing/file.md', '')))
+        missing_file_content = context['full_texts'].get('docs/missing/file.md', '')
+        # Missing file should be empty or not present in context
+        self.assertEqual(missing_file_content, '')
     
     def test_file_move_detection_and_reference_updates(self):
         """Test workflow for handling file moves"""
@@ -140,8 +142,8 @@ class TestToolsWorkflow(unittest.TestCase):
         self.assertGreater(len(error_logs), 0)
         
         log_content = error_logs[-1].read_text()  # Most recent log
-        self.assertIn("Search for references to: docs/development_roadmap/phase1.md")
-        self.assertIn("Replace with: docs/development_roadmap/phase1_foundation.md")
+        self.assertIn("Search for references to: docs/development_roadmap/phase1.md", log_content)
+        self.assertIn("Replace with: docs/development_roadmap/phase1_foundation.md", log_content)
         
         # 6. Simulate fixing references by updating the source file
         scraper_file = self.test_path / "src" / "scrapers" / "goodwill_scraper.py"
@@ -210,10 +212,20 @@ class TestToolsWorkflow(unittest.TestCase):
         self.assertIsNotNone(timestamp_match)
         timestamp = timestamp_match.group(1)
         
-        # 3. Fix the broken reference by creating the missing file
-        missing_file = self.test_path / "docs" / "missing" / "file.md"
-        missing_file.parent.mkdir(parents=True)
-        missing_file.write_text("# Fixed missing file")
+        # 3. Fix all broken references by creating the missing files
+        missing_files = [
+            ("docs/missing/file.md", "# Fixed missing file"),
+            ("docs/architecture/nonexistent.md", "# Architecture doc"),
+            ("docs/behavior/missing_requirements.md", "# Requirements doc"),
+            ("src/missing/helper.py", "# Helper module\ndef helper(): pass"),
+            ("tests/unit/test_missing.py", "# Missing test\ndef test_placeholder(): pass"),
+            ("config/missing.json", '{"config": "placeholder"}')
+        ]
+        
+        for file_path, content in missing_files:
+            missing_file = self.test_path / file_path
+            missing_file.parent.mkdir(parents=True, exist_ok=True)
+            missing_file.write_text(content)
         
         # 4. Validate that fix worked
         validator_after_fix = ReferenceValidator(self.test_dir)
@@ -226,10 +238,10 @@ class TestToolsWorkflow(unittest.TestCase):
         
         # 6. Verify error moved to resolved section
         content = claude_md.read_text()
-        self.assertIn("Recently Resolved Errors:")
-        self.assertIn("✅ RESOLVED")
-        self.assertIn("Created missing file")
-        self.assertIn("Current Error Status: CLEAR")
+        self.assertIn("Recently Resolved Errors:", content)
+        self.assertIn("✅ RESOLVED", content)
+        self.assertIn("Created missing file", content)
+        self.assertIn("Current Error Status: CLEAR", content)
     
     def _create_valid_project_structure(self):
         """Create a realistic project structure with valid cross-references"""

@@ -1,0 +1,45 @@
+{
+  "initialized": "2025-10-04T18:46:20.059114",
+  "files": {
+    "tests/test_math_helper_demo.py": {
+      "hash": "78c986cf11421e137034abcb498bf9259c4dfadf61ba097c8b9ba0757d23e415",
+      "size": 3913,
+      "modified": "2025-10-04T17:46:32.804835"
+    },
+    "tests/test_goodwill_scraper.py": {
+      "hash": "9e69add87c3be35cffc2460a1936440d021ee27397571ecfc25abd07a338e537",
+      "size": 12134,
+      "modified": "2025-09-23T17:38:35.744082"
+    },
+    "tests/test_goodwill_scraper_phase1_tdd.py": {
+      "hash": "abdf3760b918bdcfb7e6283183b23ebd156e9a439bd0b6f4068e598a51045f3d",
+      "size": 13412,
+      "modified": "2025-09-23T17:55:23.537910"
+    },
+    "tests/test_goodwill_scraper_tdd_new.py": {
+      "hash": "364e3d9476cb75546e052037bbc3c57574eec2e655044980d9c18afc3c6ab694",
+      "size": 15649,
+      "modified": "2025-09-23T17:54:18.567676"
+    },
+    "tests/integration/test_tools_workflow.py": {
+      "hash": "7818a3b6a73fbc85df6ff9d929b8be333e9be651b989bb29ea9f24307411672b",
+      "size": 15711,
+      "modified": "2025-09-20T08:22:51.320367"
+    },
+    "tests/unit/test_inject_error.py": {
+      "hash": "30aa1057c9c6e664dd2a14a44935b37351d4fe7318a51b19dd2718cb5f5677ab",
+      "size": 11782,
+      "modified": "2025-10-04T17:52:56.928940"
+    },
+    "tests/unit/test_load_context.py": {
+      "hash": "955152e5fdf037f2f622b2d957186a35078616a2e9bfab19a15859a143a1962f",
+      "size": 13125,
+      "modified": "2025-10-04T17:56:13.382809"
+    },
+    "tests/unit/test_validate_references.py": {
+      "hash": "29f13d1d7e85f2b1708233a2c3cb2f97d2c13d62a188a2f4b9770adddc158739",
+      "size": 9318,
+      "modified": "2025-10-04T18:00:23.574756"
+    }
+  }
+}

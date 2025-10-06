@@ -1,0 +1,8 @@
+[
+  {
+    "id": "1",
+    "title": "Item 1",
+    "image_url": "https://example.com/image1.jpg",
+    "local_image_path": "images/item_1.jpg"
+  }
+]

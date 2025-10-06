@@ -1,0 +1,259 @@
+# Claude Code Hooks: Planning Process Autonomous Flowchart
+
+## Purpose
+This flowchart autonomously executes the 8-phase planning methodology to create comprehensive planning artifacts that serve as inputs to the implementation flowchart.
+
+## Decision Node Intelligence Classification
+
+**Legend:**
+- 🤖 **PROGRAMMATIC** - Clear binary/numeric checks, fast execution
+- 🧠 **LLM** - Requires human-like judgment and reasoning
+- ⚡ **HYBRID** - Programmatic first, LLM analysis if needed
+
+```mermaid
+flowchart TD
+    Start([Planning Process Started]) --> ProjectInputCheck{🤖 Project Requirements Available?}
+    
+    ProjectInputCheck -->|Yes| LoadProjectRequirements[🤖 Load Project Requirements]
+    ProjectInputCheck -->|No| RequestProjectRequirements["`**REQUEST**: Provide project requirements
+    - Problem statement
+    - Success criteria  
+    - Key constraints`"]
+    
+    LoadProjectRequirements --> InitializePlanningState[🤖 Initialize Planning State]
+    InitializePlanningState --> PhaseRouter{🤖 Current Planning Phase?}
+    
+    %% PHASE ROUTING
+    PhaseRouter -->|Phase 1| Phase1Overview[Phase 1: Overview]
+    PhaseRouter -->|Phase 2| Phase2Behavior[Phase 2: Behavior + Acceptance Tests]
+    PhaseRouter -->|Phase 3| Phase3Architecture[Phase 3: Architecture + Contract Integration Tests]
+    PhaseRouter -->|Phase 4| Phase4Dependencies[Phase 4: External Dependency Research]
+    PhaseRouter -->|Phase 5| Phase5Pseudocode[Phase 5: Pseudocode + Architecture Review]
+    PhaseRouter -->|Phase 6| Phase6Implementation[Phase 6: Implementation Plans + Unit Tests]
+    PhaseRouter -->|Phase 7| Phase7Files[Phase 7: Create Files & Cross-References]
+    PhaseRouter -->|Phase 8| PlanningComplete[Planning Complete]
+    
+    %% PHASE 1: OVERVIEW
+    Phase1Overview --> AnalyzeRequirements{🧠 LLM: Analyze Project Requirements}
+    AnalyzeRequirements --> DraftOverview[🧠 LLM: Draft Overview Document]
+    DraftOverview --> Phase1Validation{🧠 LLM: Validate Overview Quality}
+    
+    Phase1Validation -->|Quality >= 0.8| Phase1Complete[Phase 1 Complete]
+    Phase1Validation -->|Quality < 0.8| IdentifyOverviewProblems[🧠 LLM: Identify Overview Issues]
+    IdentifyOverviewProblems --> RefineOverview[🧠 LLM: Refine Overview]
+    RefineOverview --> Phase1Validation
+    
+    Phase1Complete --> CheckPhase1Impact{🧠 LLM: Impact on Previous Phases?}
+    CheckPhase1Impact -->|No impact| AdvanceToPhase2[Advance to Phase 2]
+    CheckPhase1Impact -->|Major impact| MacroIteration1[Macro-Iteration Required]
+    
+    %% PHASE 2: BEHAVIOR + ACCEPTANCE TESTS
+    Phase2Behavior --> LoadOverview[🤖 Load Overview Document]
+    LoadOverview --> DefineBehavior{🧠 LLM: Define System Behavior}
+    DefineBehavior --> CreateAcceptanceTests[🧠 LLM: Create Acceptance Tests]
+    CreateAcceptanceTests --> ValidateBehaviorTests{🧠 LLM: Validate Behavior + Tests Alignment}
+    
+    ValidateBehaviorTests -->|Quality >= 0.8| Phase2Complete[Phase 2 Complete]
+    ValidateBehaviorTests -->|Quality < 0.8| IdentifyBehaviorProblems[🧠 LLM: Identify Behavior Issues]
+    IdentifyBehaviorProblems --> RefineBehavior[🧠 LLM: Refine Behavior + Tests]
+    RefineBehavior --> ValidateBehaviorTests
+    
+    Phase2Complete --> CheckPhase2Impact{🧠 LLM: Impact on Previous Phases?}
+    CheckPhase2Impact -->|No impact| AdvanceToPhase3[Advance to Phase 3]
+    CheckPhase2Impact -->|Major impact| MacroIteration2[Macro-Iteration Required]
+    
+    %% PHASE 3: ARCHITECTURE + CONTRACT INTEGRATION TESTS
+    Phase3Architecture --> LoadBehaviorDocs[🤖 Load Overview + Behavior Documents]
+    LoadBehaviorDocs --> DefineArchitecture{🧠 LLM: Define System Architecture}
+    DefineArchitecture --> CreateContractTests[🧠 LLM: Create Contract Integration Tests]
+    CreateContractTests --> ValidateArchitectureTests{🧠 LLM: Validate Architecture + Contract Tests}
+    
+    ValidateArchitectureTests -->|Quality >= 0.8| Phase3Complete[Phase 3 Complete]
+    ValidateArchitectureTests -->|Quality < 0.8| IdentifyArchitectureProblems[🧠 LLM: Identify Architecture Issues]
+    IdentifyArchitectureProblems --> RefineArchitecture[🧠 LLM: Refine Architecture + Tests]
+    RefineArchitecture --> ValidateArchitectureTests
+    
+    Phase3Complete --> CheckPhase3Impact{🧠 LLM: Impact on Previous Phases?}
+    CheckPhase3Impact -->|No impact| AdvanceToPhase4[Advance to Phase 4]
+    CheckPhase3Impact -->|Major impact| MacroIteration3[Macro-Iteration Required]
+    
+    %% PHASE 4: EXTERNAL DEPENDENCY RESEARCH
+    Phase4Dependencies --> LoadArchitectureDocs[🤖 Load Overview + Behavior + Architecture]
+    LoadArchitectureDocs --> IdentifyExternalDeps{🧠 LLM: Identify External Dependencies}
+    IdentifyExternalDeps --> ResearchDependencies[🧠 LLM: Research External APIs/Services]
+    ResearchDependencies --> CreateExternalTests[🧠 LLM: Create External Integration Tests]
+    CreateExternalTests --> ValidateDependencyTests{🧠 LLM: Validate Dependency Research + Tests}
+    
+    ValidateDependencyTests -->|Quality >= 0.8| Phase4Complete[Phase 4 Complete]
+    ValidateDependencyTests -->|Quality < 0.8| IdentifyDependencyProblems[🧠 LLM: Identify Dependency Issues]
+    IdentifyDependencyProblems --> RefineDependencies[🧠 LLM: Refine Dependency Research + Tests]
+    RefineDependencies --> ValidateDependencyTests
+    
+    Phase4Complete --> CheckPhase4Impact{🧠 LLM: Impact on Previous Phases?}
+    CheckPhase4Impact -->|No impact| AdvanceToPhase5[Advance to Phase 5]
+    CheckPhase4Impact -->|Major impact| MacroIteration4[Macro-Iteration Required]
+    
+    %% PHASE 5: PSEUDOCODE + ARCHITECTURE REVIEW
+    Phase5Pseudocode --> LoadAllPlanningDocs[🤖 Load All Planning Documents (Phases 1-4)]
+    LoadAllPlanningDocs --> CreatePseudocode{🧠 LLM: Create Detailed Pseudocode}
+    CreatePseudocode --> ArchitectureReview{🧠 LLM: Review Architecture Consistency}
+    ArchitectureReview --> ValidatePseudocode{🧠 LLM: Validate Pseudocode + Architecture Alignment}
+    
+    ValidatePseudocode -->|Quality >= 0.8| Phase5Complete[Phase 5 Complete]
+    ValidatePseudocode -->|Quality < 0.8| IdentifyPseudocodeProblems[🧠 LLM: Identify Pseudocode Issues]
+    IdentifyPseudocodeProblems --> RefinePseudocode[🧠 LLM: Refine Pseudocode + Architecture]
+    RefinePseudocode --> ValidatePseudocode
+    
+    Phase5Complete --> CheckPhase5Impact{🧠 LLM: Impact on Previous Phases?}
+    CheckPhase5Impact -->|No impact| AdvanceToPhase6[Advance to Phase 6]
+    CheckPhase5Impact -->|Major impact| MacroIteration5[Macro-Iteration Required]
+    
+    %% PHASE 6: IMPLEMENTATION PLANS + UNIT TESTS
+    Phase6Implementation --> LoadAllDocs[🤖 Load All Documents + Pseudocode (Phases 1-5)]
+    LoadAllDocs --> CreateImplementationPlan{🧠 LLM: Create Implementation Plans}
+    CreateImplementationPlan --> CreateUnitTests[🧠 LLM: Create Unit Tests]
+    CreateUnitTests --> CreateTaskGraph[🧠 LLM: Create Implementation Task Graph]
+    CreateTaskGraph --> ValidateImplementationPlans{🧠 LLM: Validate Implementation Plans + Tests + Task Graph}
+    
+    ValidateImplementationPlans -->|Quality >= 0.8| Phase6Complete[Phase 6 Complete]
+    ValidateImplementationPlans -->|Quality < 0.8| IdentifyImplementationProblems[🧠 LLM: Identify Implementation Issues]
+    IdentifyImplementationProblems --> RefineImplementationPlans[🧠 LLM: Refine Implementation Plans + Tests + Task Graph]
+    RefineImplementationPlans --> ValidateImplementationPlans
+    
+    Phase6Complete --> CheckPhase6Impact{🧠 LLM: Impact on Previous Phases?}
+    CheckPhase6Impact -->|No impact| AdvanceToPhase7[Advance to Phase 7]
+    CheckPhase6Impact -->|Major impact| MacroIteration6[Macro-Iteration Required]
+    
+    %% PHASE 7: CREATE FILES & CROSS-REFERENCES
+    Phase7Files --> LoadAllPlanningArtifacts[🤖 Load All Planning Artifacts (Phases 1-6)]
+    LoadAllPlanningArtifacts --> CreateFileStructure{🧠 LLM: Create File Structure}
+    CreateFileStructure --> CreateCrossReferences[🧠 LLM: Create Cross-Reference System]
+    CreateCrossReferences --> GenerateProjectStructure[🧠 LLM: Generate Complete Project Structure]
+    GenerateProjectStructure --> ValidateFileStructure{🧠 LLM: Validate File Structure + Cross-References}
+    
+    ValidateFileStructure -->|Quality >= 0.8| Phase7Complete[Phase 7 Complete]
+    ValidateFileStructure -->|Quality < 0.8| IdentifyStructureProblems[🧠 LLM: Identify Structure Issues]
+    IdentifyStructureProblems --> RefineFileStructure[🧠 LLM: Refine File Structure + Cross-References]
+    RefineFileStructure --> ValidateFileStructure
+    
+    Phase7Complete --> CheckPhase7Impact{🧠 LLM: Impact on Previous Phases?}
+    CheckPhase7Impact -->|No impact| PlanningComplete
+    CheckPhase7Impact -->|Major impact| MacroIteration7[Macro-Iteration Required]
+    
+    %% MACRO-ITERATION HANDLING
+    MacroIteration1 --> IdentifyImpactedPhases1{🧠 LLM: Which phases need revision?}
+    MacroIteration2 --> IdentifyImpactedPhases2{🧠 LLM: Which phases need revision?}
+    MacroIteration3 --> IdentifyImpactedPhases3{🧠 LLM: Which phases need revision?}
+    MacroIteration4 --> IdentifyImpactedPhases4{🧠 LLM: Which phases need revision?}
+    MacroIteration5 --> IdentifyImpactedPhases5{🧠 LLM: Which phases need revision?}
+    MacroIteration6 --> IdentifyImpactedPhases6{🧠 LLM: Which phases need revision?}
+    MacroIteration7 --> IdentifyImpactedPhases7{🧠 LLM: Which phases need revision?}
+    
+    IdentifyImpactedPhases1 --> ReviseImpactedPhases1[🧠 LLM: Revise Impacted Phases]
+    IdentifyImpactedPhases2 --> ReviseImpactedPhases2[🧠 LLM: Revise Impacted Phases]
+    IdentifyImpactedPhases3 --> ReviseImpactedPhases3[🧠 LLM: Revise Impacted Phases]
+    IdentifyImpactedPhases4 --> ReviseImpactedPhases4[🧠 LLM: Revise Impacted Phases]
+    IdentifyImpactedPhases5 --> ReviseImpactedPhases5[🧠 LLM: Revise Impacted Phases]
+    IdentifyImpactedPhases6 --> ReviseImpactedPhases6[🧠 LLM: Revise Impacted Phases]
+    IdentifyImpactedPhases7 --> ReviseImpactedPhases7[🧠 LLM: Revise Impacted Phases]
+    
+    ReviseImpactedPhases1 --> AdvanceToPhase2
+    ReviseImpactedPhases2 --> AdvanceToPhase3
+    ReviseImpactedPhases3 --> AdvanceToPhase4
+    ReviseImpactedPhases4 --> AdvanceToPhase5
+    ReviseImpactedPhases5 --> AdvanceToPhase6
+    ReviseImpactedPhases6 --> AdvanceToPhase7
+    ReviseImpactedPhases7 --> PlanningComplete
+    
+    %% PHASE ADVANCEMENT
+    AdvanceToPhase2 --> UpdatePlanningState2[🤖 Update Planning State: Phase 2]
+    AdvanceToPhase3 --> UpdatePlanningState3[🤖 Update Planning State: Phase 3]
+    AdvanceToPhase4 --> UpdatePlanningState4[🤖 Update Planning State: Phase 4]
+    AdvanceToPhase5 --> UpdatePlanningState5[🤖 Update Planning State: Phase 5]
+    AdvanceToPhase6 --> UpdatePlanningState6[🤖 Update Planning State: Phase 6]
+    AdvanceToPhase7 --> UpdatePlanningState7[🤖 Update Planning State: Phase 7]
+    
+    UpdatePlanningState2 --> PhaseRouter
+    UpdatePlanningState3 --> PhaseRouter
+    UpdatePlanningState4 --> PhaseRouter
+    UpdatePlanningState5 --> PhaseRouter
+    UpdatePlanningState6 --> PhaseRouter
+    UpdatePlanningState7 --> PhaseRouter
+    
+    %% PLANNING COMPLETION
+    PlanningComplete --> FinalValidation{🧠 LLM: Final Planning Artifact Validation}
+    FinalValidation -->|All artifacts valid| GeneratePlanningOutput[🤖 Generate Planning Output Package]
+    FinalValidation -->|Issues found| IdentifyFinalIssues[🧠 LLM: Identify Final Issues]
+    
+    IdentifyFinalIssues --> ResolveFinalIssues[🧠 LLM: Resolve Final Issues]
+    ResolveFinalIssues --> FinalValidation
+    
+    GeneratePlanningOutput --> CreateTaskGraph[🤖 Create Implementation Task Graph]
+    CreateTaskGraph --> LockPlanningArtifacts[🤖 Lock Planning Artifacts]
+    LockPlanningArtifacts --> HandoffToImplementation["`**HANDOFF**: Planning Complete
+    Ready for Implementation Phase`"]
+    
+    %% SAFETY AND ITERATION LIMITS
+    AdvanceToPhase2 --> CheckIterationLimits{🤖 Check Iteration Limits}
+    AdvanceToPhase3 --> CheckIterationLimits
+    AdvanceToPhase4 --> CheckIterationLimits
+    AdvanceToPhase5 --> CheckIterationLimits
+    AdvanceToPhase6 --> CheckIterationLimits
+    AdvanceToPhase7 --> CheckIterationLimits
+    
+    CheckIterationLimits -->|Within limits| PhaseRouter
+    CheckIterationLimits -->|Micro-iterations >= 5| ForcePhaseAdvancement[Force Phase Advancement]
+    CheckIterationLimits -->|Macro-iterations >= 3| EscalateToHuman["`**ESCALATE**: Iteration limits exceeded
+    Human intervention required`"]
+    
+    ForcePhaseAdvancement --> PhaseRouter
+    
+    %% TERMINAL STATES
+    RequestProjectRequirements --> End([End: Awaiting Input])
+    HandoffToImplementation --> End
+    EscalateToHuman --> End
+    
+    %% STYLING
+    classDef programmaticNode fill:#e1f5fe,stroke:#01579b,stroke-width:2px,color:#000
+    classDef llmNode fill:#f3e5f5,stroke:#4a148c,stroke-width:2px,color:#000
+    classDef hybridNode fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px,color:#000
+    classDef phaseNode fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    classDef terminalNode fill:#ffebee,stroke:#b71c1c,stroke-width:2px,color:#000
+    
+    class ProjectInputCheck,LoadProjectRequirements,InitializePlanningState,PhaseRouter,UpdatePlanningState2,UpdatePlanningState3,UpdatePlanningState4,UpdatePlanningState5,UpdatePlanningState6,UpdatePlanningState7,CheckIterationLimits,GeneratePlanningOutput,LockPlanningArtifacts programmaticNode
+    class AnalyzeRequirements,DraftOverview,Phase1Validation,DefineBehavior,CreateAcceptanceTests,DefineArchitecture,CreatePseudocode,CreateImplementationPlan,FinalValidation llmNode
+    class Phase1Overview,Phase2Behavior,Phase3Architecture,Phase4Dependencies,Phase5Pseudocode,Phase6Implementation,Phase7Files phaseNode
+    class RequestProjectRequirements,HandoffToImplementation,EscalateToHuman,End terminalNode
+```
+
+## Planning Process Decision Points
+
+### **🤖 Programmatic Decisions (Fast, Binary)**
+- **Project Requirements Check**: File existence and format validation
+- **Planning State Management**: Current phase tracking and state updates
+- **Iteration Limit Enforcement**: Counter thresholds and safety mechanisms
+- **Artifact Generation**: File creation and structure generation
+
+### **🧠 LLM Decisions (Judgment, Context-Aware)**
+- **Quality Assessment**: Validate artifacts meet quality thresholds (>0.8 confidence)
+- **Problem Identification**: Scan for issues in planning artifacts
+- **Impact Analysis**: Determine if changes affect previous phases
+- **Content Creation**: Generate all planning documents and tests
+- **Final Validation**: Comprehensive planning artifact validation
+
+### **🎯 Key Quality Gates**
+1. **Phase Completion**: Each phase requires LLM confidence >0.8
+2. **Cross-Phase Impact**: Major changes trigger macro-iterations
+3. **Iteration Limits**: Micro (5 per phase), Macro (3 total)
+4. **Final Validation**: All artifacts must pass comprehensive validation
+
+### **🔄 Planning Output Package**
+**Generated for Implementation Process:**
+- Complete documentation (Overview, Behavior, Architecture, Dependencies)
+- All test suites (Acceptance, Contract Integration, External Integration, Unit)
+- Detailed pseudocode and implementation plans
+- Implementation task graph with dependencies
+- File structure and cross-reference system
+- Locked planning artifacts (cannot be modified during implementation)
+
+This planning process flowchart autonomously executes the 8-phase methodology with proper quality gates, iteration management, and preparation for handoff to the implementation process.

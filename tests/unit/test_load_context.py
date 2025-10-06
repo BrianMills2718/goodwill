@@ -106,6 +106,11 @@ def main():
     
     def test_load_context_for_markdown_file(self):
         """Test loading context for Markdown file with cross-references"""
+        # Create directory structure
+        (self.test_path / "docs" / "architecture").mkdir(parents=True, exist_ok=True)
+        (self.test_path / "docs" / "development_roadmap").mkdir(parents=True, exist_ok=True)
+        (self.test_path / "src").mkdir(parents=True, exist_ok=True)
+        
         # Create referenced files
         arch_file = self.test_path / "docs" / "architecture" / "system.md"
         arch_file.write_text("# System architecture")
@@ -218,6 +223,12 @@ def validate():
     
     def test_find_related_files(self):
         """Test finding related test and tool files"""
+        # Create directory structure first
+        (self.test_path / "src").mkdir(parents=True, exist_ok=True)
+        (self.test_path / "tests" / "unit").mkdir(parents=True, exist_ok=True)
+        (self.test_path / "tests" / "integration").mkdir(parents=True, exist_ok=True)
+        (self.test_path / "tools").mkdir(parents=True, exist_ok=True)
+        
         # Create target file
         target_file = self.test_path / "src" / "data_processor.py"
         target_file.write_text("# Data processor")
@@ -233,9 +244,6 @@ def validate():
         tool_file = self.test_path / "tools" / "data_processor_tool.py"
         tool_file.write_text("# Tool for data processor")
         
-        # Create test directory structure
-        (self.test_path / "tests" / "integration").mkdir(parents=True)
-        
         context = self.loader.load_full_context("src/data_processor.py")
         
         # Verify related files were found
@@ -245,6 +253,10 @@ def validate():
     
     def test_find_references_to_file(self):
         """Test finding files that reference the target file"""
+        # Create directory structure
+        (self.test_path / "src").mkdir(parents=True, exist_ok=True)
+        (self.test_path / "docs" / "development_roadmap").mkdir(parents=True, exist_ok=True)
+        
         # Create target file
         target_file = self.test_path / "src" / "utilities.py"
         target_file.write_text("# Utilities module")

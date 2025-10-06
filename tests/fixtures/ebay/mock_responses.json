@@ -1,0 +1,155 @@
+{
+  "token_response": {
+    "access_token": "v^1.1#i^1#f^0#I^3#r^0#p^1#f^0#t^H4sIAAAAAAAAAOVYa2wUVRTutbYtpbS0FLBSHuUhtQGfE3dn587M3Z07O/fO7szOzJ3Z2Q",
+    "expires_in": 7200,
+    "token_type": "Bearer"
+  },
+  "sold_listings_response": {
+    "findCompletedItemsResponse": [{
+      "ack": ["Success"],
+      "version": ["1.13.0"],
+      "timestamp": ["2024-01-15T10:00:00.000Z"],
+      "searchResult": [{
+        "@count": "3",
+        "item": [
+          {
+            "itemId": ["142345678901"],
+            "title": ["Apple iPhone 12 Pro 128GB Pacific Blue Unlocked"],
+            "globalId": ["EBAY-US"],
+            "primaryCategory": [{"categoryId": ["9355"], "categoryName": ["Cell Phones & Smartphones"]}],
+            "galleryURL": ["https://thumbs1.ebaystatic.com/m/mOqJ-ABCD/100.jpg"],
+            "viewItemURL": ["https://www.ebay.com/itm/142345678901"],
+            "location": ["United States"],
+            "country": ["US"],
+            "shippingInfo": [{
+              "shippingServiceCost": [{"@currencyId": "USD", "__value__": "9.99"}],
+              "shippingType": ["Calculated"],
+              "shipToLocations": ["Worldwide"],
+              "expeditedShipping": ["false"],
+              "oneDayShippingAvailable": ["false"],
+              "handlingTime": ["1"]
+            }],
+            "sellingStatus": [{
+              "currentPrice": [{"@currencyId": "USD", "__value__": "699.99"}],
+              "convertedCurrentPrice": [{"@currencyId": "USD", "__value__": "699.99"}],
+              "sellingState": ["EndedWithSales"],
+              "timeLeft": ["PT0S"]
+            }],
+            "listingInfo": [{
+              "bestOfferEnabled": ["false"],
+              "buyItNowAvailable": ["false"],
+              "startTime": ["2024-01-08T10:00:00.000Z"],
+              "endTime": ["2024-01-15T10:00:00.000Z"],
+              "listingType": ["Auction"],
+              "gift": ["false"],
+              "watchCount": ["12"]
+            }],
+            "condition": [{
+              "conditionId": ["3000"],
+              "conditionDisplayName": ["Used"]
+            }]
+          },
+          {
+            "itemId": ["142345678902"],
+            "title": ["iPhone 12 64GB Blue - Good Condition"],
+            "globalId": ["EBAY-US"],
+            "primaryCategory": [{"categoryId": ["9355"], "categoryName": ["Cell Phones & Smartphones"]}],
+            "galleryURL": ["https://thumbs2.ebaystatic.com/m/mOqJ-EFGH/100.jpg"],
+            "viewItemURL": ["https://www.ebay.com/itm/142345678902"],
+            "location": ["United States"],
+            "country": ["US"],
+            "shippingInfo": [{
+              "shippingServiceCost": [{"@currencyId": "USD", "__value__": "12.95"}],
+              "shippingType": ["Flat"],
+              "shipToLocations": ["US"],
+              "expeditedShipping": ["true"],
+              "oneDayShippingAvailable": ["false"],
+              "handlingTime": ["2"]
+            }],
+            "sellingStatus": [{
+              "currentPrice": [{"@currencyId": "USD", "__value__": "599.99"}],
+              "convertedCurrentPrice": [{"@currencyId": "USD", "__value__": "599.99"}],
+              "sellingState": ["EndedWithSales"],
+              "timeLeft": ["PT0S"]
+            }],
+            "listingInfo": [{
+              "bestOfferEnabled": ["true"],
+              "buyItNowAvailable": ["false"],
+              "startTime": ["2024-01-10T15:30:00.000Z"],
+              "endTime": ["2024-01-14T20:45:00.000Z"],
+              "listingType": ["FixedPrice"],
+              "gift": ["false"],
+              "watchCount": ["8"]
+            }],
+            "condition": [{
+              "conditionId": ["4000"],
+              "conditionDisplayName": ["Very Good"]
+            }]
+          },
+          {
+            "itemId": ["142345678903"],
+            "title": ["Vintage Canon AE-1 35mm Film Camera with 50mm Lens"],
+            "globalId": ["EBAY-US"],
+            "primaryCategory": [{"categoryId": ["625"], "categoryName": ["Film Photography"]}],
+            "galleryURL": ["https://thumbs3.ebaystatic.com/m/mOqJ-IJKL/100.jpg"],
+            "viewItemURL": ["https://www.ebay.com/itm/142345678903"],
+            "location": ["United States"],
+            "country": ["US"],
+            "shippingInfo": [{
+              "shippingServiceCost": [{"@currencyId": "USD", "__value__": "15.00"}],
+              "shippingType": ["Calculated"],
+              "shipToLocations": ["Worldwide"],
+              "expeditedShipping": ["false"],
+              "oneDayShippingAvailable": ["false"],
+              "handlingTime": ["3"]
+            }],
+            "sellingStatus": [{
+              "currentPrice": [{"@currencyId": "USD", "__value__": "89.50"}],
+              "convertedCurrentPrice": [{"@currencyId": "USD", "__value__": "89.50"}],
+              "sellingState": ["EndedWithSales"],
+              "timeLeft": ["PT0S"]
+            }],
+            "listingInfo": [{
+              "bestOfferEnabled": ["false"],
+              "buyItNowAvailable": ["false"],
+              "startTime": ["2024-01-12T09:15:00.000Z"],
+              "endTime": ["2024-01-13T18:30:00.000Z"],
+              "listingType": ["Auction"],
+              "gift": ["false"],
+              "watchCount": ["25"]
+            }],
+            "condition": [{
+              "conditionId": ["3000"],
+              "conditionDisplayName": ["Used"]
+            }]
+          }
+        ]
+      }]
+    }]
+  },
+  "empty_response": {
+    "findCompletedItemsResponse": [{
+      "ack": ["Success"],
+      "version": ["1.13.0"],
+      "timestamp": ["2024-01-15T10:00:00.000Z"],
+      "searchResult": [{
+        "@count": "0"
+      }]
+    }]
+  },
+  "error_response": {
+    "findCompletedItemsResponse": [{
+      "ack": ["Failure"],
+      "errorMessage": [{
+        "error": [{
+          "errorId": ["2"],
+          "domain": ["Marketplace"],
+          "severity": ["Error"],
+          "category": ["Application"],
+          "message": ["Invalid request"],
+          "subdomain": ["Search"]
+        }]
+      }]
+    }]
+  }
+}

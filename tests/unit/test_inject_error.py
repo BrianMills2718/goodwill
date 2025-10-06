@@ -7,6 +7,7 @@ of this critical infrastructure tool.
 """
 
 import os
+import re
 import tempfile
 import unittest
 from pathlib import Path
@@ -123,13 +124,13 @@ More content
         claude_md = self.test_path / "CLAUDE.md"
         content = claude_md.read_text()
         self.assertIn("REFERENCE_UPDATE_NEEDED: File moved requires reference updates", content)
-        self.assertIn("docs/old_file.md → docs/new_file.md", content)
+        self.assertIn("**Details**: docs/old_file.md → docs/new_file.md", content)
         
         # Verify error log resolution steps
         error_logs = list((self.test_path / "logs" / "errors" / "active").glob("*.log"))
         log_content = error_logs[0].read_text()
-        self.assertIn("Search for references to: docs/old_file.md", content)
-        self.assertIn("Replace with: docs/new_file.md", content)
+        self.assertIn("Search for references to: docs/old_file.md", log_content)
+        self.assertIn("Replace with: docs/new_file.md", log_content)
     
     def test_inject_import_error(self):
         """Test import error injection"""
@@ -150,8 +151,8 @@ More content
         # Verify error log
         error_logs = list((self.test_path / "logs" / "errors" / "active").glob("*.log"))
         log_content = error_logs[0].read_text()
-        self.assertIn("ModuleNotFoundError", content)
-        self.assertIn("Check import path syntax", content)
+        self.assertIn("ModuleNotFoundError", log_content)
+        self.assertIn("Check import path syntax", log_content)
     
     def test_multiple_error_injection(self):
         """Test injecting multiple errors"""
@@ -191,7 +192,7 @@ More content
         
         # Verify error moved to resolved section
         content = claude_md.read_text()
-        self.assertNotIn("### Active Errors:\n- **" + timestamp)
+        self.assertNotIn("### Active Errors:\n- **" + timestamp, content)
         self.assertIn("Recently Resolved Errors:", content)
         self.assertIn("✅ RESOLVED", content)
         self.assertIn("Fixed the test error", content)
@@ -245,18 +246,18 @@ More content
         log_content = error_logs[0].read_text()
         
         # Verify required sections
-        self.assertIn("=== ERROR DETAILS ===", content)
-        self.assertIn("=== RESOLUTION STEPS ===", content)
-        self.assertIn("Type: BROKEN_REFERENCE", content)
-        self.assertIn("Source File: src/test.py", content)
-        self.assertIn("Line Number: 42", content)
-        self.assertIn("Target Path: docs/missing.md", content)
-        self.assertIn("Detailed error information", content)
+        self.assertIn("=== ERROR DETAILS ===", log_content)
+        self.assertIn("=== RESOLUTION STEPS ===", log_content)
+        self.assertIn("Type: BROKEN_REFERENCE", log_content)
+        self.assertIn("Source File: src/test.py", log_content)
+        self.assertIn("Line Number: 42", log_content)
+        self.assertIn("Target Path: docs/missing.md", log_content)
+        self.assertIn("Detailed error information", log_content)
         
         # Verify resolution steps are specific to error type
-        self.assertIn("Check if referenced file was moved", content)
-        self.assertIn("Update cross-reference to correct path", content)
-        self.assertIn("Run tools/validate_references.py", content)
+        self.assertIn("Check if referenced file was moved", log_content)
+        self.assertIn("Update cross-reference to correct path", log_content)
+        self.assertIn("Run tools/validate_references.py", log_content)
     
     def test_create_error_entry(self):
         """Test error entry creation with various fields"""
@@ -295,11 +296,11 @@ More content
         
         formatted = self.injector._format_error_entry(error_entry, log_file)
         
-        self.assertIn("**2024-01-15 14:30** TEST_ERROR: Test description", content)
-        self.assertIn("**Impact**: Test impact", content)
-        self.assertIn("**Log**: `logs/errors/active/test.log`", content)
-        self.assertIn("**Action**: Test action", content)
-        self.assertIn("**Status**: NEEDS_FIX", content)
+        self.assertIn("**2024-01-15 14:30** TEST_ERROR: Test description", formatted)
+        self.assertIn("**Impact**: Test impact", formatted)
+        self.assertIn("**Log**: `logs/errors/active/test.log`", formatted)
+        self.assertIn("**Action**: Test action", formatted)
+        self.assertIn("**Status**: NEEDS_FIX", formatted)
 
 
 if __name__ == '__main__':

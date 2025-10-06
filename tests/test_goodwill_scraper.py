@@ -88,7 +88,7 @@ class TestItemFetching:
         scraper = GoodwillScraper(respect_delay=False)
         
         mock_html = '''
-        <div class="auction-timer" data-endtime="2025-09-25T15:30:00">
+        <div class="auction-timer" data-endtime="2025-12-25T15:30:00">
             <span>1d 5h 30m</span>
         </div>
         '''

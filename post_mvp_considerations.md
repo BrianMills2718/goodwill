@@ -1,167 +1,111 @@
-# Post-MVP Considerations
+# Post-MVP Considerations for Autonomous TDD Template
 
-## Performance Optimizations
+## Learning & Adaptation Enhancements
 
-### Context Caching
-- Cache `load_context.py` results in `.claude/cache/context/<hash>.json`
-- Invalidate on mtime change
-- Significant performance improvement for large codebases
+### 1. Cross-Session Attempt History (HIGH PRIORITY)
+**Problem**: LLM memory lost between sessions - repeats failed approaches
+**Solution**: Persist attempt history across sessions
+```python
+# Simple implementation
+attempt_history = {
+    "failed_strategies": ["direct_api_call", "synchronous_requests"],
+    "successful_patterns": ["mock_first_then_integrate", "async_with_retry"],
+    "insights": ["auth errors indicate config issues, not code bugs"]
+}
+```
 
-### Coverage Normalization
-- Language-specific adapters:
-  - Python: `pytest --cov --cov-report=json`
-  - TypeScript/JavaScript: `nyc --reporter=json-summary`
-  - Go: `go test -cover`
-- Normalize to common `coverage.statements` metric
+### 2. Cross-Project Learning Database  
+**Problem**: Each project starts from zero knowledge
+**Solution**: Maintain knowledge base of common patterns
+- Pattern: "eBay API rate limiting" → Strategy: "exponential backoff"
+- Pattern: "React testing errors" → Strategy: "mock external dependencies first"
 
-## Multi-Developer Support
+### 3. Multi-Session Strategy Optimization
+**Problem**: No learning about strategy effectiveness over time
+**Solution**: Track success rates by strategy type and problem category
+- Build probability models for strategy selection
+- Adapt decision thresholds based on historical performance
 
-### State Management
-- Consider separate `state/agent_state.json` for atomic writes
-- Version field for optimistic concurrency control
-- Git merge strategies for state files
+### 4. Enhanced Failure Pattern Recognition
+**Problem**: Basic pattern matching for repeated failures  
+**Solution**: Semantic analysis of error patterns
+- Similar error messages across different attempts
+- Code change patterns that consistently cause failures
+- Environmental/timing patterns in failures
 
-### Concurrency Protection
-- Enhanced locking mechanisms beyond basic file locks
-- Distributed lock managers for team environments
-- Transaction logs for state changes
+### 5. Proactive Strategy Suggestion
+**Problem**: Only reacts after complete failures
+**Solution**: Early warning system for strategy changes
+- Detect slow progress patterns before complete failure
+- Risk assessment for continuing current approach
+- Suggest pivots based on partial progress analysis
 
-## Enhanced Security
+### 6. Human Expert Integration
+**Problem**: Escalation just means "stop automation"
+**Solution**: Structured expert consultation
+- Generate specific technical questions for humans
+- Track which human interventions provide most value
+- Build decision trees for escalation timing
 
-### Secret Scanning
-- Sophisticated regex patterns for API keys, tokens, passwords
-- Integration with tools like `trufflehog` or `gitleaks`
-- Pre-commit hooks for secret detection
-- Allowlist management for false positives
+### 7. Dynamic Safety Limit Adjustment
+**Problem**: Fixed limits (7 iterations) regardless of problem complexity
+**Solution**: Context-aware safety limits
+- Simple problems: Lower limits (fail fast)
+- Complex problems: Higher limits with enhanced monitoring
+- Historical success rates influence limit setting
 
-### Security Gates
-- Dependency vulnerability scanning
-- SAST (Static Application Security Testing) integration
-- License compliance checking
+### 8. Parallel Strategy Exploration
+**Problem**: Sequential strategy attempts (A → B → C)
+**Solution**: Git worktree parallel exploration
+- Test multiple approaches simultaneously  
+- Compare progress rates across branches
+- Merge successful elements from different attempts
 
-## Advanced Features
+### 9. Code Quality Evolution Tracking
+**Problem**: Only tracks "tests pass", not code quality trends
+**Solution**: Code quality metrics over time
+- Complexity trends, maintainability scores
+- Technical debt accumulation detection  
+- Refactoring opportunity identification
 
-### Headless Mode
-- CLI interface for CI/CD pipelines
-- `tools/ci/headless.sh` for automated test runs
-- JSON output for pipeline integration
+### 10. Domain-Specific Workflow Adaptation
+**Problem**: Same TDD workflow for web apps, CLIs, ML pipelines
+**Solution**: Specialized workflows by project type
+- Web app: UI tests, integration tests, deployment checks
+- CLI: argument parsing, help text, cross-platform testing
+- ML: data validation, model performance, reproducibility
 
-### Workflow Visualization
-- Real-time workflow state dashboard
-- Mermaid diagram generation from current state
-- Progress tracking and ETA estimates
+## Implementation Priority (Post-MVP)
 
-### Machine Learning Integration
-- Discovery classification using ML models
-- Automatic uncertainty categorization
-- Pattern recognition for common issues
+**Phase 1** (Immediate post-MVP - 1-2 weeks):
+- Cross-session attempt history (#1) 
+- Enhanced failure pattern recognition (#4)
 
-## Scalability Enhancements
+**Phase 2** (Medium term - 1-2 months):
+- Multi-session optimization (#3)
+- Proactive strategy suggestion (#5)
 
-### Large Repository Support
-- Incremental cross-reference validation
-- Parallel evidence validation
-- Chunked context loading
+**Phase 3** (Advanced - 3-6 months):  
+- Human expert integration (#6)
+- Parallel strategy exploration (#8)
 
-### Performance Monitoring
-- Hook execution time tracking
-- Context size optimization
-- Memory usage profiling
+**Phase 4** (Research-level - 6+ months):
+- Cross-project learning (#2)
+- Domain-specific adaptation (#10)
 
-## Developer Experience
+## MVP vs Post-MVP Decision Criteria
 
-### IDE Integration
-- VSCode extension for workflow visualization
-- IntelliJ plugin for status monitoring
-- Vim/Neovim integration
+**Include in MVP if**:
+- Required for basic safety/functionality
+- Simple to implement (< 1 day)
+- Prevents common failure modes
 
-### Debugging Tools
-- Workflow replay from state snapshots
-- Step-through debugging for hook execution
-- State diff visualization
+**Post-MVP if**:
+- Optimization rather than core functionality
+- Complex implementation requiring research
+- Nice-to-have rather than must-have
 
-## Compliance and Governance
+## Current Recommendation
 
-### Audit Trails
-- Complete command execution history
-- State transition logs
-- Evidence chain of custody
-
-### Policy Enforcement
-- Customizable quality gates
-- Compliance rule engine
-- Automated policy documentation
-
-## Integration Ecosystem
-
-### External Tools
-- Jira/Linear issue creation for escalations
-- Slack/Discord notifications for milestones
-- GitHub Actions workflow triggers
-
-### Monitoring
-- OpenTelemetry integration
-- Prometheus metrics export
-- CloudWatch/Datadog dashboards
-
-## Recovery and Resilience
-
-### Advanced Recovery
-- Checkpoint/restore mechanisms
-- Partial phase rollback
-- State reconciliation after conflicts
-
-### Fault Tolerance
-- Retry logic with exponential backoff
-- Circuit breakers for external dependencies
-- Graceful degradation modes
-
-## Documentation Enhancements
-
-### Auto-Documentation
-- Workflow documentation generation
-- Decision tree visualization
-- Command reference auto-generation
-
-### Knowledge Base
-- Common issue patterns database
-- Solution recommendation engine
-- Best practices accumulation
-
-## Considerations for Implementation Priority
-
-**High Value, Low Effort:**
-- Context caching
-- Basic secret scanning
-- Simple coverage normalization
-
-**High Value, High Effort:**
-- Multi-developer state management
-- Advanced security gates
-- IDE integration
-
-**Nice to Have:**
-- ML-based classification
-- Headless mode
-- Workflow visualization dashboard
-
-## Technical Debt to Address
-
-- Refactor monolithic tools into smaller modules
-- Add comprehensive error handling
-- Implement proper logging framework
-- Create integration test suite
-- Performance profiling and optimization
-
-## Notes from External Review
-
-Based on external evaluation, consider:
-- More sophisticated lock mechanisms
-- Binary git attributes for state files (disputed)
-- Rate limiting for hook execution
-- Side effect prevention for large files
-- Allowlist management for exceptions
-
----
-
-*This document captures enhancement ideas that were deemed non-essential for MVP but valuable for future iterations. Review and prioritize based on user feedback and actual usage patterns.*
+**Add to MVP**: Cross-session attempt history (#1) - Critical for multi-session learning
+**Everything else**: Post-MVP to avoid scope creep

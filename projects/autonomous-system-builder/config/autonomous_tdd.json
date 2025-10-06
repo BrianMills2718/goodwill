@@ -1,0 +1,46 @@
+{
+  "system": {
+    "project_root": ".",
+    "log_level": "INFO",
+    "debug_mode": false,
+    "max_memory_mb": 2048,
+    "timeout_seconds": 300
+  },
+  "llm": {
+    "max_context_tokens": 150000,
+    "max_response_tokens": 4000,
+    "temperature": 0.1,
+    "max_retries": 3
+  },
+  "evidence": {
+    "evidence_directory": ".autonomous_state/evidence",
+    "max_evidence_files": 1000,
+    "compression_enabled": true
+  },
+  "context": {
+    "max_files_loaded": 50,
+    "cache_size": 100,
+    "cross_reference_depth": 3
+  },
+  "hooks": {
+    "stop_hook_enabled": true,
+    "hook_timeout_seconds": 30,
+    "max_hook_iterations": 10
+  },
+  "safety": {
+    "max_micro_iterations": 5,
+    "max_macro_iterations": 3,
+    "emergency_stop_threshold": 15,
+    "backup_enabled": true
+  },
+  "performance": {
+    "memory_limit_mb": 500,
+    "execution_timeout_seconds": 300,
+    "concurrent_task_limit": 3
+  },
+  "validation": {
+    "enable_anti_fabrication": true,
+    "evidence_validation_threshold": 0.8,
+    "test_integrity_checking": true
+  }
+}
