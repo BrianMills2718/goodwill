@@ -5,12 +5,14 @@ Workflow orchestration and coordination for the autonomous TDD system.
 Provides workflow management, task coordination, and autonomous cycle execution.
 """
 
-from .workflow_manager import WorkflowManager
-from .task_decomposer import TaskDecomposer
-from .phase_manager import PhaseManager
+from .autonomous_workflow_manager import (
+    AutonomousWorkflowManager,
+    HookResult,
+    HookResultStatus
+)
 
 __all__ = [
-    'WorkflowManager',
-    'TaskDecomposer',
-    'PhaseManager'
+    'AutonomousWorkflowManager',
+    'HookResult', 
+    'HookResultStatus'
 ]

@@ -125,25 +125,405 @@ class JSONUtilities:
         # Initialize with default schemas
         self._initialize_default_schemas()
     
-    def safe_load_json(self, file_path: Path, schema_name: Optional[str] = None, 
-                      validation_mode: JSONValidationMode = JSONValidationMode.BASIC) -> JSONOperationResult:
+    @staticmethod  
+    def load_json_simple(file_path: Union[str, Path], default: Optional[Any] = None) -> Any:
         """
-        Safely load JSON file with validation and error handling
+        Static method for simple JSON loading with default value support
         
         Args:
-            file_path: Path to JSON file
+            file_path: Path to JSON file (str or Path)
+            default: Default value to return if file missing/empty/invalid
+            
+        Returns:
+            Loaded JSON data or default value
+            
+        Raises:
+            FileNotFoundError: If file not found and no default provided
+            ValueError: If JSON invalid and no default provided
+        """
+        # Convert string path to Path object
+        if isinstance(file_path, str):
+            file_path = Path(file_path)
+        
+        try:
+            # Check file existence
+            if not file_path.exists():
+                if default is not None:
+                    return default
+                raise FileNotFoundError(f"JSON file not found: {file_path}")
+            
+            # Read and parse file
+            with file_path.open('r', encoding='utf-8') as f:
+                content = f.read().strip()
+            
+            # Handle empty file
+            if not content:
+                if default is not None:
+                    return default
+                raise JSONValidationError(f"Empty JSON file: {file_path}")
+            
+            # Parse JSON
+            try:
+                return json.loads(content)
+            except json.JSONDecodeError as e:
+                if default is not None:
+                    return default
+                raise JSONValidationError(f"Invalid JSON in {file_path}: {str(e)}")
+                
+        except (FileNotFoundError, JSONValidationError):
+            # Re-raise these specific exceptions
+            raise
+        except Exception as e:
+            # Handle other exceptions
+            if default is not None:
+                return default
+            raise JSONValidationError(f"Error loading JSON from {file_path}: {str(e)}")
+    
+    @staticmethod
+    def safe_save_json(file_path: Union[str, Path], data: Any, backup: bool = False, atomic: bool = True) -> bool:
+        """
+        Static method for simple JSON saving
+        
+        Args:
+            file_path: Path to save JSON file (str or Path)
+            data: Data to save as JSON
+            backup: Whether to create backup of existing file
+            atomic: Whether to use atomic write
+            
+        Returns:
+            True if successful, False otherwise
+            
+        Raises:
+            JSONValidationError: If data cannot be serialized or write fails
+        """
+        # Convert string path to Path object
+        if isinstance(file_path, str):
+            file_path = Path(file_path)
+        
+        try:
+            # Serialize data to JSON
+            try:
+                json_content = json.dumps(data, indent=2, ensure_ascii=False, separators=(',', ': '), sort_keys=True)
+            except (TypeError, ValueError) as e:
+                raise JSONValidationError(f"JSON serialization failed: {str(e)}")
+            
+            # Create backup if requested and file exists
+            if backup and file_path.exists():
+                timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                backup_path = file_path.parent / f"{file_path.stem}.backup_{timestamp}{file_path.suffix}"
+                shutil.copy2(file_path, backup_path)
+            
+            # Ensure parent directory exists
+            file_path.parent.mkdir(parents=True, exist_ok=True)
+            
+            if atomic:
+                # Atomic write using temporary file
+                temp_dir = file_path.parent
+                with tempfile.NamedTemporaryFile(
+                    mode='w',
+                    encoding='utf-8',
+                    dir=temp_dir,
+                    delete=False,
+                    suffix='.tmp',
+                    prefix=f"{file_path.name}_"
+                ) as temp_file:
+                    temp_path = Path(temp_file.name)
+                    temp_file.write(json_content)
+                    temp_file.flush()
+                    os.fsync(temp_file.fileno())
+                
+                # Atomic move to final location
+                shutil.move(str(temp_path), str(file_path))
+            else:
+                # Direct write
+                with file_path.open('w', encoding='utf-8') as f:
+                    f.write(json_content)
+                    f.flush()
+                    os.fsync(f.fileno())
+            
+            return True
+            
+        except JSONValidationError:
+            # Re-raise JSON validation errors
+            raise
+        except Exception as e:
+            # Clean up temporary file if it exists
+            if 'temp_path' in locals() and temp_path.exists():
+                try:
+                    temp_path.unlink()
+                except:
+                    pass
+            raise JSONValidationError(f"Failed to save JSON: {str(e)}")
+    
+    @staticmethod
+    def validate_json_schema(data: Any, schema: Dict[str, Any], context: str = "") -> None:
+        """
+        Static method for JSON schema validation
+        
+        Args:
+            data: Data to validate
+            schema: JSON schema to validate against
+            context: Optional context for error messages
+            
+        Raises:
+            JSONValidationError: If validation fails
+        """
+        try:
+            jsonschema.validate(instance=data, schema=schema)
+        except jsonschema.ValidationError as e:
+            # Build context-aware error message
+            error_path = ".".join(str(p) for p in e.absolute_path) if e.absolute_path else ""
+            context_prefix = f"{context}." if context else ""
+            full_path = f"{context_prefix}{error_path}" if error_path else context
+            
+            if "required" in str(e.message).lower():
+                missing_field = str(e.message).split("'")[1] if "'" in str(e.message) else "unknown"
+                raise JSONValidationError(f"Missing required field: {missing_field}")
+            elif "not of type" in str(e.message).lower():
+                # Parse type validation errors like "'twenty-five' is not of type 'number'"
+                message = str(e.message)
+                if "not of type 'number'" in message:
+                    raise JSONValidationError("Expected number, got str")
+                elif "not of type 'string'" in message:
+                    raise JSONValidationError("Expected string, got number")
+                else:
+                    raise JSONValidationError(f"Type validation failed: {message}")
+            elif "minimum" in str(e.message).lower():
+                # Extract the value and minimum from the error
+                parts = str(e.message).split()
+                value_idx = -1
+                min_idx = -1
+                for i, part in enumerate(parts):
+                    if part.replace("-", "").replace(".", "").isdigit():
+                        if value_idx == -1:
+                            value_idx = i
+                        else:
+                            min_idx = i
+                            break
+                if value_idx != -1 and min_idx != -1:
+                    value = parts[value_idx]
+                    minimum = parts[min_idx]
+                    raise JSONValidationError(f"Value {value} below minimum {minimum}")
+                else:
+                    raise JSONValidationError(f"Value below minimum")
+            elif "minlength" in str(e.message).lower() or "too short" in str(e.message).lower():
+                raise JSONValidationError("String too short")
+            elif "enum" in str(e.message).lower() or "not one of" in str(e.message).lower():
+                raise JSONValidationError("Value must be one of")
+            else:
+                # Include context in generic error
+                if full_path:
+                    raise JSONValidationError(f"{full_path}: {str(e.message)}")
+                else:
+                    raise JSONValidationError(str(e.message))
+        except Exception as e:
+            if isinstance(e, JSONValidationError):
+                raise
+            raise JSONValidationError(f"Schema validation error: {str(e)}")
+    
+    @staticmethod
+    def calculate_json_hash(data: Any) -> str:
+        """
+        Static method for calculating consistent JSON hash
+        
+        Args:
+            data: Data to hash
+            
+        Returns:
+            SHA-256 hex string (64 characters)
+        """
+        try:
+            # Serialize with consistent formatting for hash consistency
+            json_content = json.dumps(data, sort_keys=True, separators=(',', ':'), ensure_ascii=True)
+            return hashlib.sha256(json_content.encode('utf-8')).hexdigest()
+        except (TypeError, ValueError) as e:
+            raise JSONValidationError(f"Cannot calculate hash for non-serializable data: {str(e)}")
+    
+    @staticmethod
+    def merge_json_objects(base: Optional[Dict[str, Any]], overlay: Optional[Dict[str, Any]], deep: bool = False) -> Dict[str, Any]:
+        """
+        Static method for merging JSON objects
+        
+        Args:
+            base: Base dictionary (can be None)
+            overlay: Overlay dictionary (can be None)  
+            deep: Whether to perform deep merge for nested objects
+            
+        Returns:
+            Merged dictionary
+        """
+        if base is None and overlay is None:
+            return {}
+        if base is None:
+            return overlay.copy() if overlay else {}
+        if overlay is None:
+            return base.copy() if base else {}
+        
+        result = base.copy()
+        
+        if deep:
+            for key, value in overlay.items():
+                if key in result and isinstance(result[key], dict) and isinstance(value, dict):
+                    result[key] = JSONUtilities.merge_json_objects(result[key], value, deep=True)
+                else:
+                    result[key] = value
+        else:
+            result.update(overlay)
+        
+        return result
+    
+    @staticmethod
+    def flatten_json_object(data: Dict[str, Any], separator: str = ".") -> Dict[str, Any]:
+        """
+        Static method for flattening nested JSON objects using dot notation
+        
+        Args:
+            data: Dictionary to flatten
+            separator: Separator for keys (default: ".")
+            
+        Returns:
+            Flattened dictionary with dot-notation keys
+        """
+        def _flatten(obj: Any, parent_key: str = "") -> Dict[str, Any]:
+            items = []
+            if isinstance(obj, dict):
+                for key, value in obj.items():
+                    new_key = f"{parent_key}{separator}{key}" if parent_key else key
+                    if isinstance(value, dict):
+                        items.extend(_flatten(value, new_key).items())
+                    else:
+                        items.append((new_key, value))
+            else:
+                items.append((parent_key, obj))
+            return dict(items)
+        
+        return _flatten(data)
+    
+    @staticmethod
+    def unflatten_json_object(data: Dict[str, Any], separator: str = ".") -> Dict[str, Any]:
+        """
+        Static method for unflattening dot-notation JSON objects
+        
+        Args:
+            data: Dictionary with dot-notation keys to unflatten
+            separator: Separator used in keys (default: ".")
+            
+        Returns:
+            Nested dictionary structure
+        """
+        result = {}
+        for key, value in data.items():
+            keys = key.split(separator)
+            current = result
+            for k in keys[:-1]:
+                if k not in current:
+                    current[k] = {}
+                current = current[k]
+            current[keys[-1]] = value
+        return result
+    
+    @staticmethod
+    def sanitize_for_json(data: Any) -> Any:
+        """
+        Static method for sanitizing data to be JSON-serializable
+        
+        Args:
+            data: Data to sanitize
+            
+        Returns:
+            JSON-serializable version of the data
+        """
+        if isinstance(data, dict):
+            return {key: JSONUtilities.sanitize_for_json(value) for key, value in data.items()}
+        elif isinstance(data, list):
+            return [JSONUtilities.sanitize_for_json(item) for item in data]
+        elif isinstance(data, set):
+            return list(data)  # Convert sets to lists
+        elif isinstance(data, Path):
+            return str(data)   # Convert Path objects to strings
+        elif hasattr(data, 'isoformat'):  # datetime objects
+            return data.isoformat()
+        else:
+            return data
+    
+    @staticmethod
+    def safe_load_json(file_path: Union[str, Path], default: Optional[Any] = None) -> Any:
+        """
+        Static method for simple JSON loading with default value support
+        
+        Args:
+            file_path: Path to JSON file (str or Path)
+            default: Default value to return if file missing/empty/invalid
+            
+        Returns:
+            Loaded JSON data or default value
+            
+        Raises:
+            JSONValidationError: If file not found/invalid and no default provided
+        """
+        return JSONUtilities.load_json_simple(file_path, default)
+    
+    def load_json(self, file_path: Union[str, Path], schema_name: Optional[str] = None, 
+                      validation_mode: JSONValidationMode = JSONValidationMode.BASIC) -> JSONOperationResult:
+        """
+        Instance method for loading JSON with full validation and result object
+        
+        Args:
+            file_path: Path to JSON file (str or Path)
             schema_name: Name of schema for validation
             validation_mode: Level of validation to perform
             
         Returns:
             JSONOperationResult with loaded data or error information
         """
+        return self.load_json_with_validation(file_path, schema_name, validation_mode, default=None)
+    
+    def load_json_with_validation(self, file_path: Union[str, Path], schema_name: Optional[str] = None, 
+                      validation_mode: JSONValidationMode = JSONValidationMode.BASIC,
+                      default: Optional[Any] = None) -> Union[Any, JSONOperationResult]:
+        """
+        Instance method for loading JSON with full validation and result object
+        
+        Args:
+            file_path: Path to JSON file (str or Path)
+            schema_name: Name of schema for validation
+            validation_mode: Level of validation to perform
+            
+        Returns:
+            JSONOperationResult with loaded data or error information
+        """
+        return self.load_json_with_validation(file_path, schema_name, validation_mode, default=None)
+    
+    def load_json_with_validation(self, file_path: Union[str, Path], schema_name: Optional[str] = None, 
+                      validation_mode: JSONValidationMode = JSONValidationMode.BASIC,
+                      default: Optional[Any] = None) -> Union[Any, JSONOperationResult]:
+        """
+        Safely load JSON file with validation and error handling
+        
+        Args:
+            file_path: Path to JSON file (str or Path)
+            schema_name: Name of schema for validation
+            validation_mode: Level of validation to perform
+            default: Default value to return if file missing or empty (simple mode)
+            
+        Returns:
+            If default is provided: Returns the loaded data directly or default value
+            If default is None: Returns JSONOperationResult with loaded data or error information
+        """
         
         operation_start = datetime.now()
+        
+        # Convert string path to Path object
+        if isinstance(file_path, str):
+            file_path = Path(file_path)
         
         try:
             # Check file existence and accessibility
             if not file_path.exists():
+                # If default provided, return it directly (simple mode)
+                if default is not None:
+                    return default
+                    
                 return JSONOperationResult(
                     success=False,
                     error=f"JSON file does not exist: {file_path}",
@@ -166,12 +546,22 @@ class JSONUtilities:
                 with file_path.open('r', encoding=self.config.encoding) as f:
                     raw_content = f.read()
             except Exception as e:
+                # If default provided and read fails, return default
+                if default is not None:
+                    return default
+                    
                 return JSONOperationResult(
                     success=False,
                     error=f"Failed to read JSON file: {str(e)}",
                     file_path=file_path,
                     operation_time=operation_start
                 )
+            
+            # Check for empty content
+            if not raw_content.strip():
+                # If default provided and file is empty, return default
+                if default is not None:
+                    return default
             
             # Calculate checksum
             content_checksum = self._calculate_checksum(raw_content)
@@ -180,6 +570,10 @@ class JSONUtilities:
             try:
                 parsed_data = json.loads(raw_content)
             except json.JSONDecodeError as e:
+                # If default provided and JSON parse fails, return default
+                if default is not None:
+                    return default
+                    
                 return JSONOperationResult(
                     success=False,
                     error=f"Invalid JSON syntax: {str(e)}",
@@ -209,6 +603,11 @@ class JSONUtilities:
             # Track successful operation
             self._track_operation("load", file_path, True)
             
+            # If default is provided, return data directly (simple mode)
+            if default is not None:
+                return parsed_data
+            
+            # Otherwise return full result object
             return JSONOperationResult(
                 success=True,
                 data=parsed_data,
@@ -222,6 +621,11 @@ class JSONUtilities:
         except Exception as e:
             # Unexpected error
             self._track_operation("load", file_path, False, str(e))
+            
+            # If default provided, return it on unexpected error
+            if default is not None:
+                return default
+            
             return JSONOperationResult(
                 success=False,
                 error=f"Unexpected error loading JSON: {str(e)}",
@@ -229,7 +633,7 @@ class JSONUtilities:
                 operation_time=operation_start
             )
     
-    def safe_save_json(self, data: Any, file_path: Path, schema_name: Optional[str] = None,
+    def save_json_with_validation(self, data: Any, file_path: Path, schema_name: Optional[str] = None,
                       create_backup: Optional[bool] = None, atomic: Optional[bool] = None) -> JSONOperationResult:
         """
         Safely save data as JSON with atomic writes and backup creation

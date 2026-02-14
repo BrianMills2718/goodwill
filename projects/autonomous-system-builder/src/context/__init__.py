@@ -6,10 +6,11 @@ Provides smart context loading, cross-reference discovery, and intelligent
 context optimization within token limits.
 """
 
-from .smart_context_loader import SmartContextLoader
-from .cross_reference_discovery import CrossReferenceDiscovery
+from .cross_reference_manager import CrossReferenceManager, CrossReference, ReferenceType, FileContextBundle
 
 __all__ = [
-    'SmartContextLoader',
-    'CrossReferenceDiscovery'
+    'CrossReferenceManager',
+    'CrossReference', 
+    'ReferenceType',
+    'FileContextBundle'
 ]

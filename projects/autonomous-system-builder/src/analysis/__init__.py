@@ -2,13 +2,23 @@
 """
 Analysis and decision-making components for the autonomous TDD system.
 
-Provides autonomous decision engine, LLM task integration, and situation analysis.
+Provides LLM-based decision making, situation analysis, and autonomous workflow control.
 """
 
-from .autonomous_decision_engine import AutonomousDecisionEngine
-from .llm_task_integration import LLMTaskIntegration
+from .llm_decision_engine import (
+    LLMDecisionEngine, 
+    DecisionType, 
+    ConfidenceLevel, 
+    ExecutionContext, 
+    DecisionResult, 
+    SituationAnalysis
+)
 
 __all__ = [
-    'AutonomousDecisionEngine',
-    'LLMTaskIntegration'
+    'LLMDecisionEngine',
+    'DecisionType',
+    'ConfidenceLevel', 
+    'ExecutionContext',
+    'DecisionResult',
+    'SituationAnalysis'
 ]

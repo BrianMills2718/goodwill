@@ -3,9 +3,20 @@ archive/
 
 # Logs and temporary files
 logs/
-.claude/workflow_state.json
-.claude/next_command.txt
-.claude/workflow-recommendations.log
+temp_convo_*.txt
+.claude/
+
+# Test evidence artifacts
+*_TEST_EVIDENCE*.txt
+*test_evidence*.txt
+*_TEST*.py
+*HOOK_TEST*.py
+
+# Generated state
+projects/autonomous-system-builder/.autonomous_state/
+
+# Images (screenshots)
+*.png
 
 # IDE and system files
 .vscode/

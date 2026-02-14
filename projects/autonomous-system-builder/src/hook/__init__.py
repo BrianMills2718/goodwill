@@ -2,15 +2,17 @@
 """
 Claude Code hook integration for the autonomous TDD system.
 
-Provides Stop hook implementation and hook utilities for autonomous operation.
+Provides autonomous orchestrator and flowchart implementations.
 """
 
-from .autonomous_hook import AutonomousStopHook
-from .hook_config import HookConfiguration
-from .hook_utils import HookUtilities
+from .autonomous_orchestrator import AutonomousOrchestrator
+from .planning_process_hook import PlanningProcessHook
+from .implementation_process_hook import ImplementationProcessHook
+from .evidence_validator import main as evidence_validator
 
 __all__ = [
-    'AutonomousStopHook',
-    'HookConfiguration', 
-    'HookUtilities'
+    'AutonomousOrchestrator',
+    'PlanningProcessHook', 
+    'ImplementationProcessHook',
+    'evidence_validator'
 ]

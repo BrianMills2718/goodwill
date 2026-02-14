@@ -1,0 +1,1378 @@
+# Autonomous TDD System Development - Next Steps
+
+## 🚨 ACTIVE ERRORS AND BLOCKERS
+
+### Current Error Status: BLOCKED
+
+### Active Errors:
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_544.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_518.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_492.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_466.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_441.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_414.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_388.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_363.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_338.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_312.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_287.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_261.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_236.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_211.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_185.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_159.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_133.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_108.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_081.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_056.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_030.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203433_004.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_979.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_953.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_928.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_902.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_877.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_851.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_826.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_801.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_775.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_749.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_724.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_699.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_674.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_649.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_624.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_599.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_572.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_547.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_520.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_495.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_468.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_441.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_416.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_390.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_362.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_337.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_311.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_286.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_259.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_232.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_206.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_181.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_156.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_131.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_104.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_079.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_053.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_027.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203432_002.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_976.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_951.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_926.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_900.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_875.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_849.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_824.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_799.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_774.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_748.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_723.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_697.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_672.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_646.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_622.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_597.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_571.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_546.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_520.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_493.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_467.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_441.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_416.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_390.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_364.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_338.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_312.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_287.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_262.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_236.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_210.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_185.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_158.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_131.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_105.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_080.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_054.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_028.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203431_004.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_979.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_953.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_928.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_902.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_877.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_852.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_827.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_802.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_776.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_750.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_725.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_699.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_674.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_648.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_622.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_597.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_571.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_545.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_520.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_495.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_470.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_444.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_418.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_393.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_367.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_341.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_314.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_288.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_262.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_237.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_211.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_185.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_160.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_134.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_109.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_083.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_058.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_032.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203430_006.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_981.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_955.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_930.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_904.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_879.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_854.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_828.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_802.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_777.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_752.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_726.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_700.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_675.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_650.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_625.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_600.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_575.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_549.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_524.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_498.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_473.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_448.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_422.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_396.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_372.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_346.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_320.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_295.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_269.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_243.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_215.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_190.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_165.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_140.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_115.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_090.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_064.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_038.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203429_012.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_987.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_961.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_935.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_909.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_884.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_859.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_833.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_808.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_782.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_756.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_731.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_706.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_679.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_648.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_622.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_597.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_572.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_548.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_523.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_498.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_473.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_448.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_423.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_398.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_372.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_347.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_322.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_296.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_272.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_246.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_222.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_197.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_170.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_145.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_119.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_093.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_067.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_043.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203428_018.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203427_993.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203427_968.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203427_943.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203427_917.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203427_892.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203425_002.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_977.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_951.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_926.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_900.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_874.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_849.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_824.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_800.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_775.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_750.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_726.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_701.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_676.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_652.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_626.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_601.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_576.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_552.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_526.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_501.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+- **2025-10-05 20:34** REFERENCE_UPDATE_NEEDED: File moved requires reference updates
+  - **Impact**: Cross-references pointing to old path may be broken
+  - **Log**: `logs/errors/active/error_20251005_203424_476.log`
+  - **Action**: Update all references from old path to new path
+  - **Status**: NEEDS_INVESTIGATION
+(None currently)
+
+### Recently Resolved Errors:
+(None yet)
+
+### Error Resolution Instructions:
+1. Read the detailed log file referenced above
+2. Analyze root cause and implement fix
+3. Test fix thoroughly with evidence collection
+4. Once verified working, remove error entry from this section
+5. Move error to "Recently Resolved" with solution summary
+
+
+## 🎯 Current Status
+
+**Project:** Building autonomous TDD system to prevent LLM fabrication and false success claims  
+**Location:** `/projects/autonomous-system-builder/` directory  
+**Approach:** Strategic completion leveraging existing work + validation testing
+
+### **Key Discovery**
+Through systematic investigation, we found our methodology IS sound and consistent:
+- **Planning Phase (1-7)**: Creates acceptance tests + integration tests + implementation plans
+- **Implementation Phase (8)**: Hybrid approach using task-graph execution + classic TDD for unit tests  
+- **Missing Piece**: Implementation flowchart to execute this hybrid approach
+
+## 📋 Immediate Next Steps
+
+### **1. Complete Planning Process Flowchart** ⏳ NEXT
+**Objective:** Create autonomous flowchart for executing 8-phase planning methodology
+
+**Actions:**
+- Design flowchart for Phases 1-7 (Overview → Behavior → Architecture → ... → Create Files)
+- Define decision points for phase completion and iteration
+- Specify planning artifact validation and quality gates
+- Create interface for handoff to implementation flowchart
+
+**Output:** `projects/autonomous-system-builder/hook_mermaid_diagram_planning_process.txt`
+
+### **2. Complete V6 Implementation Flowchart** 
+**Objective:** Finalize V6 with hybrid task-graph + TDD support
+
+**Based on existing V6 work in:** `projects/autonomous-system-builder/hook_mermaid_diagram_full6_hybrid_intelligence.txt`
+
+**Enhancements needed:**
+- Clear triggers for task-graph vs TDD mode switching
+- Context injection for both modes
+- Conflict resolution between test layers
+- Fresh instance evaluation for planning vs implementation issues
+
+**Output:** Updated `projects/autonomous-system-builder/hook_mermaid_diagram_full6_hybrid_intelligence.txt`
+
+### **3. Test Flowcharts with Existing Artifacts**
+**Objective:** Validate both flowcharts using our existing planning artifacts
+
+**Test approach:**
+- Use existing planning artifacts as input (docs/, pseudocode, tests)
+- Follow planning flowchart manually to identify gaps
+- Follow V6 implementation flowchart manually with current codebase
+- Document what works, what doesn't, iterate
+
+**Output:** Validated flowcharts + gap analysis
+
+### **4. Implementation Integration**
+**Objective:** Build working autonomous system based on validated flowcharts
+
+**Approach:**
+- Implement flowchart logic in hook system
+- Test with real autonomous execution
+- Iterate based on real usage
+
+## 🔍 Investigation Findings Summary
+
+### **Our Methodology Analysis**
+- ✅ **8-phase methodology is sound** - creates coherent planning artifacts
+- ✅ **Hybrid testing approach is well-designed** - acceptance/integration in planning, unit tests in implementation  
+- ✅ **Two-process architecture is correct** - planning process ↔ implementation process
+- ❌ **Missing flowcharts** - no autonomous execution capability for either process
+
+### **Planning Artifact Assessment**
+- ✅ **Documentation complete** - overview, behavior, architecture decisions
+- ✅ **Pseudocode substantial** - 6,000+ lines, 11 components
+- ✅ **Test framework designed** - unit tests, integration tests structure
+- ❌ **Task graph missing** - no structured implementation task definition
+- ❌ **System state infrastructure missing** - no planning-to-implementation interface
+
+### **Implementation Strategy Validation**
+- ✅ **Hybrid approach is feasible** - LLMs can handle complex decision trees
+- ✅ **Planning artifacts provide sufficient guidance** - pseudocode + tests define implementation targets
+- ✅ **Fresh instance evaluation mechanism works** - tested via Task tool
+- ❌ **V5 incompatible with planning** - test-failure-driven vs plan-driven mismatch
+
+## 🏗️ Architecture Decisions Made
+
+### **Strategic Completion Approach**
+**Decision:** Complete missing flowcharts and validate with existing work rather than restart
+**Rationale:** Existing work is substantial and sound, issues are execution gaps not methodology problems
+
+### **Two-Flowchart System**
+**Decision:** Build separate but interfacing flowcharts for planning and implementation
+**Rationale:** Different decision-making paradigms, clear separation of concerns
+
+### **Hybrid Implementation Strategy**
+**Decision:** Support both task-graph execution and classic TDD within implementation phase
+**Rationale:** Different test types need different approaches, LLMs can handle mode switching
+
+## 📊 Success Metrics
+
+### **Planning Flowchart Success**
+- Can autonomously execute 8-phase methodology
+- Produces planning artifacts equivalent to manual process
+- Clear quality gates and iteration criteria
+
+### **Implementation Flowchart Success**  
+- Can consume planning artifacts and execute implementation
+- Supports both task-graph and TDD modes appropriately
+- Prevents fabrication through evidence validation
+
+### **System Integration Success**
+- Planning → Implementation handoff works smoothly
+- Fresh instance evaluation resolves conflicts appropriately
+- End-to-end autonomous operation from requirements to working code
+
+## 🔄 Process Learning
+
+### **What Worked in Investigation**
+- Systematic document review revealed actual vs claimed status
+- Tracing through planning documents showed methodology consistency
+- Fresh instance testing validated meta-process architecture
+
+### **What We Learned**
+- Our methodology is more sophisticated than initially apparent
+- The recursive dependency problem has a clear resolution path
+- LLM-designed systems can handle more complexity than human-designed systems
+
+### **Key Insight**
+The "bootstrap paradox" was resolved by recognizing that our planning methodology already contains the specifications for both flowcharts - we just need to extract and formalize them.
+
+## 🎯 Definition of Done
+
+**Project complete when:**
+1. ✅ Planning process flowchart created and validated
+2. ✅ V6 implementation flowchart completed and validated  
+3. ✅ Both flowcharts tested with existing planning artifacts
+4. ✅ Autonomous system demonstrates end-to-end capability
+5. ✅ Evidence-based validation shows system prevents fabrication
+
+---
+
+**Current Focus:** Complete planning process flowchart as foundation for autonomous system implementation.
+
+**Next Session Goal:** Design and create the planning process flowchart based on our 8-phase methodology documentation.

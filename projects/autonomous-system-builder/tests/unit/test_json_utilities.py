@@ -29,9 +29,9 @@ class TestJSONUtilitiesBasicOperations:
             temp_path = f.name
         
         try:
-            # JSONUtilities().safe_load_json(temp_path) should return test_data
+            # JSONUtilities().load_json(temp_path) should return test_data
             json_utils = JSONUtilities()
-            result = json_utils.safe_load_json(Path(temp_path))
+            result = json_utils.load_json(Path(temp_path))
             assert result.success == True
             assert result.data == test_data
         finally:
